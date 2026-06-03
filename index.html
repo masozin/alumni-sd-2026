@@ -72,18 +72,6 @@
             transparent 70%
           );
       }
-      #flash {
-        position: fixed;
-        inset: 0;
-        z-index: 200;
-        pointer-events: none;
-        background: radial-gradient(
-          ellipse at center,
-          rgba(212, 169, 67, 0.3) 0%,
-          transparent 70%
-        );
-        opacity: 0;
-      }
 
       .pg {
         position: relative;
@@ -119,20 +107,56 @@
       }
       header h1 {
         font-family: "Cormorant Garamond", serif;
-        font-size: clamp(1.5rem, 2.5vw, 2.7rem);
-        font-weight: 600;
-        color: var(--w);
-        letter-spacing: 0.02em;
-        line-height: 1.1;
+        font-size: clamp(2rem, 2.8vw, 3.8rem);
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        line-height: 1.2;
+        background: linear-gradient(
+          90deg,
+          var(--gold-lt) 0%,
+          var(--w) 20%,
+          var(--gold) 40%,
+          var(--w) 60%,
+          var(--gold-lt) 80%,
+          var(--w) 100%
+        );
+        background-size: 250% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmerText 20s linear infinite;
       }
+
+      @keyframes shimmerText {
+        0% {
+          background-position: 200% center;
+        }
+        100% {
+          background-position: -200% center;
+        }
+      }
+
       .sch {
-        font-size: 0.74rem;
+        font-size: clamp(1.2rem, 1.8vw, 3rem);
         color: var(--wd);
         margin-top: 4px;
         letter-spacing: 0.08em;
       }
       .gl {
         width: 60px;
+        height: 1px;
+        margin: 8px auto 0;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--gold),
+          transparent
+        );
+        opacity: 0.5;
+      }
+
+      .gl2 {
+        width: 300px;
         height: 1px;
         margin: 8px auto 0;
         background: linear-gradient(
@@ -171,6 +195,12 @@
         justify-content: center;
         backdrop-filter: blur(12px);
         user-select: none;
+
+        /* ── TAMBAHAN BARU: Membuat tombol melayang bebas di desktop ── */
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
       }
       .nb:hover {
         background: var(--gold);
@@ -181,6 +211,14 @@
       }
       .nb:active {
         transform: scale(0.95);
+      }
+
+      /* ── TAMBAHAN BARU: Tentukan koordinat tombol Kiri & Kanan di desktop ── */
+      #pBtn {
+        left: 40px;
+      }
+      #nBtn {
+        right: 40px;
       }
 
       .vp {
@@ -208,9 +246,9 @@
         visibility: hidden;
         pointer-events: none;
         transition:
-          opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-          transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-          visibility 0.6s;
+          opacity 2.5s cubic-bezier(0.4, 0, 0.2, 1),
+          transform 2.5s cubic-bezier(0.4, 0, 0.2, 1),
+          visibility 2.5s;
         will-change: transform, opacity;
       }
       .card.from-right {
@@ -222,7 +260,7 @@
         opacity: 0;
       }
       .card.active {
-        opacity: 1;
+        opacity: 0.9;
         visibility: visible;
         pointer-events: all;
         transform: translateX(0) scale(1);
@@ -233,14 +271,14 @@
         visibility: hidden;
         pointer-events: none;
         transform: translateX(-90px) scale(0.94);
-        transition-duration: 0.5s;
+        transition-duration: 2.5s;
       }
       .card.to-right {
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
         transform: translateX(90px) scale(0.94);
-        transition-duration: 0.5s;
+        transition-duration: 2.5s;
       }
       @keyframes borderPulse {
         0%,
@@ -293,7 +331,6 @@
         opacity: 0.45;
       }
 
-      /* ── PHOTO FRAME & FLIP ── */
       .photo-wrap {
         position: relative;
         width: 300px;
@@ -301,7 +338,6 @@
         z-index: 1;
       }
 
-      /* outer orbit */
       .orbit {
         position: absolute;
         inset: -12px;
@@ -332,7 +368,6 @@
         }
       }
 
-      /* spinning ring */
       .ring-spin {
         position: absolute;
         inset: 0;
@@ -355,33 +390,45 @@
         filter: drop-shadow(0 0 9px rgba(212, 169, 67, 0.5));
       }
 
-      /* 3D flip container */
+      /* ── REFACTOR FADE SCENE (Sangat Ringan & Elegan) ── */
       .flip-scene {
         width: calc(100% - 10px);
         height: calc(100% - 10px);
         position: absolute;
         inset: 5px;
-        transform-style: preserve-3d;
-        transition: transform 1.1s cubic-bezier(0.6, 0, 0.2, 1);
         border-radius: 50%;
         cursor: pointer;
       }
-      .flip-scene.flipped {
-        transform: rotateY(180deg);
-      }
+
       .flip-front,
       .flip-back {
         position: absolute;
         inset: 0;
         border-radius: 50%;
         overflow: hidden;
-        backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
         background: #070c1c;
+        /* Menggunakan transisi opacity untuk fade yang sangat mulus */
+        transition:
+          opacity 2s ease,
+          transform 2s ease;
       }
+
+      /* Foto Sekarang (Tampil Default) */
+      .flip-front {
+        opacity: 1;
+        transform: scale(1);
+        z-index: 2;
+      }
+
+      /* Foto Cita-cita (Tersembunyi Default) */
       .flip-back {
-        transform: rotateY(180deg);
+        opacity: 0;
+        /* Sedikit dibesarkan di awal biar efek masuknya terasa sinematik */
+        transform: scale(1.15);
+        z-index: 1;
+        pointer-events: none;
       }
+
       .flip-front img,
       .flip-back img {
         width: 100%;
@@ -390,45 +437,22 @@
         display: block;
       }
 
-      /* shimmer sweep during flip */
-      .flip-front::after,
-      .flip-back::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: 50%;
-        background: linear-gradient(
-          105deg,
-          transparent 30%,
-          rgba(255, 215, 100, 0.55) 50%,
-          transparent 70%
-        );
+      /* ── SAAT DIKLIK (Class .flipped aktif) ── */
+      /* Foto Sekarang menghilang dan mengecil */
+      .flip-scene.flipped .flip-front {
         opacity: 0;
-        transition: opacity 0.05s;
+        transform: scale(0.9);
         pointer-events: none;
       }
-      .flip-scene.flipping .flip-front::after,
-      .flip-scene.flipping .flip-back::after {
-        animation: shimmer 1.1s ease forwards;
-      }
-      @keyframes shimmer {
-        0% {
-          opacity: 0;
-          transform: translateX(-120%);
-        }
-        40% {
-          opacity: 1;
-        }
-        60% {
-          opacity: 1;
-        }
-        100% {
-          opacity: 0;
-          transform: translateX(120%);
-        }
+
+      /* Foto Cita-cita muncul pelan-pelan */
+      .flip-scene.flipped .flip-back {
+        opacity: 1;
+        transform: scale(1);
+        z-index: 3;
+        pointer-events: all;
       }
 
-      /* photo label badge */
       .photo-badge {
         position: absolute;
         bottom: -2px;
@@ -467,7 +491,6 @@
         opacity: 0.75;
       }
 
-      /* photo tooltip */
       .photo-label {
         position: absolute;
         top: -45px;
@@ -487,7 +510,6 @@
         backdrop-filter: blur(6px);
       }
 
-      /* particle canvas */
       .pcv {
         position: absolute;
         inset: -30px;
@@ -567,18 +589,18 @@
         font-size: clamp(2rem, 3.3vw, 3.2rem);
         font-weight: 700;
         color: var(--w);
-        line-height: 1.06;
+        line-height: 1.1;
         margin-bottom: 6px;
         word-break: break-word;
       }
       .sttl {
-        font-size: 0.9rem;
+        font-size: 1rem;
         color: var(--gold);
         letter-spacing: 0.04em;
         margin-bottom: 20px;
       }
       .sdiv {
-        width: 48px;
+        width: 100px;
         height: 1.5px;
         background: linear-gradient(90deg, var(--gold), transparent);
         margin-bottom: 20px;
@@ -599,7 +621,7 @@
         color: var(--wd);
         width: 90px;
         flex-shrink: 0;
-        font-size: 0.83rem;
+        font-size: 0.9rem;
       }
       .idot {
         color: var(--gold);
@@ -609,7 +631,7 @@
       .ival {
         color: var(--w);
         font-weight: 500;
-        font-size: 0.95rem;
+        font-size: 1rem;
       }
       .db {
         background: linear-gradient(
@@ -665,12 +687,14 @@
         line-height: 1.6;
       }
 
+      /* ── CONTROLS ── */
       .ctl {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 8px;
-        animation: fadeU 0.9s 0.4s ease both;
+        gap: 7px;
+        /* Ganti fadeU menjadi fadeSimple agar properti transform tidak mengunci posisi tombol absolute */
+        animation: fadeSimple 0.9s 0.4s ease both;
       }
       .crow {
         display: flex;
@@ -739,7 +763,74 @@
         min-width: 40px;
         text-align: center;
       }
+      .hint {
+        font-size: 0.64rem;
+        color: rgba(245, 240, 232, 0.28);
+        letter-spacing: 0.05em;
+        text-align: center;
+      }
 
+      /* ── FULLSCREEN BUTTON ── */
+      .fs-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid rgba(212, 169, 67, 0.35);
+        background: rgba(212, 169, 67, 0.07);
+        color: var(--gold);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(12px);
+        transition: all 0.25s ease;
+        flex-shrink: 0;
+      }
+      .fs-btn:hover {
+        background: var(--gold);
+        color: var(--bg);
+        border-color: var(--gold);
+        transform: scale(1.08);
+        box-shadow: 0 0 22px var(--glow);
+      }
+      .fs-btn:active {
+        transform: scale(0.95);
+      }
+      .fs-btn svg {
+        width: 15px;
+        height: 15px;
+        pointer-events: none;
+      }
+
+      /* ── FULLSCREEN TOAST ── */
+      #fs-toast {
+        position: fixed;
+        top: 22px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-6px);
+        background: rgba(212, 169, 67, 0.12);
+        border: 1px solid rgba(212, 169, 67, 0.3);
+        color: var(--gold-lt);
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 7px 18px;
+        border-radius: 24px;
+        backdrop-filter: blur(14px);
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+        z-index: 300;
+        white-space: nowrap;
+      }
+      #fs-toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      /* ── KEYFRAMES ── */
       @keyframes fadeD {
         from {
           opacity: 0;
@@ -760,20 +851,29 @@
           transform: translateY(0);
         }
       }
+      @keyframes fadeSimple {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
 
-      @media (max-width: 700px) {
+      /* ── RESPONSIVE ── */
+      @media (max-width: 786px) {
         .pg {
           padding: 14px 10px 12px;
         }
         .sz {
           gap: 8px;
         }
-        .nb {
+        /* .nb {
           width: 34px;
           height: 34px;
           font-size: 0.8rem;
           flex-shrink: 0;
-        }
+        } */
         .card {
           flex-direction: column;
         }
@@ -794,6 +894,9 @@
         }
         .sname {
           font-size: 1.75rem;
+        }
+        .sttl {
+          font-size: 0.8rem;
         }
         .irow {
           font-size: 0.85rem;
@@ -828,7 +931,72 @@
           gap: 8px;
           margin-bottom: 16px;
         }
+        .hint {
+          display: none;
+        }
+
+        /* 1. Atur tombol panah agar ukurannya pas di handphone */
+        .nb {
+          position: static !important;
+          transform: none !important;
+          width: 44px;
+          height: 44px;
+          background: rgba(212, 169, 67, 0.12) !important;
+          border-color: rgba(212, 169, 67, 0.4) !important;
+        }
+
+        .nb:hover {
+          background: var(--gold);
+          color: var(--bg);
+          border-color: var(--gold);
+          /* Tambahkan kembali translateY(-50%) sebelum scale agar posisi vertikal tidak melompat */
+          transform: translateY(-50%) scale(1.08);
+          box-shadow: 0 0 22px var(--glow);
+        }
+        .nb:active {
+          transform: scale(0.9) !important;
+        }
+
+        /* 2. Atur baris kontrol bawah agar berjejer pas di layar HP */
+        .crow {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 10px; /* Jarak antar tombol di HP agar pas */
+          width: 100%;
+          padding: 0 5px;
+        }
+
+        .tr,
+        .fs-btn {
+          width: 44px;
+          height: 44px;
+        }
+
+        .ctl {
+          margin-top: 25px;
+          gap: 10px;
+        }
       }
+
+      /* 3. TAMBAHKAN INI: Agar saat tampilan desktop komputer, tombol tetap melayang mewah di kiri-kanan kartu */
+      @media (min-width: 787px) {
+        #pBtn {
+          position: absolute;
+          left: 40px;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
+        }
+        #nBtn {
+          position: absolute;
+          right: 40px;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
+        }
+      }
+
       @media (max-width: 400px) {
         .cp {
           height: 200px;
@@ -844,33 +1012,195 @@
           padding: 12px 16px 16px;
         }
       }
+
+      /* ── SIDEBAR NAVIGATOR STYLE ── */
+      /* Tombol pemicu melayang di kanan tengah */
+      .nav-toggle-btn {
+        position: fixed;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--card);
+        border: 1px solid var(--gold);
+        border-right: none;
+        color: var(--gold-lt);
+        padding: 16px 8px;
+        border-radius: 10px 0 0 10px;
+        cursor: pointer;
+        z-index: 999;
+        box-shadow: -3px 0 15px rgba(0, 0, 0, 0.5);
+        transition: all 0.3s ease;
+      }
+      .nav-toggle-btn:hover {
+        color: #fff;
+        background: var(--gold-dk);
+        padding-right: 12px;
+      }
+      .nav-toggle-btn .arrow-icon {
+        display: inline-block;
+        font-size: 24px;
+        line-height: 1;
+        font-weight: bold;
+      }
+
+      /* Panel Sidebar Keluar dari Kanan */
+      .student-sidebar {
+        position: fixed;
+        right: 0;
+        top: 0;
+        width: 320px;
+        height: 100%;
+        background: var(--bg2);
+        border-left: 1px solid rgba(212, 169, 67, 0.2);
+        box-shadow: -8px 0 30px rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        transform: translateX(100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+      }
+      /* Trigger saat aktif */
+      .student-sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-header {
+        padding: 20px;
+        border-bottom: 1px solid rgba(212, 169, 67, 0.15);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(10, 18, 40, 0.6);
+      }
+      .sidebar-header h3 {
+        font-family: "Cormorant Garamond", serif;
+        color: var(--gold);
+        margin: 0;
+        font-size: 1.4rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+      }
+      .sidebar-close-btn {
+        background: none;
+        border: none;
+        color: var(--w);
+        font-size: 28px;
+        cursor: pointer;
+        opacity: 0.6;
+        line-height: 1;
+        transition:
+          opacity 0.2s,
+          color 0.2s;
+      }
+      .sidebar-close-btn:hover {
+        opacity: 1;
+        color: var(--gold-lt);
+      }
+
+      /* Area List Nama (Scrollable) */
+      .sidebar-list {
+        list-style: none;
+        padding: 10px 0;
+        margin: 0;
+        overflow-y: auto;
+        flex: 1;
+      }
+      .sidebar-list::-webkit-scrollbar {
+        width: 6px;
+      }
+      .sidebar-list::-webkit-scrollbar-thumb {
+        background: var(--gold-dk);
+        border-radius: 3px;
+      }
+
+      .sidebar-list li {
+        padding: 14px 24px;
+        color: var(--w);
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.95rem;
+        cursor: pointer;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .sidebar-list li::before {
+        content: "✦";
+        color: var(--gold);
+        font-size: 0.7rem;
+        opacity: 0.3;
+        transition: opacity 0.2s;
+      }
+      .sidebar-list li:hover {
+        background: rgba(212, 169, 67, 0.08);
+        color: var(--gold-lt);
+        padding-left: 30px;
+      }
+      .sidebar-list li:hover::before {
+        opacity: 1;
+      }
+      /* Indikator Siswa yang sedang Aktif dilayar */
+      .sidebar-list li.active {
+        background: rgba(212, 169, 67, 0.14);
+        color: var(--gold);
+        font-weight: 600;
+        border-left: 4px solid var(--gold);
+      }
+
+      /* Lapisan Blur Gelap di Belakang Sidebar */
+      .sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(3px);
+        z-index: 998;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      .sidebar-overlay.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      /* ── RESPONSIVE MOBILE TWEAKS ── */
+      @media (max-width: 600px) {
+        .student-sidebar {
+          width: 85%; /* Mengambil porsi layar lebih besar di HP agar teks terbaca jelas */
+        }
+        .sidebar-list li {
+          padding: 16px 20px; /* Area sentuh diperbesar agar mudah di-tap jari */
+        }
+        .nav-toggle-btn {
+          padding: 14px 6px;
+        }
+      }
     </style>
   </head>
   <body>
     <canvas id="cv"></canvas>
     <div class="aurora"></div>
     <div id="flash"></div>
+    <div id="fs-toast"></div>
 
     <div class="pg">
       <header>
-        <div class="badge">
-          <span class="bl"></span
-          ><span>Pelepasan Siswa &bull; SD Negeri 01 Totorejo</span
-          ><span class="bl"></span>
-        </div>
-        <p class="sch">Tahun 2025/2026</p>
-        <div class="gl"></div>
+        <h1>Pelepasan Siswa SD Negeri 01 Toto Rejo</h1>
+        <h1 class="sch">Tahun 2025/2026</h1>
+        <div class="gl2"></div>
         <div class="gl"></div>
       </header>
 
       <div class="sz">
-        <button class="nb" id="pBtn" title="Sebelumnya">&#10094;</button>
         <div class="vp" id="vp"></div>
-        <button class="nb" id="nBtn" title="Selanjutnya">&#10095;</button>
       </div>
 
       <div class="ctl">
         <div class="crow">
+          <button class="nb" id="pBtn" title="Sebelumnya (←)">&#10094;</button>
+
+          <!-- Auto-play timer -->
           <div class="tr" id="trEl" title="Auto-play (Spasi)">
             <svg width="40" height="40" viewBox="0 0 40 40">
               <circle class="tt" cx="20" cy="20" r="16.5" />
@@ -878,11 +1208,52 @@
             </svg>
             <div class="ti" id="tiEl">&#9654;</div>
           </div>
+
           <div class="dots" id="dotsEl"></div>
           <span class="cnt" id="cntEl">1 / 1</span>
+
+          <!-- Fullscreen button -->
+          <button class="fs-btn" id="fsBtn" title="Fullscreen (F11)">
+            <svg
+              id="fsIcon"
+              viewBox="0 0 15 15"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M1 5V1h4M10 1h4v4M14 10v4h-4M5 14H1v-4" />
+            </svg>
+          </button>
+
+          <button class="nb" id="nBtn" title="Selanjutnya (→)">&#10095;</button>
         </div>
+
+        <p class="hint">
+          ← → Navigasi &nbsp;·&nbsp; Spasi Auto-play &nbsp;·&nbsp; F Flip Foto
+          &nbsp;·&nbsp; F11 Fullscreen
+        </p>
       </div>
     </div>
+
+    <button
+      id="nav-toggle"
+      class="nav-toggle-btn"
+      aria-label="Buka Daftar Siswa"
+    >
+      <span class="arrow-icon">‹</span>
+    </button>
+
+    <div id="student-sidebar" class="student-sidebar">
+      <div class="sidebar-header">
+        <h3>Daftar Siswa</h3>
+        <button id="sidebar-close" class="sidebar-close-btn">&times;</button>
+      </div>
+      <ul id="sidebar-list" class="sidebar-list"></ul>
+    </div>
+
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
 
     <script>
       /* ── STARFIELD ── */
@@ -939,84 +1310,6 @@
         });
       })();
 
-      /* ── PARTICLE BURST ── */
-      function burstParticles(canvas) {
-        const ctx = canvas.getContext("2d");
-        const W = canvas.width,
-          H = canvas.height;
-        const cx = W / 2,
-          cy = H / 2;
-        const parts = [];
-        const COLORS = ["#F5D780", "#D4A943", "#FFFFFF", "#FFE9A0", "#FFC94D"];
-        for (let i = 0; i < 52; i++) {
-          const angle = Math.random() * Math.PI * 2;
-          const speed = Math.random() * 3.2 + 1.2;
-          const size = Math.random() * 3.5 + 1;
-          const life = Math.random() * 0.5 + 0.5;
-          parts.push({
-            x: cx,
-            y: cy,
-            vx: Math.cos(angle) * speed,
-            vy: Math.sin(angle) * speed,
-            size,
-            life,
-            maxLife: life,
-            color: COLORS[Math.floor(Math.random() * COLORS.length)],
-            type: Math.random() < 0.4 ? "star" : "circle",
-          });
-        }
-        function drawStar(ctx, x, y, r, col, a) {
-          ctx.save();
-          ctx.globalAlpha = a;
-          ctx.fillStyle = col;
-          ctx.beginPath();
-          for (let i = 0; i < 5; i++) {
-            const ang = (i * 4 * Math.PI) / 5 - Math.PI / 2;
-            const ang2 = ((i * 4 + 2) * Math.PI) / 5 - Math.PI / 2;
-            if (i === 0)
-              ctx.moveTo(x + r * Math.cos(ang), y + r * Math.sin(ang));
-            else ctx.lineTo(x + r * Math.cos(ang), y + r * Math.sin(ang));
-            ctx.lineTo(
-              x + r * 0.4 * Math.cos(ang2),
-              y + r * 0.4 * Math.sin(ang2),
-            );
-          }
-          ctx.closePath();
-          ctx.fill();
-          ctx.restore();
-        }
-        let start = null;
-        function tick(ts) {
-          if (!start) start = ts;
-          const dt = (ts - start) / 1000;
-          ctx.clearRect(0, 0, W, H);
-          let alive = false;
-          parts.forEach((p) => {
-            p.life -= 0.022;
-            if (p.life <= 0) return;
-            alive = true;
-            p.x += p.vx;
-            p.y += p.vy;
-            p.vy += 0.04;
-            const a = p.life / p.maxLife;
-            if (p.type === "star") {
-              drawStar(ctx, p.x, p.y, p.size * a, p.color, a * 0.9);
-            } else {
-              ctx.save();
-              ctx.globalAlpha = a * 0.85;
-              ctx.fillStyle = p.color;
-              ctx.beginPath();
-              ctx.arc(p.x, p.y, p.size * a, 0, Math.PI * 2);
-              ctx.fill();
-              ctx.restore();
-            }
-          });
-          if (alive) requestAnimationFrame(tick);
-          else ctx.clearRect(0, 0, W, H);
-        }
-        requestAnimationFrame(tick);
-      }
-
       /* ── DATA ── */
       const GRADS = [
         ["#0c1a3a", "#0d3d68"],
@@ -1037,10 +1330,8 @@
         tRaf = null,
         tStart = null,
         tElapsed = 0;
-      const AUTO = 8000;
-      const CIRC = 2 * Math.PI * 16.5;
-
-      /* photo flip state per card */
+      const AUTO = 15000,
+        CIRC = 2 * Math.PI * 16.5;
       const flipState = {};
 
       async function load() {
@@ -1101,9 +1392,9 @@
         }
         build();
         buildDots();
+        renderSidebarNav();
         show(0, true);
-        /* auto-flip each card's photo after 3s */
-        setTimeout(() => autoFlipActive(), 3200);
+        setTimeout(() => autoFlipActive(), 7000);
       }
 
       /* ── BUILD ── */
@@ -1136,15 +1427,15 @@
     </div>
     <div class="photo-label" id="plbl-${i}">Foto Sekarang</div>
   </div>
-  <div class="sno">No. ${String(i + 1).padStart(2, "0")}</div>
+
 </div>
 <div class="cdv"></div>
 <div class="ci">
   <h2 class="sname ai" style="animation-delay:.05s">${s.nama}</h2>
   <p class="sttl ai" style="animation-delay:.13s">${s.ttl}</p>
-  <div class="sdiv ai" style="animation-delay:.2s"></div>
+  <div class="sdiv ai" style="animation-delay:.5s"></div>
   <div class="itbl">
-    <div class="irow ai" style="animation-delay:.27s">
+    <div class="irow ai" style="animation-delay:.5s">
       <span class="ilbl">Nama Ayah</span><span class="idot">&#9670;</span><span class="ival">${s.namaAyah}</span>
     </div>
     <div class="irow ai" style="animation-delay:.34s">
@@ -1158,61 +1449,52 @@
     <p class="mval">"${s.pesan}"</p>
   </div>
 </div>`;
-          el.addEventListener("mousemove", tilt);
-          el.addEventListener("mouseleave", untilt);
+          //   el.addEventListener("mousemove", tilt);
+          //   el.addEventListener("mouseleave", untilt);
           vp.appendChild(el);
         });
-
-        /* flip scene click */
         document.querySelectorAll(".flip-scene").forEach((fs) => {
           fs.addEventListener("click", () => doFlip(parseInt(fs.dataset.fi)));
         });
-        /* dot click */
         document.querySelectorAll(".pb-dot").forEach((d) => {
           d.addEventListener("click", (e) => {
             e.stopPropagation();
             const idx = parseInt(d.dataset.pi),
               side = parseInt(d.dataset.side);
-            const isBack = side === 1;
-            if (flipState[idx] !== isBack) doFlip(idx);
+            if (flipState[idx] !== (side === 1)) doFlip(idx);
           });
         });
       }
 
-      /* ── FLIP ── */
+      /* ── REFACTOR FUNGSI FLIP (Bebas Patah-Patah) ── */
+      /* ── FUNGSI FADE SUPER RINGAN ── */
       function doFlip(idx) {
         flipState[idx] = !flipState[idx];
         const flipped = flipState[idx];
         const scene = document.querySelector(`.flip-scene[data-fi="${idx}"]`);
-        const pcv = document.querySelector(`.pcv[data-ci="${idx}"]`);
         const lbl = document.getElementById(`plbl-${idx}`);
         const dots = document.querySelectorAll(`.pb-dot[data-pi="${idx}"]`);
 
-        /* add flipping class for shimmer */
-        scene.classList.add("flipping");
-        setTimeout(() => scene.classList.remove("flipping"), 1150);
+        if (!scene) return;
 
+        // Terapkan efek fade lewat CSS class
         scene.classList.toggle("flipped", flipped);
 
-        /* particles at midpoint */
-        setTimeout(() => burstParticles(pcv), 550);
-
-        /* label */
+        // Ganti teks label dengan efek memudar menyesuaikan durasi foto
         if (lbl) {
           lbl.style.opacity = "0";
           setTimeout(() => {
-            lbl.textContent = flipped ? "Cita-cita ✦" : "Foto Sekarang";
+            lbl.textContent = flipped ? "Foto Masa Depan ✦" : "Foto Sekarang";
             lbl.style.opacity = "1";
-          }, 600);
+          }, 1000); // Teks berganti tepat di pertengahan efek fade
         }
 
-        /* dots */
+        // Pindahkan indikator titik aktif
         dots.forEach((d, i) =>
           d.classList.toggle("pa", flipped ? i === 1 : i === 0),
         );
       }
 
-      /* auto flip the active card once */
       function autoFlipActive() {
         if (flipState[cur] === false) doFlip(cur);
       }
@@ -1269,15 +1551,13 @@
             }
             c.classList.add("active");
             replayAnim(c);
-            /* reset flip to front when new card shows */
             if (flipState[i] === true) {
               flipState[i] = false;
               resetFlip(i);
             }
-            /* auto flip after delay */
             setTimeout(() => {
               if (cur === i) autoFlipActive();
-            }, 3200);
+            }, 7000);
           } else {
             c.classList.remove("active", "from-right", "from-left");
           }
@@ -1307,26 +1587,29 @@
         navDir = idx > cur ? "next" : "prev";
         const prev = cur;
         cur = idx;
-        const fl = document.getElementById("flash");
-        fl.style.transition = "none";
-        fl.style.opacity = "1";
-        setTimeout(() => {
-          fl.style.transition = "opacity 0.5s ease";
-          fl.style.opacity = "0";
-        }, 80);
+        // const fl = document.getElementById("flash");
+        // fl.style.transition = "none";
+        // fl.style.opacity = "1";
+        // setTimeout(() => {
+        //   fl.style.transition = "opacity 0.5s ease";
+        //   fl.style.opacity = "0";
+        // }, 1500);
         const cards = document.querySelectorAll(".card");
         cards[prev].classList.remove("active");
         cards[prev].classList.add(navDir === "next" ? "to-left" : "to-right");
         setTimeout(() => {
           cards[prev].classList.remove("to-left", "to-right");
           transitioning = false;
-        }, 520);
-        setTimeout(() => show(cur), 100);
+        }, 2500);
+        setTimeout(() => show(cur), 1000);
         if (ap) restartTimer();
       }
       function chg(d) {
         const n = students.length;
         goto((cur + d + n) % n);
+        if (typeof updateSidebarActive === "function") {
+          updateSidebarActive();
+        }
       }
 
       /* ── AUTOPLAY ── */
@@ -1366,14 +1649,63 @@
         tfEl.style.strokeDashoffset = CIRC * (1 - p);
         if (p >= 1) {
           chg(1);
-          tElapsed = 0;
-          tStart = performance.now();
-          tRaf = requestAnimationFrame(tickTimer);
+          //   tElapsed = 0;
+          //   tStart = performance.now();
+          //   tRaf = requestAnimationFrame(tickTimer);
           return;
         }
-        tRaf = requestAnimationFrame(tickTimer);
+        if (ap) {
+          tRaf = requestAnimationFrame(tickTimer);
+        }
       }
       document.getElementById("trEl").addEventListener("click", toggleAP);
+
+      /* ════════════════════════════════════════
+         ── FULLSCREEN ──
+         Shortcut : F11  (keyboard)
+         Tombol   : fsBtn (klik)
+      ════════════════════════════════════════ */
+      const fsBtn = document.getElementById("fsBtn");
+      const fsIcon = document.getElementById("fsIcon");
+      const fsToast = document.getElementById("fs-toast");
+
+      /* SVG paths untuk dua state */
+      const ICON_ENTER = "M1 5V1h4M10 1h4v4M14 10v4h-4M5 14H1v-4"; /* expand */
+      const ICON_EXIT = "M5 1v4H1M9 1v4h4M9 13v-4h4M5 13v-4H1"; /* compress */
+
+      let toastTimer = null;
+      function showToast(msg) {
+        fsToast.textContent = msg;
+        fsToast.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => fsToast.classList.remove("show"), 2200);
+      }
+
+      function updateFsIcon() {
+        const isFs = !!document.fullscreenElement;
+        fsIcon
+          .querySelector("path")
+          .setAttribute("d", isFs ? ICON_EXIT : ICON_ENTER);
+        fsBtn.title = isFs
+          ? "Keluar Fullscreen (F11 / Esc)"
+          : "Fullscreen (F11)";
+      }
+
+      function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          document.documentElement
+            .requestFullscreen({ navigationUI: "hide" })
+            .then(() => showToast("✦ Fullscreen — tekan Esc untuk keluar"))
+            .catch(() => showToast("Fullscreen tidak didukung browser ini"));
+        } else {
+          document.exitFullscreen().then(() => showToast("Keluar Fullscreen"));
+        }
+      }
+
+      fsBtn.addEventListener("click", toggleFullscreen);
+
+      document.addEventListener("fullscreenchange", updateFsIcon);
+      document.addEventListener("webkitfullscreenchange", updateFsIcon);
 
       /* ── KEYBOARD ── */
       document.addEventListener("keydown", (e) => {
@@ -1383,6 +1715,10 @@
           e.preventDefault();
           toggleAP();
         } else if (e.key === "f" || e.key === "F") doFlip(cur);
+        else if (e.key === "F11") {
+          e.preventDefault();
+          toggleFullscreen();
+        }
       });
 
       /* ── TOUCH ── */
@@ -1404,6 +1740,62 @@
       document.getElementById("nBtn").addEventListener("click", () => chg(1));
 
       load();
+
+      /* ── LOGIKA SIDEBAR NAVIGATOR ── */
+      const navToggle = document.getElementById("nav-toggle");
+      const sidebar = document.getElementById("student-sidebar");
+      const sidebarClose = document.getElementById("sidebar-close");
+      const sidebarOverlay = document.getElementById("sidebar-overlay");
+      const sidebarList = document.getElementById("sidebar-list");
+
+      // Fungsi Buka / Tutup Menu
+      function toggleSidebar() {
+        const isOpen = sidebar.classList.toggle("open");
+        sidebarOverlay.classList.toggle("open", isOpen);
+        // Sembunyikan tombol kecil pemicu saat menu terbuka agar bersih
+        navToggle.style.transform = isOpen
+          ? "translateY(-50%) translateX(100%)"
+          : "translateY(-50%)";
+      }
+
+      navToggle.addEventListener("click", toggleSidebar);
+      sidebarClose.addEventListener("click", toggleSidebar);
+      sidebarOverlay.addEventListener("click", toggleSidebar);
+
+      // Render Otomatis Nama Siswa ke Sidebar
+      function renderSidebarNav() {
+        sidebarList.innerHTML = "";
+
+        // Menggunakan variabel 'students' sesuai dengan kode Anda
+        if (typeof students !== "undefined" && Array.isArray(students)) {
+          students.forEach((item, idx) => {
+            const li = document.createElement("li");
+            li.textContent = item.nama || `Siswa ${idx + 1}`;
+            li.setAttribute("data-idx", idx);
+
+            if (idx === cur) li.classList.add("active");
+
+            // Mekanisme Lompat ke Foto Siswa Pilihan
+            li.addEventListener("click", () => {
+              if (idx !== cur) {
+                const diff = idx - cur;
+                chg(diff); // Memanggil fungsi perubahan slide bawaan kode Anda
+              }
+              toggleSidebar(); // Otomatis tutup sidebar setelah memilih
+            });
+
+            sidebarList.appendChild(li);
+          });
+        }
+      }
+
+      // Fungsi untuk meng-update status 'active' di sidebar saat user klik tombol next/prev bawaan
+      function updateSidebarActive() {
+        const items = sidebarList.querySelectorAll("li");
+        items.forEach((item, idx) => {
+          item.classList.toggle("active", idx === cur);
+        });
+      }
     </script>
   </body>
 </html>
