@@ -1,0 +1,282 @@
+[
+  {
+    "nama": "Vino Apriyanto",
+    "ttl": "OKU Timur, 12 April 2012",
+    "namaAyah": "Edi Susanto",
+    "namaIbu": "Sariyem",
+    "citaCita": "Supir Angkot",
+    "pesan": "",
+    "foto": "foto/vino_apriyanto.jpg"
+  },
+  {
+    "nama": "Bayu Verelino",
+    "ttl": "OKU Timur, 01 April 2013",
+    "namaAyah": "Tentrem",
+    "namaIbu": "Dewi Karmilah",
+    "citaCita": "TNI",
+    "pesan": "",
+    "foto": "foto/bayu_verelino.jpg"
+  },
+  {
+    "nama": "Alip Arifin",
+    "ttl": "OKU Timur, 12 Maret 2014",
+    "namaAyah": "Tatang Marsito",
+    "namaIbu": "Sumartin",
+    "citaCita": "TNI",
+    "pesan": "",
+    "foto": "foto/alip_arifin.jpg",
+    "fotoCita": "foto/alip_arifin2.jpg"
+  },
+  {
+    "nama": "Anggun Septiana Sari",
+    "ttl": "OKU Timur, 05 Juni 2013",
+    "namaAyah": "Tasiman",
+    "namaIbu": "Sukesi",
+    "citaCita": "Guru",
+    "pesan": "",
+    "foto": "foto/anggun_septiana_sari.jpg"
+  },
+  {
+    "nama": "Andreas Ferdi",
+    "ttl": "OKU Timur, 09 Maret 2014",
+    "namaAyah": "Kusno Nandir",
+    "namaIbu": "Dian Fatahillah",
+    "citaCita": "Mekanik",
+    "pesan": "",
+    "foto": "foto/andreas_ferdi.jpg"
+  },
+  {
+    "nama": "Asyfa Riqqah Inayah",
+    "ttl": "OKU Timur, 13 Juli 2014",
+    "namaAyah": "Jupri",
+    "namaIbu": "Aprila Tanzalena",
+    "citaCita": "Guru",
+    "pesan": "",
+    "foto": "foto/asyfa_riqqah_inayah.jpg"
+  },
+  {
+    "nama": "Aura Desfianti",
+    "ttl": "OKU Timur, 26 Desember 2013",
+    "namaAyah": "Mad Hariyanto",
+    "namaIbu": "Siti Nurfaujiah",
+    "citaCita": "Guru",
+    "pesan": "",
+    "foto": "foto/aura_desfianti.jpg"
+  },
+  {
+    "nama": "Citra Regina Putri",
+    "ttl": "Cahyatani, 27 Desember 2013",
+    "namaAyah": "Riski Kurnianto",
+    "namaIbu": "Vevi Saniati",
+    "citaCita": "Dokter",
+    "pesan": "",
+    "foto": "foto/citra_regina_putri.jpg"
+  },
+  {
+    "nama": "Devita Meliana",
+    "ttl": "Totorejo, 24 Mei 2012",
+    "namaAyah": "Untung",
+    "namaIbu": "Mini",
+    "citaCita": "Dokter",
+    "pesan": "",
+    "foto": "foto/devita_meliana.jpg"
+  },
+  {
+    "nama": "Endo Azam Mudric",
+    "ttl": "OKU Timur, 04 April 2014",
+    "namaAyah": "Mutaji",
+    "namaIbu": "Roisatin",
+    "citaCita": "TNI",
+    "pesan": "",
+    "foto": "foto/endo_azam_mudric.jpg"
+  },
+  {
+    "nama": "Enjel Egi Nayla Irsyada",
+    "ttl": "OKU Timur, 25 November 2013",
+    "namaAyah": "Evan Andrianus",
+    "namaIbu": "Mustaqimah",
+    "citaCita": "Guru",
+    "pesan": "",
+    "foto": "foto/enjel_egi_nayla_irsyada.jpg"
+  },
+  {
+    "nama": "Ferdiansah",
+    "ttl": "OKU Timur, 24 Februari 2014",
+    "namaAyah": "Tarnoto",
+    "namaIbu": "Indra Wasih",
+    "citaCita": "Pengacara",
+    "pesan": "",
+    "foto": "foto/ferdiansah.jpg"
+  },
+  {
+    "nama": "Indra Irawan",
+    "ttl": "OKU Timur, 09 Juni 2014",
+    "namaAyah": "Rebo",
+    "namaIbu": "Intamah",
+    "citaCita": "Polisi",
+    "pesan": "",
+    "foto": "foto/indra_irawan.jpg"
+  },
+  {
+    "nama": "Ika Maura Jenita",
+    "ttl": "OKU Timur, 01 Januari 2014",
+    "namaAyah": "Solehan",
+    "namaIbu": "Mila Yulianti",
+    "citaCita": "Dosen",
+    "pesan": "",
+    "foto": "foto/ika_maura_jenita.jpg"
+  },
+  {
+    "nama": "Inez Zefana",
+    "ttl": "Cahya Bumi, 06 November 2013",
+    "namaAyah": "Zaidan",
+    "namaIbu": "Eka Susanti",
+    "citaCita": "Dokter",
+    "pesan": "",
+    "foto": "foto/inez_zefana.jpg"
+  },
+  {
+    "nama": "Khalisyah Ramadhani",
+    "ttl": "OKU Timur, 01 Juli 2014",
+    "namaAyah": "Duwi Yanto",
+    "namaIbu": "Susiani",
+    "citaCita": "Guru",
+    "pesan": "",
+    "foto": "foto/khalisyah_ramadhani.jpg"
+  },
+  {
+    "nama": "Kevin Saputra",
+    "ttl": "OKU Timur, 01 Juli 2014",
+    "namaAyah": "Suwari",
+    "namaIbu": "Sumarti",
+    "citaCita": "Polisi",
+    "pesan": "",
+    "foto": "foto/kevin_saputra.jpg"
+  },
+  {
+    "nama": "Mawardi",
+    "ttl": "OKU Timur, 18 Oktober 2013",
+    "namaAyah": "Agus Suyanto",
+    "namaIbu": "Romlah",
+    "citaCita": "Mekanik",
+    "pesan": "",
+    "foto": "foto/mawardi.jpg"
+  },
+  {
+    "nama": "Mutiara Salsabila",
+    "ttl": "OKU Timur, 18 November 2013",
+    "namaAyah": "Mulyani",
+    "namaIbu": "Patma Wati",
+    "citaCita": "Dokter",
+    "pesan": "",
+    "foto": "foto/mutiara_salsabila.jpg"
+  },
+  {
+    "nama": "Nismara Rahma Wati",
+    "ttl": "Tugumulyo, 17 Mei 2014",
+    "namaAyah": "Muhammad Samsul",
+    "namaIbu": "Sarmi Rahmawati",
+    "citaCita": "Apoteker",
+    "pesan": "",
+    "foto": "foto/nismara_rahma_wati.jpg"
+  },
+  {
+    "nama": "Novelin Cahya Putri",
+    "ttl": "OKU Timur, 24 November 2013",
+    "namaAyah": "Sugito",
+    "namaIbu": "Nafsiyah",
+    "citaCita": "Dokter",
+    "pesan": "",
+    "foto": "foto/novelin_cahya_putri.jpg"
+  },
+  {
+    "nama": "Nadin Saputri",
+    "ttl": "Totorejo, 16 Desember 2013",
+    "namaAyah": "Mursidi",
+    "namaIbu": "Misiyah",
+    "citaCita": "Guru",
+    "pesan": "",
+    "foto": "foto/nadin_saputri.jpg"
+  },
+  {
+    "nama": "Nada Saputra",
+    "ttl": "Totorejo, 16 Desember 2013",
+    "namaAyah": "Mursidi",
+    "namaIbu": "Misiyah",
+    "citaCita": "TNI",
+    "pesan": "",
+    "foto": "foto/nada_saputra.jpg"
+  },
+  {
+    "nama": "Revalno Alfandi",
+    "ttl": "OKU Timur, 06 Juni 2014",
+    "namaAyah": "Pena Susanto",
+    "namaIbu": "Utami",
+    "citaCita": "Pengacara",
+    "pesan": "",
+    "foto": "foto/revalno_alfandi.jpg"
+  },
+  {
+    "nama": "Ria Ayu Anjani",
+    "ttl": "Blitar, 17 Juli 2013",
+    "namaAyah": "Marjani",
+    "namaIbu": "Sumartini",
+    "citaCita": "Guru",
+    "pesan": "",
+    "foto": "foto/ria_ayu_anjani.jpg"
+  },
+  {
+    "nama": "Ridha Candra Kirana",
+    "ttl": "OKU Timur, 21 Januari 2014",
+    "namaAyah": "Riadi",
+    "namaIbu": "Damarwati",
+    "citaCita": "Guru",
+    "pesan": "",
+    "foto": "foto/ridha_candra_kirana.jpg"
+  },
+  {
+    "nama": "Riny Juwita Bella",
+    "ttl": "OKU Timur, 16 Januari 2014",
+    "namaAyah": "Slamet Widodo",
+    "namaIbu": "Tri Andriani",
+    "citaCita": "Desainer",
+    "pesan": "",
+    "foto": "foto/riny_juwita_bella.jpg"
+  },
+  {
+    "nama": "Suryandi",
+    "ttl": "OKU Timur, 29 November 2013",
+    "namaAyah": "Tumijo",
+    "namaIbu": "Arbaatun",
+    "citaCita": "Polisi",
+    "pesan": "",
+    "foto": "foto/suryandi.jpg"
+  },
+  {
+    "nama": "Vina Apriani",
+    "ttl": "OKU Timur, 30 April 2014",
+    "namaAyah": "Panut",
+    "namaIbu": "Wonti",
+    "citaCita": "Dosen",
+    "pesan": "",
+    "foto": "foto/vina_apriani.jpg"
+  },
+  {
+    "nama": "Ilyas Maulana Abdulloh",
+    "ttl": "Ogan Komering Ilir, 19 April 2014",
+    "namaAyah": "Triono",
+    "namaIbu": "Siti Muslikhah",
+    "citaCita": "Mekanik",
+    "pesan": "",
+    "foto": "foto/ilyas_maulana_abdulloh.jpg"
+  },
+  {
+    "nama": "Azriel Faris Noufal",
+    "ttl": "OKU Timur, 29 September 2013",
+    "namaAyah": "Imam Sholeh",
+    "namaIbu": "Novi Sustiana",
+    "citaCita": "Supir Truk",
+    "pesan": "",
+    "foto": "foto/azriel_faris_noufal.jpg"
+  }
+]
