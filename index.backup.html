@@ -229,6 +229,7 @@
         perspective: 1200px;
       }
 
+      /* ── PREMIUM ANGLED WIPE TRANSITION (GANTI KODE LAMA KAMU) ── */
       .card {
         position: absolute;
         inset: 0;
@@ -242,43 +243,49 @@
         box-shadow:
           0 0 0 1px rgba(255, 255, 255, 0.03) inset,
           0 40px 80px rgba(0, 0, 0, 0.6);
-        opacity: 0;
+        
+        /* KUNCI UTAMA: Kita pakai transisi clip-path yang super halus */
+        transition: 
+          clip-path 2.2s cubic-bezier(0.76, 0, 0.24, 1),
+          visibility 2.2s;
+        will-change: clip-path;
+        
         visibility: hidden;
         pointer-events: none;
-        transition:
-          opacity 2.5s cubic-bezier(0.4, 0, 0.2, 1),
-          transform 2.5s cubic-bezier(0.4, 0, 0.2, 1),
-          visibility 2.5s;
-        will-change: transform, opacity;
       }
+
+      /* Keadaan awal: Bersiap di sebelah kanan dengan potongan miring (diagonal) */
       .card.from-right {
-        transform: translateX(90px) scale(0.94);
-        opacity: 0;
+        visibility: hidden;
+        clip-path: polygon(100% 0, 140% 0, 100% 100%, 60% 100%);
       }
+
+      /* Keadaan awal: Bersiap di sebelah kiri */
       .card.from-left {
-        transform: translateX(-90px) scale(0.94);
-        opacity: 0;
+        visibility: hidden;
+        clip-path: polygon(-40% 0, 0 0, -40% 100%, -40% 100%);
       }
+
+      /* Saat Aktif: Topeng terbuka penuh menyapu seluruh kartu */
       .card.active {
-        opacity: 0.7;
         visibility: visible;
         pointer-events: all;
-        transform: translateX(0) scale(1);
+        clip-path: polygon(0 0, 140% 0, 100% 100%, -40% 100%);
         animation: borderPulse 5s ease 1.2s infinite;
       }
+
+      /* Saat Keluar ke Kiri: Tersapu habis ke arah kiri */
       .card.to-left {
-        opacity: 0;
         visibility: hidden;
         pointer-events: none;
-        transform: translateX(-90px) scale(0.94);
-        transition-duration: 2.5s;
+        clip-path: polygon(-40% 0, 0 0, -40% 100%, -40% 100%);
       }
+
+      /* Saat Keluar ke Kanan */
       .card.to-right {
-        opacity: 0;
         visibility: hidden;
         pointer-events: none;
-        transform: translateX(90px) scale(0.94);
-        transition-duration: 2.5s;
+        clip-path: polygon(100% 0, 140% 0, 100% 100%, 60% 100%);
       }
       @keyframes borderPulse {
         0%,
