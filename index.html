@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pelepasan Kelas VI — SDN 01 Totorejo 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@200;300;400;500;600;700&display=swap"
       rel="stylesheet"
@@ -282,7 +283,7 @@
         align-items: center;
         gap: 12px;
         margin-top: 16px;
-        padding: 14px 38px;
+        padding: 12px 38px;
         font-family: "Outfit", sans-serif;
         font-size: 0.9rem;
         font-weight: 600;
@@ -336,6 +337,46 @@
       }
       .btn-icon {
         font-size: 1.1rem;
+      }
+
+      /* Tombol musik di welcome screen */
+      .welcome-music-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+      }
+      .welcome-music-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 15px;
+        border-radius: 50px;
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        background: rgba(0, 212, 255, 0.06);
+        color: var(--cyan-lt);
+        font-family: "Outfit", sans-serif;
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        backdrop-filter: blur(10px);
+      }
+      .welcome-music-btn:hover {
+        background: rgba(0, 212, 255, 0.12);
+        border-color: rgba(0, 212, 255, 0.55);
+        color: var(--cyan);
+      }
+      .welcome-music-btn.muted {
+        color: rgba(240, 244, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .welcome-music-btn svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
       }
 
       /* ════════════════════════
@@ -1645,7 +1686,7 @@
 
       @media (max-width: 400px) {
         .card-photo {
-          height: 190px;
+          height: 170px;
         }
         .photo-frame {
           width: 118px;
@@ -1741,6 +1782,24 @@
           <span class="btn-icon">◈</span>
           Buka Layar Pelepasan
         </button>
+        <!-- Tombol pilihan musik sebelum mulai -->
+        <div class="welcome-music-row">
+          <button id="welcomeMusicBtn" class="welcome-music-btn">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              id="welcomeMusicIcon"
+            >
+              <path d="M9 18V5l12-2v13" />
+              <circle cx="6" cy="18" r="3" />
+              <circle cx="18" cy="16" r="3" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -1944,8 +2003,13 @@
         tRaf = null,
         tStart = null,
         tElapsed = 0;
-      const AUTO = 15000,
-        CIRC = 2 * Math.PI * 16.5;
+
+      // ▼▼▼ PENGATURAN DURASI ▼▼▼
+      const AUTO = 15000; // ⏱ Durasi tiap slide (milidetik). 15000 = 15 detik
+      const FLIP_DELAY = 7000; // 🖼 Jeda sebelum foto ke-2 muncul (milidetik). 7000 = 7 detik
+      // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
+      const CIRC = 2 * Math.PI * 16.5;
       const flipState = {};
 
       /* ── LOAD DATA ── */
@@ -1990,7 +2054,7 @@
         students.push({ isPenutup: true });
         renderCards();
         buildDots();
-        showCard(0, true);
+        // showCard(0, true);
         renderSidebar();
       }
 
@@ -2051,11 +2115,11 @@
         <div class="card-info">
           <div class="card-number-bg">${String(siswaNo).padStart(2, "0")}</div>
           <h2 class="s-name ai" style="animation-delay:.05s">${s.nama}</h2>
-          <p class="s-nomor ai" style="animation-delay:.12s">◈ Siswa No. ${String(siswaNo).padStart(2, "0")}</p>
+          
           <div class="s-rule ai" style="animation-delay:.18s"></div>
           <div class="info-table">
             <div class="info-row ai" style="animation-delay:.24s">
-              <span class="info-label">Tempat, Tgl Lahir</span>
+              <span class="info-label">TTL</span>
               <span class="info-sep">◆</span>
               <span class="info-val">${s.ttl}</span>
             </div>
@@ -2173,7 +2237,7 @@
           .querySelectorAll(".dot")
           .forEach((d, i) => d.classList.toggle("active", i === cur));
         document.getElementById("slideCounter").textContent =
-          `${cur + 1} / ${students.length}`;
+          `${cur + 1} / ${students.length - 1}`;
       }
 
       /* ── SHOW SLIDE ── */
@@ -2199,7 +2263,7 @@
             }
             setTimeout(() => {
               if (cur === i) autoFlipCheck();
-            }, 7000);
+            }, FLIP_DELAY);
           } else {
             c.classList.remove("active", "enter-right", "enter-left");
           }
@@ -2225,7 +2289,26 @@
           transitioning = false;
         }, 800);
         setTimeout(() => showCard(cur), 300);
-        if (ap) restartTimer();
+
+        // ▼ PENGKONDISIAN DI SLIDE TERAKHIR (ANTI OVERRIDE) ▼
+        if (cur === students.length - 1) {
+          if (ap) {
+            stopTimer();
+            ap = false;
+          }
+          trFill.style.strokeDashoffset = CIRC;
+
+          // Trik utama: Diberi jeda 50ms agar dieksekusi paling terakhir setelah
+          // sisa frame animasi timer bawaan template benar-benar bersih & berhenti.
+          setTimeout(() => {
+            timerIcon.innerHTML = "&#8635;"; // Pasti terkunci ke ikon Reload (↻)
+          }, 50);
+        } else {
+          // Jika bukan slide terakhir, jalankan sistem normal
+          if (ap) restartTimer();
+          else timerIcon.innerHTML = "&#9654;";
+        }
+        // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
       }
 
       function chg(d) {
@@ -2246,12 +2329,25 @@
       trFill.style.strokeDashoffset = CIRC;
 
       function toggleAP() {
+        if (cur === students.length - 1) {
+          location.reload(); // Muat ulang halaman dari awal
+          return;
+        }
         ap = !ap;
         timerIcon.innerHTML = ap ? "&#9646;&#9646;" : "&#9654;";
-        if (ap) startTimer();
-        else {
+        if (ap) {
+          startTimer();
+          // TAMBAHAN: Fade in musik saat slide dilanjutkan kembali (jika tidak di-mute user)
+          if (audio && !muted) fadeInAudio(800);
+        } else {
           stopTimer();
           trFill.style.strokeDashoffset = CIRC;
+          // TAMBAHAN: Fade out musik secara halus saat slide di-pause
+          if (audio) {
+            fadeOutAudio(1000, () => {
+              audio.pause();
+            });
+          }
         }
       }
       function startTimer() {
@@ -2316,25 +2412,113 @@
         .addEventListener("click", toggleFullscreen);
       document.addEventListener("fullscreenchange", updateFsIcon);
 
-      /* ── MUSIK (opsional — letakkan file audio/backsound.mp3 di folder audio/) ── */
+      /* ── MUSIK ── */
+      const ICON_MUSIC_ON = `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`;
+      const ICON_MUSIC_OFF = `<line x1="2" y1="2" x2="22" y2="22"/><path d="M9 9v9"/><path d="M9 18a3 3 0 1 0 0 .001"/><path d="M15 9.34V5l6-1v7"/><path d="M18 16a3 3 0 1 0 .001 0"/>`;
+
       let audio = null,
-        musicOn = false;
+        muted = false;
       const musicBtn = document.getElementById("musicBtn");
+
+      // ▼▼▼ TAMBAHAN: SISTEM FADE AUDIO CINEMATIC ▼▼▼
+      let fadeInterval = null;
+      const MAX_VOLUME = 0.3; // Batas volume maksimal bawaan template kamu
+
+      function fadeInAudio(duration = 1000) {
+        if (!audio) return;
+        clearInterval(fadeInterval);
+        audio.muted = false;
+        if (audio.paused) audio.play().catch(() => {});
+
+        let currentVol = audio.volume;
+        const steps = duration / 30;
+        const volStep = (MAX_VOLUME - currentVol) / steps;
+
+        fadeInterval = setInterval(() => {
+          currentVol += volStep;
+          if (currentVol >= MAX_VOLUME) {
+            audio.volume = MAX_VOLUME;
+            clearInterval(fadeInterval);
+          } else {
+            audio.volume = currentVol;
+          }
+        }, 30);
+      }
+
+      function fadeOutAudio(duration = 1000, callback) {
+        if (!audio) {
+          if (callback) callback();
+          return;
+        }
+        clearInterval(fadeInterval);
+
+        let currentVol = audio.volume;
+        const steps = duration / 30;
+        const volStep = currentVol / steps;
+
+        fadeInterval = setInterval(() => {
+          currentVol -= volStep;
+          if (currentVol <= 0) {
+            audio.volume = 0;
+            clearInterval(fadeInterval);
+            if (callback) callback();
+          } else {
+            audio.volume = currentVol;
+          }
+        }, 30);
+      }
+      // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
+      const playlist = [
+        "audio/lagu1.mp3",
+        "audio/lagu2.mp3",
+        "audio/lagu3.mp3",
+      ];
+
+      let currentTrack = 0;
+
+      function initAudio() {
+        if (audio) return;
+        audio = new Audio(playlist[currentTrack]);
+        audio.addEventListener("ended", () => {
+          currentTrack = (currentTrack + 1) % playlist.length; // lanjut ke indeks berikutnya
+          audio.src = playlist[currentTrack];
+          audio.play();
+        });
+        // audio.loop = true;
+        audio.volume = 0; // Mulai dari 0 supaya bisa di-fade in halus
+        muted = false;
+        updateMusicIcon();
+      }
+
+      function updateMusicIcon() {
+        const svg = musicBtn.querySelector("svg");
+        svg.innerHTML = muted ? ICON_MUSIC_OFF : ICON_MUSIC_ON;
+        musicBtn.style.color = muted ? "rgba(240,244,255,0.3)" : "var(--cyan)";
+        musicBtn.style.background = muted ? "" : "rgba(0,212,255,0.1)";
+      }
+
       musicBtn.addEventListener("click", () => {
         if (!audio) {
-          audio = new Audio("audio/backsound.mp3");
-          audio.loop = true;
-          audio.volume = 0.4;
+          initAudio();
+          fadeInAudio(800);
+          return;
         }
-        musicOn = !musicOn;
-        if (musicOn) {
-          audio.play().catch(() => {}); // Abaikan error jika file tidak ada
-          musicBtn.style.color = "var(--cyan)";
-          musicBtn.style.background = "rgba(0,212,255,0.1)";
+        muted = !muted;
+        updateMusicIcon();
+
+        if (muted) {
+          // Fade out selama 0.8 detik, setelah volume 0 baru di-pause
+          fadeOutAudio(800, () => {
+            audio.pause();
+          });
         } else {
-          audio.pause();
-          musicBtn.style.color = "";
-          musicBtn.style.background = "";
+          // Hanya fade-in kembali jika slide presentasi sedang berjalan aktif (ap = true)
+          // atau jika masih berada di halaman intro (selayang pandang)
+          const isIntroActive = document.getElementById("introScreen") !== null;
+          if (ap || isIntroActive) {
+            fadeInAudio(800);
+          }
         }
       });
 
@@ -2417,10 +2601,57 @@
         const welcomeBtn = document.getElementById("welcomeBtn");
         const introScreen = document.getElementById("introScreen");
 
+        // Ambil elemen tombol musik yang ada di Layar Gerbang
+        const welcomeMusicBtn = document.getElementById("welcomeMusicBtn");
+        const welcomeMusicIcon = document.getElementById("welcomeMusicIcon");
+
+        // Ikon SVG On/Off bawaan template agar visualnya sinkron
+        const SVG_ON = `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`;
+        const SVG_OFF = `<line x1="2" y1="2" x2="22" y2="22"/><path d="M9 9v9"/><path d="M9 18a3 3 0 1 0 0 .001"/><path d="M15 9.34V5l6-1v7"/><path d="M18 16a3 3 0 1 0 .001 0"/>`;
+
+        // 1. Event ketika user mengubah pilihan musik (Mute/Unmute) di Layar Gerbang
+        if (welcomeMusicBtn) {
+          welcomeMusicBtn.addEventListener("click", (e) => {
+            e.stopPropagation(); // Mencegah klik tembus ke welcomeBtn
+            muted = !muted; // Mengubah variabel 'muted' global
+
+            if (muted) {
+              welcomeMusicBtn.style.opacity = "0.5";
+              if (welcomeMusicIcon) welcomeMusicIcon.innerHTML = SVG_OFF;
+            } else {
+              welcomeMusicBtn.style.opacity = "1";
+              if (welcomeMusicIcon) welcomeMusicIcon.innerHTML = SVG_ON;
+            }
+          });
+        }
+
+        // 2. Event ketika tombol UTAMA "Buka Layar Pelepasan" diklik
+        // Event ketika tombol UTAMA "Buka Layar Pelepasan" diklik
         welcomeBtn.addEventListener("click", () => {
+          const userWantsMute = muted; // Kunci status pilihan terakhir user
+
           welcomeScreen.classList.add("hidden");
+          initAudio();
+
+          // Eksekusi efek fade sinematik tepat saat HALAMAN INTRO (Selayang Pandang) muncul
+          if (userWantsMute) {
+            muted = true;
+            if (audio) {
+              audio.volume = 0;
+              audio.pause();
+            }
+          } else {
+            muted = false;
+            if (audio) {
+              fadeInAudio(1500); // 🔊 FADE IN PREMIUM: Musik membesar perlahan selama 1.5 detik pas tulisan Selayang Pandang muncul!
+            }
+          }
+          updateMusicIcon();
+
+          // Sisa kode setTimeout di bawahnya tetap sama seperti sebelumnya...
           setTimeout(() => {
             introScreen.classList.add("hidden");
+            showCard(0, true);
             setTimeout(() => {
               document.getElementById("mainHeader").classList.add("visible");
             }, 200);
@@ -2428,8 +2659,12 @@
               introScreen.remove();
               welcomeScreen.remove();
             }, 1800);
+
             setTimeout(() => {
-              if (typeof toggleAP === "function" && !ap) toggleAP();
+              if (typeof toggleAP === "function" && !ap) {
+                toggleAP();
+                if (muted && audio) audio.pause();
+              }
             }, 1600);
           }, 4800);
         });
