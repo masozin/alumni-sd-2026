@@ -59,6 +59,12 @@
         color: var(--w);
       }
 
+      /* Gunakan dvh (dynamic viewport height) agar address bar HP tidak memotong */
+      .app {
+        height: 100vh;
+        height: 100dvh;
+      }
+
       /* ─── BACKGROUND CANVAS PARTIKEL ─── */
       #particles-js {
         position: fixed;
@@ -510,7 +516,6 @@
         position: relative;
         z-index: 1;
         width: 100%;
-        height: 100vh;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -1359,6 +1364,24 @@
         .ctrl-hint {
           display: none;
         }
+
+        /* ── Fix utama: pill bar fixed di bawah layar HP ── */
+        /* Tidak bergantung pada 100vh yang sering terpotong address bar */
+        .controls {
+          position: fixed;
+          bottom: 14px;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 200;
+          gap: 0;
+          animation: none;
+          opacity: 1;
+        }
+
+        /* Beri ruang bawah pada app agar kartu tidak tertutup pill */
+        .app {
+          padding-bottom: 72px;
+        }
       }
 
       /* ─── TOAST FULLSCREEN ─── */
@@ -1622,7 +1645,7 @@
 
       @media (max-width: 400px) {
         .card-photo {
-          height: 170px;
+          height: 190px;
         }
         .photo-frame {
           width: 118px;
