@@ -6,21 +6,40 @@
     <title>Pelepasan Kelas VI — SDN 01 Totorejo 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@200;300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <!-- GSAP untuk animasi sinematik premium -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
+    <!-- Particles.js untuk efek partikel holografik -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <style>
+      /* ════════════════════════════════════════════
+       DESIGN SYSTEM — "GALAKSI IMPIAN"
+       Tema: Holografik Kosmik · Neon Cyan · Futuristik
+    ════════════════════════════════════════════ */
       :root {
-        --gold: #d4a943;
-        --gold-lt: #f5d780;
-        --gold-dk: #8b6914;
-        --glow: rgba(212, 169, 67, 0.28);
-        --bg: #06091a;
-        --bg2: #0e1628;
-        --card: rgba(10, 18, 40, 0.92);
-        --w: #f5f0e8;
-        --wd: rgba(245, 240, 232, 0.55);
-        --wm: rgba(245, 240, 232, 0.85);
+        --bg: #03040d;
+        --bg2: #060913;
+        --bg3: #0a0f22;
+        --cyan: #00d4ff;
+        --cyan-dk: #0099cc;
+        --cyan-lt: #80eeff;
+        --cyan-glow: rgba(0, 212, 255, 0.25);
+        --violet: #7c3aed;
+        --violet-lt: #a78bfa;
+        --rose: #f43f5e;
+        --amber: #f59e0b;
+        --w: #f0f4ff;
+        --w60: rgba(240, 244, 255, 0.6);
+        --w30: rgba(240, 244, 255, 0.3);
+        --card-bg: rgba(10, 15, 40, 0.7);
+        --border: rgba(0, 212, 255, 0.18);
+        --border-hi: rgba(0, 212, 255, 0.55);
+        --r-card: 20px;
+        --t-slow: 0.8s;
+        --t-med: 0.45s;
       }
       *,
       *::before,
@@ -29,51 +48,465 @@
         padding: 0;
         box-sizing: border-box;
       }
+
       html,
       body {
         width: 100%;
         height: 100%;
         overflow: hidden;
-      }
-      body {
-        font-family: "DM Sans", sans-serif;
         background: var(--bg);
+        font-family: "Outfit", sans-serif;
         color: var(--w);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
       }
 
-      #cv {
+      /* ─── BACKGROUND CANVAS PARTIKEL ─── */
+      #particles-js {
         position: fixed;
         inset: 0;
         z-index: 0;
         pointer-events: none;
       }
-      .aurora {
+
+      /* ─── AURORA MESH BACKGROUND ─── */
+      .aurora-mesh {
         position: fixed;
         inset: 0;
         z-index: 0;
         pointer-events: none;
         background:
           radial-gradient(
-            ellipse 70% 50% at 15% 65%,
-            rgba(80, 40, 180, 0.12) 0%,
-            transparent 70%
+            ellipse 80% 60% at 10% 20%,
+            rgba(124, 58, 237, 0.12) 0%,
+            transparent 60%
           ),
           radial-gradient(
-            ellipse 55% 40% at 85% 25%,
-            rgba(212, 169, 67, 0.07) 0%,
-            transparent 70%
+            ellipse 60% 50% at 90% 80%,
+            rgba(0, 212, 255, 0.09) 0%,
+            transparent 60%
           ),
           radial-gradient(
-            ellipse 50% 60% at 50% 100%,
-            rgba(30, 80, 220, 0.09) 0%,
-            transparent 70%
+            ellipse 50% 80% at 50% 110%,
+            rgba(244, 63, 94, 0.07) 0%,
+            transparent 60%
+          ),
+          radial-gradient(
+            ellipse 40% 40% at 80% 10%,
+            rgba(0, 212, 255, 0.06) 0%,
+            transparent 60%
           );
+        animation: auroraShift 20s ease-in-out infinite alternate;
+      }
+      @keyframes auroraShift {
+        0% {
+          filter: hue-rotate(0deg) brightness(1);
+        }
+        50% {
+          filter: hue-rotate(15deg) brightness(1.05);
+        }
+        100% {
+          filter: hue-rotate(-10deg) brightness(0.95);
+        }
       }
 
-      .pg {
+      /* ─── GRID PERSPEKTIF ─── */
+      .grid-floor {
+        position: fixed;
+        bottom: -40px;
+        left: 0;
+        right: 0;
+        height: 45vh;
+        z-index: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(
+            to right,
+            rgba(0, 212, 255, 0.06) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(0, 212, 255, 0.06) 1px,
+            transparent 1px
+          );
+        background-size: 60px 60px;
+        transform: perspective(600px) rotateX(55deg);
+        transform-origin: bottom;
+        mask-image: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.5) 0%,
+          transparent 80%
+        );
+        -webkit-mask-image: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.5) 0%,
+          transparent 80%
+        );
+      }
+
+      /* ════════════════════════
+       LAYAR GERBANG UTAMA
+    ════════════════════════ */
+      #welcomeScreen {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg);
+        transition:
+          opacity 1s ease,
+          visibility 1s ease;
+      }
+      #welcomeScreen.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .welcome-orb {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .welcome-orb::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(0, 212, 255, 0.15) 0%,
+          transparent 65%
+        );
+        animation: orbPulse 4s ease-in-out infinite;
+      }
+      .welcome-orb::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 800px;
+        height: 800px;
+        background: radial-gradient(
+          circle,
+          rgba(124, 58, 237, 0.08) 0%,
+          transparent 60%
+        );
+        animation: orbPulse 6s ease-in-out infinite reverse;
+      }
+      @keyframes orbPulse {
+        0%,
+        100% {
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 0.7;
+        }
+        50% {
+          transform: translate(-50%, -50%) scale(1.2);
+          opacity: 1;
+        }
+      }
+      .welcome-inner {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        text-align: center;
+      }
+      .welcome-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.72rem;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: var(--cyan);
+        padding: 6px 18px;
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        border-radius: 50px;
+        background: rgba(0, 212, 255, 0.05);
+        backdrop-filter: blur(10px);
+      }
+      .welcome-chip::before {
+        content: "◈";
+        font-size: 0.7rem;
+      }
+      .welcome-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2.8rem, 6vw, 5rem);
+        font-weight: 900;
+        line-height: 1.08;
+        background: linear-gradient(
+          135deg,
+          var(--w) 0%,
+          var(--cyan-lt) 50%,
+          var(--cyan) 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 30px rgba(0, 212, 255, 0.3));
+      }
+      .welcome-sub {
+        font-size: 0.95rem;
+        font-weight: 300;
+        color: var(--w60);
+        letter-spacing: 0.12em;
+      }
+      .welcome-line {
+        width: 120px;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--cyan),
+          transparent
+        );
+        margin: 8px 0;
+      }
+      .welcome-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 16px;
+        padding: 14px 38px;
+        font-family: "Outfit", sans-serif;
+        font-size: 0.9rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--bg);
+        background: var(--cyan);
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow:
+          0 0 30px rgba(0, 212, 255, 0.4),
+          0 0 60px rgba(0, 212, 255, 0.15);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .welcome-btn::before {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        background: conic-gradient(
+          from 0deg,
+          var(--cyan),
+          var(--violet-lt),
+          var(--cyan-lt),
+          var(--cyan)
+        );
+        border-radius: 50px;
+        animation: spinBorder 3s linear infinite;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .welcome-btn:hover::before {
+        opacity: 1;
+      }
+      .welcome-btn:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow:
+          0 0 50px rgba(0, 212, 255, 0.6),
+          0 0 100px rgba(0, 212, 255, 0.25);
+      }
+      .welcome-btn:active {
+        transform: scale(0.97);
+      }
+      @keyframes spinBorder {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .btn-icon {
+        font-size: 1.1rem;
+      }
+
+      /* ════════════════════════
+       LAYAR INTRO SINEMATIK
+    ════════════════════════ */
+      #introScreen {
+        position: fixed;
+        inset: 0;
+        z-index: 8888;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: var(--bg);
+        text-align: center;
+        padding: 24px;
+        transition:
+          opacity 1.5s ease,
+          transform 1.5s ease,
+          filter 1.5s ease;
+        will-change: opacity, transform, filter;
+      }
+      #introScreen.hidden {
+        opacity: 0;
+        transform: scale(1.04);
+        filter: blur(12px);
+        pointer-events: none;
+      }
+      .intro-ring {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+      }
+      .intro-ring-item {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border-radius: 50%;
+        border: 1px solid;
+        animation: ringExpand 4s ease-out infinite;
+      }
+      .intro-ring-item:nth-child(1) {
+        width: 200px;
+        height: 200px;
+        margin: -100px;
+        border-color: rgba(0, 212, 255, 0.35);
+        animation-delay: 0s;
+      }
+      .intro-ring-item:nth-child(2) {
+        width: 360px;
+        height: 360px;
+        margin: -180px;
+        border-color: rgba(0, 212, 255, 0.22);
+        animation-delay: 0.7s;
+      }
+      .intro-ring-item:nth-child(3) {
+        width: 520px;
+        height: 520px;
+        margin: -260px;
+        border-color: rgba(0, 212, 255, 0.12);
+        animation-delay: 1.4s;
+      }
+      .intro-ring-item:nth-child(4) {
+        width: 680px;
+        height: 680px;
+        margin: -340px;
+        border-color: rgba(0, 212, 255, 0.06);
+        animation-delay: 2.1s;
+      }
+      @keyframes ringExpand {
+        0% {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        20% {
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1.1);
+          opacity: 0;
+        }
+      }
+      .intro-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        max-width: 760px;
+      }
+      .intro-tag {
+        font-size: 0.7rem;
+        letter-spacing: 0.5em;
+        text-transform: uppercase;
+        color: var(--cyan);
+        font-weight: 500;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s;
+      }
+      .intro-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+        font-weight: 900;
+        line-height: 1.1;
+        background: linear-gradient(
+          135deg,
+          #ffffff 0%,
+          var(--cyan-lt) 60%,
+          var(--cyan) 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.7s;
+      }
+      .intro-sub {
+        font-size: clamp(1rem, 2vw, 1.5rem);
+        font-weight: 300;
+        color: var(--w60);
+        letter-spacing: 0.1em;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards 1s;
+      }
+      .intro-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        width: 100%;
+        opacity: 0;
+        animation: fadeUp 1s forwards 1.3s;
+      }
+      .intro-divider-line {
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--cyan),
+          transparent
+        );
+        opacity: 0.45;
+      }
+      .intro-divider-gem {
+        color: var(--cyan);
+        font-size: 1rem;
+        animation: spin 8s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .intro-year {
+        font-size: 0.85rem;
+        color: var(--w30);
+        letter-spacing: 0.2em;
+        opacity: 0;
+        animation: fadeUp 1s forwards 1.6s;
+      }
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ════════════════════════
+       APLIKASI UTAMA
+    ════════════════════════ */
+      .app {
         position: relative;
         z-index: 1;
         width: 100%;
@@ -82,52 +515,62 @@
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
-        padding: 22px 36px 16px;
+        padding: 18px 24px 22px;
       }
 
+      /* ─── HEADER ─── */
       header {
         text-align: center;
-        animation: fadeD 0.9s ease both;
+        position: relative;
+        opacity: 0;
+        transform: translateY(-20px);
       }
-      .badge {
+      header.visible {
+        animation: fadeDown 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
+      @keyframes fadeDown {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .header-chip {
         display: inline-flex;
         align-items: center;
-        gap: 9px;
-        font-size: 0.88rem;
+        gap: 6px;
+        font-size: 0.65rem;
         letter-spacing: 0.3em;
         text-transform: uppercase;
-        color: var(--gold);
-        margin-bottom: 5px;
+        color: var(--cyan);
+        margin-bottom: 4px;
+        font-weight: 500;
       }
-      .bl {
-        width: 26px;
-        height: 1px;
-        background: var(--gold);
-        opacity: 0.55;
+      .h-dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--cyan);
       }
-      header h1 {
-        font-family: "Cormorant Garamond", serif;
-        font-size: clamp(2rem, 2.8vw, 3.8rem);
+      .header-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.4rem, 2.5vw, 2.8rem);
         font-weight: 700;
-        letter-spacing: 0.04em;
-        line-height: 1.2;
+        line-height: 1.15;
         background: linear-gradient(
           90deg,
-          var(--gold-lt) 0%,
-          var(--w) 20%,
-          var(--gold) 40%,
-          var(--w) 60%,
-          var(--gold-lt) 80%,
-          var(--w) 100%
+          var(--cyan-lt) 0%,
+          var(--w) 30%,
+          var(--cyan) 60%,
+          var(--w) 80%,
+          var(--cyan-lt) 100%
         );
         background-size: 250% auto;
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
-        animation: shimmerText 20s linear infinite;
+        animation: shimmer 12s linear infinite;
       }
-
-      @keyframes shimmerText {
+      @keyframes shimmer {
         0% {
           background-position: 200% center;
         }
@@ -135,167 +578,159 @@
           background-position: -200% center;
         }
       }
-
-      .sch {
-        font-size: clamp(1.2rem, 1.8vw, 3rem);
-        color: var(--wd);
-        margin-top: 4px;
-        letter-spacing: 0.08em;
+      .header-year {
+        font-size: clamp(0.75rem, 1.2vw, 1rem);
+        color: var(--w60);
+        letter-spacing: 0.15em;
+        font-weight: 300;
+        margin-top: 2px;
       }
-      .gl {
-        width: 60px;
+      .header-rule {
+        width: 200px;
         height: 1px;
-        margin: 8px auto 0;
+        margin: 6px auto 0;
         background: linear-gradient(
           90deg,
           transparent,
-          var(--gold),
+          var(--cyan),
           transparent
         );
-        opacity: 0.5;
+        opacity: 0.4;
       }
 
-      .gl2 {
-        width: 300px;
-        height: 1px;
-        margin: 8px auto 0;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          var(--gold),
-          transparent
-        );
-        opacity: 0.5;
-      }
-
-      .sz {
-        display: flex;
-        align-items: center;
-        gap: 18px;
-        width: 100%;
-        max-width: 1160px;
+      /* ─── STAGE (AREA KARTU) ─── */
+      .stage {
         flex: 1;
+        width: 100%;
         min-height: 0;
-        padding: 10px 0;
-      }
-
-      .nb {
-        width: 48px;
-        height: 48px;
-        flex-shrink: 0;
-        border-radius: 50%;
-        border: 1px solid rgba(212, 169, 67, 0.35);
-        background: rgba(212, 169, 67, 0.07);
-        color: var(--gold);
-        font-size: 1rem;
-        cursor: pointer;
-        transition: all 0.25s ease;
         display: flex;
         align-items: center;
         justify-content: center;
-        backdrop-filter: blur(12px);
-        user-select: none;
-
-        /* ── TAMBAHAN BARU: Membuat tombol melayang bebas di desktop ── */
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 10;
-      }
-      .nb:hover {
-        background: var(--gold);
-        color: var(--bg);
-        border-color: var(--gold);
-        transform: scale(1.08);
-        box-shadow: 0 0 22px var(--glow);
-      }
-      .nb:active {
-        transform: scale(0.95);
+        position: relative;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-bottom: 14px;
       }
 
-      /* ── TAMBAHAN BARU: Tentukan koordinat tombol Kiri & Kanan di desktop ── */
-      #pBtn {
-        left: 40px;
-      }
-      #nBtn {
-        right: 40px;
+      /* ─── TOMBOL NAVIGASI (hanya mobile overlay, pill handles desktop) ─── */
+      .nav-btn {
+        display: none;
       }
 
-      .vp {
+      /* ─── VIEWPORT KARTU ─── */
+      .viewport {
         flex: 1;
         height: 100%;
-        position: relative;
         min-width: 0;
-        perspective: 1200px;
+        position: relative;
+        overflow: hidden;
       }
 
+      /* ════════════════════════
+       KARTU SISWA
+    ════════════════════════ */
       .card {
         position: absolute;
         inset: 0;
-        display: flex;
-        border-radius: 22px;
-        overflow: hidden;
-        background: var(--card);
-        backdrop-filter: blur(28px);
-        -webkit-backdrop-filter: blur(28px);
-        border: 1px solid rgba(212, 169, 67, 0.2);
+        border-radius: var(--r-card);
+        background: var(--card-bg);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border: 1px solid var(--border);
         box-shadow:
           0 0 0 1px rgba(255, 255, 255, 0.03) inset,
-          0 40px 80px rgba(0, 0, 0, 0.6);
+          0 40px 80px rgba(0, 0, 0, 0.7),
+          0 0 40px rgba(0, 212, 255, 0.04);
+        display: flex;
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
+        overflow: hidden;
         transition:
-          opacity 2.5s cubic-bezier(0.4, 0, 0.2, 1),
-          transform 2.5s cubic-bezier(0.4, 0, 0.2, 1),
-          visibility 2.5s;
+          opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+          transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+          visibility 0.6s;
         will-change: transform, opacity;
       }
-      .card.from-right {
-        transform: translateX(90px) scale(0.94);
+      /* ── Garis aksen neon atas ── */
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 10%;
+        right: 10%;
+        height: 1px;
+        z-index: 2;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--cyan),
+          transparent
+        );
+        opacity: 0.6;
+      }
+      /* ── Cahaya sudut kiri bawah ── */
+      .card::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 180px;
+        height: 180px;
+        background: radial-gradient(
+          circle at bottom left,
+          rgba(124, 58, 237, 0.12) 0%,
+          transparent 65%
+        );
+        pointer-events: none;
+        border-radius: 0 0 0 var(--r-card);
+      }
+
+      .card.enter-right {
+        transform: translateX(80px) scale(0.96);
         opacity: 0;
       }
-      .card.from-left {
-        transform: translateX(-90px) scale(0.94);
+      .card.enter-left {
+        transform: translateX(-80px) scale(0.96);
         opacity: 0;
       }
       .card.active {
-        opacity: 0.7;
+        opacity: 1;
         visibility: visible;
         pointer-events: all;
-        transform: translateX(0) scale(1);
-        animation: borderPulse 5s ease 1.2s infinite;
+        transform: none;
+        animation: cardGlow 6s ease 1s infinite;
       }
-      .card.to-left {
+      .card.exit-left {
         opacity: 0;
+        transform: translateX(-80px) scale(0.96);
         visibility: hidden;
         pointer-events: none;
-        transform: translateX(-90px) scale(0.94);
-        transition-duration: 2.5s;
       }
-      .card.to-right {
+      .card.exit-right {
         opacity: 0;
+        transform: translateX(80px) scale(0.96);
         visibility: hidden;
         pointer-events: none;
-        transform: translateX(90px) scale(0.94);
-        transition-duration: 2.5s;
       }
-      @keyframes borderPulse {
+      @keyframes cardGlow {
         0%,
         100% {
-          border-color: rgba(212, 169, 67, 0.2);
+          border-color: var(--border);
+          box-shadow:
+            0 40px 80px rgba(0, 0, 0, 0.7),
+            0 0 30px rgba(0, 212, 255, 0.04);
         }
         50% {
-          border-color: rgba(212, 169, 67, 0.5);
+          border-color: var(--border-hi);
           box-shadow:
-            0 0 0 1px rgba(255, 255, 255, 0.03) inset,
-            0 40px 80px rgba(0, 0, 0, 0.6),
-            0 0 40px rgba(212, 169, 67, 0.1);
+            0 40px 80px rgba(0, 0, 0, 0.7),
+            0 0 50px rgba(0, 212, 255, 0.12);
         }
       }
 
-      /* ── PHOTO SIDE ── */
-      .cp {
+      /* ─── SISI FOTO ─── */
+      .card-photo {
         width: 42%;
         flex-shrink: 0;
         position: relative;
@@ -304,131 +739,123 @@
         justify-content: center;
         overflow: hidden;
       }
-      .cp::before {
+      /* Latar dot pattern */
+      .card-photo::before {
         content: "";
         position: absolute;
         inset: 0;
         background-image: radial-gradient(
           circle,
-          rgba(212, 169, 67, 0.05) 1px,
+          rgba(0, 212, 255, 0.08) 1px,
           transparent 1px
         );
-        background-size: 22px 22px;
+        background-size: 24px 24px;
       }
-      .cp::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
+      /* Garis vertikal pemisah */
+      .card-divider {
+        width: 1px;
+        flex-shrink: 0;
+        align-self: stretch;
+        margin: 28px 0;
         background: linear-gradient(
-          90deg,
+          to bottom,
           transparent,
-          var(--gold),
+          rgba(0, 212, 255, 0.2),
           transparent
         );
-        opacity: 0.45;
       }
 
-      .photo-wrap {
+      /* ─── BINGKAI FOTO ─── */
+      .photo-frame {
         position: relative;
-        width: 300px;
-        height: 300px;
         z-index: 1;
+        width: 260px;
+        height: 260px;
       }
-
-      .orbit {
+      /* Orbit luar berputar */
+      .photo-orbit {
         position: absolute;
-        inset: -12px;
+        inset: -16px;
         border-radius: 50%;
-        border: 1px dashed rgba(212, 169, 67, 0.25);
-        animation: spinA 20s linear infinite;
+        border: 1px dashed rgba(0, 212, 255, 0.2);
+        animation: orbitSpin 25s linear infinite;
       }
-      .orbit::before,
-      .orbit::after {
+      .photo-orbit::before,
+      .photo-orbit::after {
         content: "";
         position: absolute;
-        width: 6px;
-        height: 6px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
-        background: var(--gold);
+        background: var(--cyan);
         top: 50%;
         transform: translateY(-50%);
+        box-shadow:
+          0 0 8px var(--cyan),
+          0 0 16px rgba(0, 212, 255, 0.5);
       }
-      .orbit::before {
-        left: -3px;
+      .photo-orbit::before {
+        left: -3.5px;
       }
-      .orbit::after {
-        right: -3px;
+      .photo-orbit::after {
+        right: -3.5px;
       }
-      @keyframes spinA {
+      @keyframes orbitSpin {
         to {
           transform: rotate(360deg);
         }
       }
 
-      .ring-spin {
+      /* Cincin conic gradient */
+      .photo-ring {
         position: absolute;
         inset: 0;
         border-radius: 50%;
-        padding: 5px;
+        padding: 4px;
         background: conic-gradient(
-          var(--gold-lt) 0deg,
-          transparent 38deg,
-          var(--gold) 76deg,
-          transparent 114deg,
-          var(--gold-lt) 152deg,
-          transparent 190deg,
-          var(--gold) 228deg,
-          transparent 266deg,
-          var(--gold-lt) 304deg,
-          transparent 342deg,
-          var(--gold-lt) 360deg
+          var(--cyan-lt) 0deg,
+          transparent 45deg,
+          var(--cyan) 90deg,
+          transparent 135deg,
+          var(--violet-lt) 180deg,
+          transparent 225deg,
+          var(--cyan) 270deg,
+          transparent 315deg,
+          var(--cyan-lt) 360deg
         );
-        animation: spinA 9s linear infinite;
-        filter: drop-shadow(0 0 9px rgba(212, 169, 67, 0.5));
+        animation: orbitSpin 10s linear infinite;
+        filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.6));
       }
 
-      /* ── REFACTOR FADE SCENE (Sangat Ringan & Elegan) ── */
+      /* Scene flip foto */
       .flip-scene {
-        width: calc(100% - 10px);
-        height: calc(100% - 10px);
         position: absolute;
-        inset: 5px;
+        inset: 4px;
         border-radius: 50%;
         cursor: pointer;
       }
-
       .flip-front,
       .flip-back {
         position: absolute;
         inset: 0;
         border-radius: 50%;
         overflow: hidden;
-        background: #070c1c;
-        /* Menggunakan transisi opacity untuk fade yang sangat mulus */
+        background: var(--bg3);
         transition:
-          opacity 2s ease,
-          transform 2s ease;
+          opacity 1.8s ease,
+          transform 1.8s ease;
       }
-
-      /* Foto Sekarang (Tampil Default) */
       .flip-front {
         opacity: 1;
         transform: scale(1);
         z-index: 2;
       }
-
-      /* Foto Cita-cita (Tersembunyi Default) */
       .flip-back {
         opacity: 0;
-        /* Sedikit dibesarkan di awal biar efek masuknya terasa sinematik */
         transform: scale(1.15);
         z-index: 1;
         pointer-events: none;
       }
-
       .flip-front img,
       .flip-back img {
         width: 100%;
@@ -436,16 +863,11 @@
         object-fit: cover;
         display: block;
       }
-
-      /* ── SAAT DIKLIK (Class .flipped aktif) ── */
-      /* Foto Sekarang menghilang dan mengecil */
       .flip-scene.flipped .flip-front {
         opacity: 0;
         transform: scale(0.9);
         pointer-events: none;
       }
-
-      /* Foto Cita-cita muncul pelan-pelan */
       .flip-scene.flipped .flip-back {
         opacity: 1;
         transform: scale(1);
@@ -453,87 +875,54 @@
         pointer-events: all;
       }
 
-      .photo-badge {
+      /* Badge dot foto */
+      .photo-dots {
         position: absolute;
-        bottom: -2px;
+        bottom: -10px;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
         align-items: center;
-        gap: 5px;
+        gap: 6px;
         z-index: 10;
       }
-      .pb-dot {
+      .pd {
         width: 7px;
         height: 7px;
         border-radius: 50%;
-        border: 1.5px solid rgba(212, 169, 67, 0.45);
+        border: 1.5px solid rgba(0, 212, 255, 0.4);
+        background: transparent;
         cursor: pointer;
         transition: all 0.3s ease;
-        background: transparent;
       }
-      .pb-dot.pa {
-        background: var(--gold);
-        border-color: var(--gold);
-        box-shadow: 0 0 6px rgba(212, 169, 67, 0.7);
+      .pd.pa {
+        background: var(--cyan);
+        border-color: var(--cyan);
+        box-shadow: 0 0 8px rgba(0, 212, 255, 0.8);
       }
-
-      .sno {
-        position: absolute;
-        bottom: 16px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.64rem;
-        letter-spacing: 0.28em;
-        text-transform: uppercase;
-        color: var(--gold);
-        white-space: nowrap;
-        opacity: 0.75;
-      }
-
       .photo-label {
         position: absolute;
-        top: -45px;
+        top: -42px;
         left: 50%;
         transform: translateX(-50%);
-        font-size: 0.6rem;
-        letter-spacing: 0.22em;
+        font-size: 0.58rem;
+        letter-spacing: 0.25em;
         text-transform: uppercase;
-        color: var(--gold-lt);
-        background: rgba(6, 9, 26, 0.75);
+        color: var(--cyan-lt);
+        white-space: nowrap;
+        background: rgba(3, 4, 13, 0.7);
         padding: 3px 10px;
         border-radius: 20px;
-        border: 1px solid rgba(212, 169, 67, 0.22);
-        white-space: nowrap;
+        border: 1px solid rgba(0, 212, 255, 0.2);
+        backdrop-filter: blur(8px);
         pointer-events: none;
         transition: opacity 0.4s ease;
-        backdrop-filter: blur(6px);
       }
 
-      .pcv {
-        position: absolute;
-        inset: -30px;
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 20;
-      }
-
-      .cdv {
-        width: 1px;
-        flex-shrink: 0;
-        background: linear-gradient(
-          to bottom,
-          transparent,
-          rgba(212, 169, 67, 0.28),
-          transparent
-        );
-        align-self: stretch;
-        margin: 36px 0;
-      }
-
-      .ci {
+      /* ─── SISI INFO ─── */
+      .card-info {
         flex: 1;
-        padding: 34px 44px;
+        padding: 32px 36px;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -541,111 +930,115 @@
         min-width: 0;
         overflow: hidden;
       }
-      .ci::before {
+      /* Cahaya sudut kanan atas */
+      .card-info::before {
         content: "";
         position: absolute;
         top: 0;
         right: 0;
-        width: 120px;
-        height: 120px;
+        width: 150px;
+        height: 150px;
         background: radial-gradient(
           circle at top right,
-          rgba(212, 169, 67, 0.08) 0%,
-          transparent 65%
+          rgba(0, 212, 255, 0.07) 0%,
+          transparent 70%
         );
-        border-radius: 0 22px 0 0;
         pointer-events: none;
       }
-      .ci::after {
-        content: "";
+      /* Nomor urut besar di belakang */
+      .card-number-bg {
         position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 90px;
-        height: 90px;
-        background: radial-gradient(
-          circle at bottom left,
-          rgba(80, 40, 180, 0.07) 0%,
-          transparent 65%
-        );
-        border-radius: 0 0 0 22px;
+        bottom: -20px;
+        right: -10px;
+        font-family: "Playfair Display", serif;
+        font-size: 10rem;
+        font-weight: 900;
+        line-height: 1;
+        color: rgba(0, 212, 255, 0.03);
         pointer-events: none;
+        user-select: none;
       }
 
+      /* Animasi masuk elemen info */
       .ai {
         opacity: 0;
-        transform: translateY(20px);
-        animation: sup 0.6s ease forwards;
-      }
-      @keyframes sup {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+        transform: translateY(18px);
+        animation: fadeUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
       }
 
-      .sname {
-        font-family: "Cormorant Garamond", serif;
-        font-size: clamp(2rem, 3.3vw, 3.2rem);
+      /* Nama siswa */
+      .s-name {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.8rem, 3vw, 2.8rem);
         font-weight: 700;
-        color: var(--w);
         line-height: 1.1;
-        margin-bottom: 6px;
+        color: var(--w);
+        margin-bottom: 4px;
         word-break: break-word;
       }
-      .sttl {
-        font-size: 1rem;
-        color: var(--gold);
-        letter-spacing: 0.04em;
-        margin-bottom: 20px;
+      .s-nomor {
+        font-size: 0.7rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--cyan);
+        font-weight: 500;
+        margin-bottom: 16px;
       }
-      .sdiv {
-        width: 100px;
-        height: 1.5px;
-        background: linear-gradient(90deg, var(--gold), transparent);
-        margin-bottom: 20px;
+
+      /* Divider akseen */
+      .s-rule {
+        width: 60px;
+        height: 2px;
+        margin-bottom: 18px;
+        background: linear-gradient(90deg, var(--cyan), var(--violet-lt));
+        border-radius: 2px;
       }
-      .itbl {
+
+      /* Tabel info */
+      .info-table {
         display: flex;
         flex-direction: column;
-        gap: 10px;
-        margin-bottom: 24px;
+        gap: 9px;
+        margin-bottom: 20px;
       }
-      .irow {
+      .info-row {
         display: flex;
         align-items: baseline;
         gap: 10px;
-        font-size: 0.93rem;
       }
-      .ilbl {
-        color: var(--wd);
-        width: 90px;
+      .info-label {
+        font-size: 0.78rem;
+        color: var(--w30);
+        font-weight: 400;
+        width: 88px;
         flex-shrink: 0;
+        letter-spacing: 0.05em;
+      }
+      .info-sep {
+        color: var(--cyan);
+        font-size: 0.6rem;
+        opacity: 0.6;
+      }
+      .info-val {
         font-size: 0.9rem;
-      }
-      .idot {
-        color: var(--gold);
-        font-size: 0.65rem;
-        opacity: 0.75;
-      }
-      .ival {
         color: var(--w);
         font-weight: 500;
-        font-size: 1rem;
       }
-      .db {
+
+      /* Box cita-cita & pesan */
+      .dream-box {
+        position: relative;
+        border-radius: 14px;
+        padding: 16px 20px;
+        overflow: hidden;
         background: linear-gradient(
           135deg,
-          rgba(212, 169, 67, 0.1) 0%,
-          rgba(212, 169, 67, 0.04) 100%
+          rgba(0, 212, 255, 0.07) 0%,
+          rgba(124, 58, 237, 0.05) 100%
         );
-        border: 1px solid rgba(212, 169, 67, 0.2);
-        border-radius: 14px;
-        padding: 18px 22px;
-        position: relative;
-        overflow: hidden;
+        border: 1px solid rgba(0, 212, 255, 0.15);
       }
-      .db::before {
+      .dream-box::before {
         content: "";
         position: absolute;
         top: 0;
@@ -655,163 +1048,329 @@
         background: linear-gradient(
           90deg,
           transparent,
-          rgba(212, 169, 67, 0.45),
+          rgba(0, 212, 255, 0.5),
           transparent
         );
       }
-      .dtag {
-        font-size: 0.65rem;
-        letter-spacing: 0.22em;
+      .dream-tag {
+        font-size: 0.6rem;
+        letter-spacing: 0.3em;
         text-transform: uppercase;
-        color: var(--gold);
-        margin-bottom: 5px;
+        color: var(--cyan);
+        margin-bottom: 4px;
+        font-weight: 600;
       }
-      .dval {
+      .dream-val {
         font-size: 1.05rem;
         font-weight: 600;
         color: var(--w);
-        margin-bottom: 14px;
-        font-family: "Cormorant Garamond", serif;
+        margin-bottom: 12px;
+        font-family: "Playfair Display", serif;
       }
-      .mtag {
-        font-size: 0.65rem;
-        letter-spacing: 0.22em;
+      .dream-quote-tag {
+        font-size: 0.6rem;
+        letter-spacing: 0.3em;
         text-transform: uppercase;
-        color: var(--gold);
-        margin-bottom: 5px;
+        color: var(--violet-lt);
+        margin-bottom: 4px;
+        font-weight: 600;
       }
-      .mval {
-        font-size: 0.9rem;
-        color: var(--wm);
+      .dream-quote {
+        font-size: 0.88rem;
+        color: var(--w60);
         font-style: italic;
-        line-height: 1.6;
+        line-height: 1.65;
       }
 
-      /* ── CONTROLS ── */
-      .ctl {
+      /* ════════════════════════
+       SLIDE PENUTUP KHUSUS
+    ════════════════════════ */
+      .card-closing {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 50px 40px;
+        background:
+          radial-gradient(
+            ellipse 80% 60% at 50% 40%,
+            rgba(0, 212, 255, 0.06) 0%,
+            transparent 60%
+          ),
+          var(--card-bg) !important;
+      }
+      .closing-content {
+        max-width: 660px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 7px;
-        /* Ganti fadeU menjadi fadeSimple agar properti transform tidak mengunci posisi tombol absolute */
-        animation: fadeSimple 0.9s 0.4s ease both;
+        gap: 22px;
       }
-      .crow {
+      .closing-tag {
+        font-size: 0.65rem;
+        letter-spacing: 0.45em;
+        text-transform: uppercase;
+        color: var(--cyan);
+        font-weight: 600;
+      }
+      .closing-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3.5rem, 7vw, 6rem);
+        font-weight: 900;
+        line-height: 1;
+        background: linear-gradient(
+          135deg,
+          var(--w) 0%,
+          var(--cyan-lt) 50%,
+          var(--cyan) 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 40px rgba(0, 212, 255, 0.3));
+      }
+      .closing-divider {
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: 18px;
+        width: 100%;
+        max-width: 320px;
       }
-      .tr {
-        position: relative;
-        width: 40px;
-        height: 40px;
+      .c-line {
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--cyan),
+          transparent
+        );
+        opacity: 0.5;
+      }
+      .c-gem {
+        color: var(--cyan);
+        font-size: 1rem;
+        animation: orbPulse 3s ease-in-out infinite;
+      }
+      .closing-quote {
+        font-family: "Playfair Display", serif;
+        font-style: italic;
+        font-size: clamp(1.1rem, 2vw, 1.5rem);
+        color: var(--w60);
+        line-height: 1.75;
+      }
+      .closing-footer {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-top: 8px;
+      }
+      .closing-school {
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--w);
+      }
+      .closing-year {
+        font-size: 0.82rem;
+        color: var(--cyan-lt);
+        letter-spacing: 0.12em;
+      }
+
+      /* ════════════════════════
+       PILL BAR KONTROL BAWAH
+    ════════════════════════ */
+      .controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        opacity: 0;
+        animation: fadeUp 0.8s 0.4s forwards;
+        flex-shrink: 0;
+      }
+
+      /* ── Pill container utama ── */
+      .pill-bar {
+        display: inline-flex;
+        align-items: center;
+        height: 48px;
+        padding: 0 6px;
+        border-radius: 999px;
+        background: rgba(8, 12, 30, 0.75);
+        border: 1px solid rgba(0, 212, 255, 0.18);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow:
+          0 4px 30px rgba(0, 0, 0, 0.5),
+          0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+          0 0 20px rgba(0, 212, 255, 0.04);
+        gap: 2px;
+      }
+
+      /* ── Setiap tombol dalam pill ── */
+      .pill-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: none;
+        background: transparent;
+        color: rgba(240, 244, 255, 0.55);
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+        position: relative;
       }
-      .tr svg {
+      .pill-btn svg {
+        width: 14px;
+        height: 14px;
+        pointer-events: none;
+      }
+      .pill-btn:hover {
+        background: rgba(0, 212, 255, 0.1);
+        color: var(--cyan);
+      }
+      .pill-btn:active {
+        transform: scale(0.9);
+      }
+
+      /* Tombol prev/next sedikit menonjol */
+      .pill-btn.nav {
+        color: rgba(240, 244, 255, 0.7);
+        font-size: 0.7rem;
+      }
+
+      /* Tombol play — lingkaran timer di dalamnya */
+      .timer-ring {
+        position: relative;
+        width: 38px;
+        height: 38px;
+        cursor: pointer;
+        flex-shrink: 0;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s ease;
+      }
+      .timer-ring:hover {
+        background: rgba(0, 212, 255, 0.1);
+      }
+      .timer-ring svg {
         transform: rotate(-90deg);
+        position: absolute;
+        inset: 0;
       }
-      .tt {
+      .tr-track {
         fill: none;
-        stroke: rgba(212, 169, 67, 0.2);
+        stroke: rgba(0, 212, 255, 0.12);
         stroke-width: 2.5;
       }
-      .tf {
+      .tr-fill {
         fill: none;
-        stroke: var(--gold);
+        stroke: var(--cyan);
         stroke-width: 2.5;
         stroke-linecap: round;
         stroke-dasharray: 97;
         stroke-dashoffset: 97;
         transition: stroke-dashoffset 0.1s linear;
       }
-      .ti {
-        position: absolute;
-        inset: 0;
+      .timer-icon {
+        position: relative;
+        z-index: 1;
+        font-size: 0.72rem;
+        color: rgba(240, 244, 255, 0.65);
+        user-select: none;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.76rem;
-        color: var(--gold);
-        user-select: none;
+        transition: color 0.2s;
       }
-      .tr:hover .ti {
-        color: var(--gold-lt);
+      .timer-ring:hover .timer-icon {
+        color: var(--cyan);
       }
-      .dots {
+
+      /* ── Pemisah vertikal di dalam pill ── */
+      .pill-sep {
+        width: 1px;
+        height: 22px;
+        flex-shrink: 0;
+        background: rgba(0, 212, 255, 0.12);
+        margin: 0 4px;
+      }
+
+      /* ── Dots indikator di dalam pill ── */
+      .dots-wrap {
         display: flex;
-        gap: 6px;
+        gap: 4px;
         align-items: center;
+        padding: 0 6px;
       }
       .dot {
         width: 5px;
         height: 5px;
         border-radius: 50%;
-        background: rgba(212, 169, 67, 0.22);
+        background: rgba(0, 212, 255, 0.2);
         cursor: pointer;
         transition: all 0.3s ease;
       }
-      .dot.a {
-        background: var(--gold);
-        width: 20px;
+      .dot.active {
+        background: var(--cyan);
+        width: 16px;
         border-radius: 3px;
-        box-shadow: 0 0 8px rgba(212, 169, 67, 0.55);
-      }
-      .cnt {
-        font-size: 0.72rem;
-        color: var(--wd);
-        letter-spacing: 0.12em;
-        min-width: 40px;
-        text-align: center;
-      }
-      .hint {
-        font-size: 0.64rem;
-        color: rgba(245, 240, 232, 0.28);
-        letter-spacing: 0.05em;
-        text-align: center;
+        box-shadow: 0 0 6px rgba(0, 212, 255, 0.7);
       }
 
-      /* ── FULLSCREEN BUTTON ── */
-      .fs-btn {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        border: 1px solid rgba(212, 169, 67, 0.35);
-        background: rgba(212, 169, 67, 0.07);
-        color: var(--gold);
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        backdrop-filter: blur(12px);
-        transition: all 0.25s ease;
-        flex-shrink: 0;
-      }
-      .fs-btn:hover {
-        background: var(--gold);
-        color: var(--bg);
-        border-color: var(--gold);
-        transform: scale(1.08);
-        box-shadow: 0 0 22px var(--glow);
-      }
-      .fs-btn:active {
-        transform: scale(0.95);
-      }
-      .fs-btn svg {
-        width: 15px;
-        height: 15px;
-        pointer-events: none;
+      /* ── Counter kecil ── */
+      .slide-counter {
+        font-size: 0.65rem;
+        color: rgba(240, 244, 255, 0.25);
+        letter-spacing: 0.1em;
+        min-width: 36px;
+        text-align: center;
+        padding: 0 4px;
       }
 
-      /* ── FULLSCREEN TOAST ── */
+      /* ── Hint keyboard ── */
+      .ctrl-hint {
+        font-size: 0.58rem;
+        color: rgba(240, 244, 255, 0.18);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 786px) {
+        .pill-bar {
+          height: 44px;
+        }
+        .pill-btn,
+        .timer-ring {
+          width: 36px;
+          height: 36px;
+        }
+        .slide-counter {
+          display: none;
+        }
+        .ctrl-hint {
+          display: none;
+        }
+      }
+
+      /* ─── TOAST FULLSCREEN ─── */
       #fs-toast {
         position: fixed;
-        top: 22px;
+        top: 20px;
         left: 50%;
-        transform: translateX(-50%) translateY(-6px);
-        background: rgba(212, 169, 67, 0.12);
-        border: 1px solid rgba(212, 169, 67, 0.3);
-        color: var(--gold-lt);
-        font-size: 0.72rem;
+        transform: translateX(-50%) translateY(-8px);
+        background: rgba(0, 212, 255, 0.1);
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        color: var(--cyan-lt);
+        font-size: 0.7rem;
         letter-spacing: 0.14em;
         text-transform: uppercase;
         padding: 7px 18px;
@@ -822,7 +1381,7 @@
         transition:
           opacity 0.3s ease,
           transform 0.3s ease;
-        z-index: 300;
+        z-index: 500;
         white-space: nowrap;
       }
       #fs-toast.show {
@@ -830,329 +1389,134 @@
         transform: translateX(-50%) translateY(0);
       }
 
-      /* ── KEYFRAMES ── */
-      @keyframes fadeD {
-        from {
-          opacity: 0;
-          transform: translateY(-18px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      @keyframes fadeU {
-        from {
-          opacity: 0;
-          transform: translateY(18px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      @keyframes fadeSimple {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-
-      /* ── RESPONSIVE ── */
-      @media (max-width: 786px) {
-        .pg {
-          padding: 14px 10px 12px;
-        }
-        .sz {
-          gap: 8px;
-        }
-        /* .nb {
-          width: 34px;
-          height: 34px;
-          font-size: 0.8rem;
-          flex-shrink: 0;
-        } */
-        .card {
-          flex-direction: column;
-        }
-        .cp {
-          width: 100%;
-          height: 230px;
-          flex-shrink: 0;
-        }
-        .cdv {
-          display: none;
-        }
-        .ci {
-          padding: 16px 20px 20px;
-        }
-        .photo-wrap {
-          width: 165px;
-          height: 165px;
-        }
-        .sname {
-          font-size: 1.75rem;
-        }
-        .sttl {
-          font-size: 0.8rem;
-        }
-        .irow {
-          font-size: 0.85rem;
-        }
-        .ilbl {
-          width: 80px;
-          font-size: 0.76rem;
-        }
-        .ival {
-          font-size: 0.87rem;
-        }
-        .dval {
-          font-size: 0.95rem;
-        }
-        .mval {
-          font-size: 0.82rem;
-        }
-        .orbit {
-          inset: -8px;
-        }
-        header h1 {
-          font-size: 1.25rem;
-        }
-        .badge {
-          font-size: 0.72rem;
-          letter-spacing: 0.2em;
-        }
-        .db {
-          padding: 14px 16px;
-        }
-        .itbl {
-          gap: 8px;
-          margin-bottom: 16px;
-        }
-        .hint {
-          display: none;
-        }
-
-        /* 1. Atur tombol panah agar ukurannya pas di handphone */
-        .nb {
-          position: static !important;
-          transform: none !important;
-          width: 44px;
-          height: 44px;
-          background: rgba(212, 169, 67, 0.12) !important;
-          border-color: rgba(212, 169, 67, 0.4) !important;
-        }
-
-        .nb:hover {
-          background: var(--gold);
-          color: var(--bg);
-          border-color: var(--gold);
-          /* Tambahkan kembali translateY(-50%) sebelum scale agar posisi vertikal tidak melompat */
-          transform: translateY(-50%) scale(1.08);
-          box-shadow: 0 0 22px var(--glow);
-        }
-        .nb:active {
-          transform: scale(0.9) !important;
-        }
-
-        /* 2. Atur baris kontrol bawah agar berjejer pas di layar HP */
-        .crow {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          gap: 10px; /* Jarak antar tombol di HP agar pas */
-          width: 100%;
-          padding: 0 5px;
-        }
-
-        .tr,
-        .fs-btn {
-          width: 44px;
-          height: 44px;
-        }
-
-        .ctl {
-          margin-top: 25px;
-          gap: 10px;
-        }
-      }
-
-      /* 3. TAMBAHKAN INI: Agar saat tampilan desktop komputer, tombol tetap melayang mewah di kiri-kanan kartu */
-      @media (min-width: 787px) {
-        #pBtn {
-          position: absolute;
-          left: 40px;
-          top: 50%;
-          transform: translateY(-50%);
-          z-index: 10;
-        }
-        #nBtn {
-          position: absolute;
-          right: 40px;
-          top: 50%;
-          transform: translateY(-50%);
-          z-index: 10;
-        }
-      }
-
-      @media (max-width: 400px) {
-        .cp {
-          height: 200px;
-        }
-        .photo-wrap {
-          width: 140px;
-          height: 140px;
-        }
-        .sname {
-          font-size: 1.5rem;
-        }
-        .ci {
-          padding: 12px 16px 16px;
-        }
-      }
-
-      /* ── SIDEBAR NAVIGATOR STYLE ── */
-      /* Tombol pemicu melayang di kanan tengah */
+      /* ═══════════════════════════
+       SIDEBAR NAVIGATOR
+    ═══════════════════════════ */
       .nav-toggle-btn {
         position: fixed;
         right: 0;
         top: 50%;
         transform: translateY(-50%);
-        background: var(--card);
-        border: 1px solid var(--gold);
+        background: var(--card-bg);
+        border: 1px solid var(--border);
         border-right: none;
-        color: var(--gold-lt);
-        padding: 16px 8px;
+        color: var(--cyan-lt);
+        padding: 14px 7px;
         border-radius: 10px 0 0 10px;
         cursor: pointer;
         z-index: 999;
-        box-shadow: -3px 0 15px rgba(0, 0, 0, 0.5);
+        box-shadow: -2px 0 16px rgba(0, 0, 0, 0.5);
         transition: all 0.3s ease;
+        backdrop-filter: blur(16px);
+        font-size: 1.2rem;
+        line-height: 1;
       }
       .nav-toggle-btn:hover {
-        color: #fff;
-        background: var(--gold-dk);
-        padding-right: 12px;
-      }
-      .nav-toggle-btn .arrow-icon {
-        display: inline-block;
-        font-size: 24px;
-        line-height: 1;
-        font-weight: bold;
+        color: var(--cyan);
+        padding-right: 10px;
+        background: rgba(0, 212, 255, 0.08);
       }
 
-      /* Panel Sidebar Keluar dari Kanan */
       .student-sidebar {
         position: fixed;
         right: 0;
         top: 0;
-        width: 320px;
+        width: 300px;
         height: 100%;
-        background: var(--bg2);
-        border-left: 1px solid rgba(212, 169, 67, 0.2);
-        box-shadow: -8px 0 30px rgba(0, 0, 0, 0.7);
+        background: rgba(6, 9, 19, 0.95);
+        border-left: 1px solid var(--border);
+        box-shadow: -8px 0 30px rgba(0, 0, 0, 0.8);
         z-index: 1000;
         transform: translateX(100%);
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
         display: flex;
         flex-direction: column;
+        backdrop-filter: blur(20px);
       }
-      /* Trigger saat aktif */
       .student-sidebar.open {
         transform: translateX(0);
       }
 
       .sidebar-header {
-        padding: 20px;
-        border-bottom: 1px solid rgba(212, 169, 67, 0.15);
+        padding: 18px 20px;
+        border-bottom: 1px solid rgba(0, 212, 255, 0.1);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: rgba(10, 18, 40, 0.6);
       }
       .sidebar-header h3 {
-        font-family: "Cormorant Garamond", serif;
-        color: var(--gold);
-        margin: 0;
-        font-size: 1.4rem;
+        font-family: "Playfair Display", serif;
+        color: var(--cyan);
+        font-size: 1.2rem;
         font-weight: 700;
-        letter-spacing: 1px;
       }
-      .sidebar-close-btn {
+      .sidebar-close {
         background: none;
         border: none;
-        color: var(--w);
-        font-size: 28px;
+        color: var(--w60);
+        font-size: 24px;
         cursor: pointer;
-        opacity: 0.6;
         line-height: 1;
-        transition:
-          opacity 0.2s,
-          color 0.2s;
+        transition: color 0.2s;
       }
-      .sidebar-close-btn:hover {
-        opacity: 1;
-        color: var(--gold-lt);
+      .sidebar-close:hover {
+        color: var(--cyan-lt);
       }
 
-      /* Area List Nama (Scrollable) */
       .sidebar-list {
         list-style: none;
-        padding: 10px 0;
+        padding: 8px 0;
         margin: 0;
         overflow-y: auto;
         flex: 1;
       }
       .sidebar-list::-webkit-scrollbar {
-        width: 6px;
+        width: 4px;
       }
       .sidebar-list::-webkit-scrollbar-thumb {
-        background: var(--gold-dk);
-        border-radius: 3px;
+        background: rgba(0, 212, 255, 0.25);
+        border-radius: 2px;
       }
 
       .sidebar-list li {
-        padding: 14px 24px;
+        padding: 12px 20px;
         color: var(--w);
-        font-family: "DM Sans", sans-serif;
-        font-size: 0.95rem;
+        font-size: 0.88rem;
         cursor: pointer;
         border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-        transition: all 0.25s ease;
+        transition: all 0.2s ease;
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
       }
       .sidebar-list li::before {
-        content: "✦";
-        color: var(--gold);
-        font-size: 0.7rem;
+        content: "◦";
+        color: var(--cyan);
         opacity: 0.3;
         transition: opacity 0.2s;
       }
       .sidebar-list li:hover {
-        background: rgba(212, 169, 67, 0.08);
-        color: var(--gold-lt);
-        padding-left: 30px;
+        background: rgba(0, 212, 255, 0.06);
+        color: var(--cyan-lt);
+        padding-left: 26px;
       }
       .sidebar-list li:hover::before {
         opacity: 1;
       }
-      /* Indikator Siswa yang sedang Aktif dilayar */
       .sidebar-list li.active {
-        background: rgba(212, 169, 67, 0.14);
-        color: var(--gold);
+        background: rgba(0, 212, 255, 0.1);
+        color: var(--cyan);
         font-weight: 600;
-        border-left: 4px solid var(--gold);
+        border-left: 3px solid var(--cyan);
+      }
+      .sidebar-list li.active::before {
+        opacity: 1;
       }
 
-      /* Lapisan Blur Gelap di Belakang Sidebar */
       .sidebar-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(0, 0, 0, 0.5);
+        background: rgba(0, 0, 0, 0.6);
         backdrop-filter: blur(3px);
         z-index: 998;
         opacity: 0;
@@ -1164,476 +1528,171 @@
         pointer-events: all;
       }
 
-      /* ── RESPONSIVE MOBILE TWEAKS ── */
-      @media (max-width: 600px) {
-        .student-sidebar {
-          width: 85%; /* Mengambil porsi layar lebih besar di HP agar teks terbaca jelas */
-        }
-        .sidebar-list li {
-          padding: 16px 20px; /* Area sentuh diperbesar agar mudah di-tap jari */
-        }
-        .nav-toggle-btn {
-          padding: 14px 6px;
-        }
-      }
-
-      /* ── TEMPLATE PREMIUM SLIDE PENUTUP (Bespoke Design) ── */
-      .card.card-penutup {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background: radial-gradient(
-          circle at center,
-          rgba(14, 22, 40, 0.96) 0%,
-          rgba(6, 9, 26, 0.99) 100%
-        ) !important;
-        padding: 60px 40px;
-        text-align: center;
-      }
-
-      .penutup-content {
-        max-width: 720px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 25px;
-      }
-
-      .penutup-badge {
-        font-size: 0.78rem;
-        letter-spacing: 0.45em;
-        color: var(--gold);
-        text-transform: uppercase;
-        font-weight: 600;
-        opacity: 0.9;
-      }
-
-      .penutup-title {
-        font-family: "Cormorant Garamond", serif;
-        font-size: clamp(3.2rem, 5.5vw, 5.5rem);
-        font-weight: 700;
-        line-height: 1.05;
-        background: linear-gradient(
-          135deg,
-          var(--w) 20%,
-          var(--gold-lt) 60%,
-          var(--gold) 100%
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
-        margin-bottom: 5px;
-      }
-
-      .penutup-divider {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        width: 100%;
-        max-width: 360px;
-        margin: 5px 0;
-      }
-
-      .p-line {
-        flex: 1;
-        height: 1px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          var(--gold),
-          transparent
-        );
-        opacity: 0.6;
-      }
-
-      .p-diamond {
-        color: var(--gold);
-        font-size: 1rem;
-        animation: pulseGlow 4s ease-in-out infinite;
-      }
-
-      @keyframes pulseGlow {
-        0%,
-        100% {
-          transform: scale(1);
-          opacity: 0.5;
-        }
-        50% {
-          transform: scale(1.25);
-          opacity: 1;
-          text-shadow: 0 0 10px var(--gold);
-        }
-      }
-
-      .penutup-quote {
-        font-family: "Cormorant Garamond", serif;
-        font-size: clamp(1.3rem, 2.2vw, 1.75rem);
-        color: var(--wm);
-        font-style: italic;
-        line-height: 1.7;
-        letter-spacing: 0.01em;
-      }
-
-      .penutup-footer {
-        margin-top: 20px;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-
-      .penutup-footer .sch-name {
-        font-size: 1.1rem;
-        font-weight: 600;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--w);
-      }
-
-      .penutup-footer .sch-year {
-        font-size: 0.85rem;
-        color: var(--gold-lt);
-        letter-spacing: 0.12em;
-      }
-
-      /* Kustomisasi Responsif Mobile untuk Penutup */
+      /* ═══════════════════════════
+       RESPONSIF MOBILE
+    ═══════════════════════════ */
       @media (max-width: 786px) {
-        .card.card-penutup {
-          padding: 30px 20px;
+        .app {
+          padding: 10px 8px 14px;
         }
-        .penutup-title {
-          font-size: 2.8rem;
+        .viewport {
+          margin: 0;
         }
-        .penutup-quote {
-          font-size: 1.15rem;
-          line-height: 1.6;
+
+        /* Tombol prev/next TETAP tampil di dalam pill */
+        #pBtn,
+        #nBtn {
+          display: flex !important;
         }
-        .penutup-content {
-          gap: 16px;
+
+        .card {
+          flex-direction: column;
         }
-      }
 
-      /* ── CINEMATIC INTRO SCREEN STYLE ── */
-      .intro-screen {
-        position: fixed;
-        inset: 0;
-        background: radial-gradient(circle at center, #0e1628 0%, #030611 100%);
-        z-index: 2000; /* Berada di atas seluruh elemen halaman */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 24px;
-        text-align: center;
-        overflow: hidden;
-        transition:
-          opacity 2s cubic-bezier(0.25, 1, 0.5, 1),
-          transform 2s cubic-bezier(0.25, 1, 0.5, 1),
-          filter 2s ease;
-        will-change: opacity, transform, filter;
-      }
-
-      /* Efek Keluar (Fade Out & Scale Up Menghilang Sempurna) */
-      .intro-screen.hidden {
-        opacity: 0;
-        transform: scale(1.05);
-        filter: blur(15px);
-        pointer-events: none;
-      }
-
-      .intro-content {
-        position: relative;
-        z-index: 2;
-        max-width: 850px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 18px;
-      }
-
-      .intro-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 0.85rem;
-        letter-spacing: 0.45em;
-        text-transform: uppercase;
-        color: var(--gold);
-        opacity: 0;
-        transform: translateY(20px);
-        animation: introFadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) forwards 0.3s;
-      }
-
-      .intro-title {
-        font-family: "Cormorant Garamond", serif;
-        font-size: clamp(2.5rem, 5.5vw, 4.8rem);
-        font-weight: 700;
-        line-height: 1.15;
-        letter-spacing: 0.02em;
-        background: linear-gradient(
-          135deg,
-          #ffffff 20%,
-          var(--gold-lt) 60%,
-          var(--gold) 100%
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        opacity: 0;
-        transform: translateY(30px);
-        animation: introFadeUp 1.3s cubic-bezier(0.25, 1, 0.5, 1) forwards 0.6s;
-        text-shadow: 0 0 40px rgba(214, 169, 67, 0.1);
-      }
-
-      .intro-subtitle {
-        font-family: "DM Sans", sans-serif;
-        font-size: clamp(1.2rem, 2.2vw, 2rem);
-        color: var(--wd);
-        letter-spacing: 0.08em;
-        font-weight: 300;
-        margin-top: -5px;
-        opacity: 0;
-        transform: translateY(20px);
-        animation: introFadeUp 1.1s cubic-bezier(0.25, 1, 0.5, 1) forwards 0.9s;
-      }
-
-      .intro-line {
-        width: 160px;
-        height: 1px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          var(--gold),
-          transparent
-        );
-        margin: 12px 0;
-        opacity: 0;
-        transform: scaleX(0);
-        animation: introScaleX 1.6s cubic-bezier(0.25, 1, 0.5, 1) forwards 1.2s;
-      }
-
-      .intro-meta {
-        font-size: 0.9rem;
-        color: rgba(245, 240, 232, 0.55);
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        opacity: 0;
-        animation: introFade 1.2s ease forwards 1.5s;
-      }
-
-      /* Luxury Premium Interactive Button */
-      .intro-btn {
-        margin-top: 40px;
-        background: linear-gradient(
-          135deg,
-          rgba(212, 169, 67, 0.12) 0%,
-          rgba(212, 169, 67, 0.03) 100%
-        );
-        border: 1px solid var(--gold);
-        color: var(--gold-lt);
-        padding: 16px 42px;
-        font-size: 0.95rem;
-        font-weight: 600;
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
-        border-radius: 50px;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-        transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-        box-shadow:
-          0 10px 30px rgba(0, 0, 0, 0.5),
-          inset 0 1px rgba(255, 255, 255, 0.05);
-        opacity: 0;
-        transform: translateY(20px);
-        animation: introFadeUp 1s cubic-bezier(0.25, 1, 0.5, 1) forwards 1.8s;
-      }
-
-      /* Efek Kilatan Cahaya Menyapu Tombol (Metallic Sweep) */
-      .intro-btn::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.25),
-          transparent
-        );
-        transition: left 5s ease;
-      }
-
-      .intro-btn:hover {
-        color: #06091a;
-        background: var(--gold);
-        transform: translateY(-4px) scale(1.03);
-        box-shadow:
-          0 15px 35px var(--glow),
-          0 5px 15px rgba(212, 169, 67, 0.2);
-      }
-
-      .intro-btn:hover::before {
-        left: 100%;
-      }
-
-      .intro-btn:active {
-        transform: translateY(-1px) scale(0.98);
-      }
-
-      .btn-sparkle {
-        display: inline-block;
-        margin-left: 4px;
-        color: var(--gold-lt);
-        transition: color 0.3s ease;
-      }
-      .intro-btn:hover .btn-sparkle {
-        color: #06091a;
-        animation: pulse 1s infinite;
-      }
-
-      /* Latar Belakang Lingkaran Ornamen Kosmik / Garis Halus */
-      .intro-ornament {
-        position: absolute;
-        width: 100vh;
-        height: 100vh;
-        border: 1px solid rgba(212, 169, 67, 0.04);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 1;
-        animation: spinA 75s linear infinite;
-      }
-
-      .intro-ornament-inner {
-        position: absolute;
-        inset: 50px;
-        border: 1px dashed rgba(212, 169, 67, 0.06);
-        border-radius: 50%;
-        animation: spinA 45s linear infinite reverse;
-      }
-
-      /* ── KEYFRAMES ANIMASI INTRO ── */
-      @keyframes introFadeUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
+        /* overflow visible agar label foto tidak terpotong border */
+        .card-photo {
+          width: 100%;
+          height: 260px;
+          padding-top: 16px;
+          flex-shrink: 0;
+          overflow: visible;
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+        .card-divider {
+          display: 0px;
         }
-      }
 
-      @keyframes introScaleX {
-        to {
-          opacity: 1;
-          transform: scaleX(1);
+        /* Kurangi padding info agar gap foto→nama lebih dekat */
+        .card-info {
+          padding: 8px 16px 14px;
         }
-      }
 
-      @keyframes introFade {
-        to {
-          opacity: 1;
+        /* Pindahkan label ke bawah foto supaya tidak tertutup border atas kartu */
+        .photo-label {
+          top: auto;
+          bottom: -28px;
         }
-      }
+        .photo-dots {
+          bottom: -20px;
+        }
 
-      /* Penyesuaian Responsif Layar Kecil (HP) */
-      @media (max-width: 600px) {
-        .intro-screen {
-          padding: 16px;
+        .photo-frame {
+          width: 240px;
+          height: 240px;
         }
-        .intro-badge {
+        .s-name {
+          font-size: 1.5rem;
+          margin-bottom: 2px;
+        }
+        .s-nomor {
+          margin-bottom: 10px;
+        }
+        .s-rule {
+          margin-bottom: 12px;
+        }
+        .info-label {
+          width: 72px;
           font-size: 0.7rem;
-          letter-spacing: 0.3em;
         }
-        .intro-btn {
-          padding: 14px 28px;
-          font-size: 0.85rem;
-          letter-spacing: 0.18em;
+        .info-val {
+          font-size: 0.8rem;
         }
-        .intro-line {
-          width: 100px;
+        .dream-val {
+          font-size: 0.9rem;
+          margin-bottom: 8px;
+        }
+        .dream-quote {
+          font-size: 0.78rem;
+        }
+        .card-number-bg {
+          font-size: 5rem;
+        }
+        .info-table {
+          gap: 6px;
+          margin-bottom: 12px;
+        }
+        .dream-box {
+          padding: 10px 12px;
+        }
+        .controls {
+          gap: 5px;
+        }
+        .student-sidebar {
+          width: 80%;
         }
       }
 
-      /* ── CINEMATIC REVEAL UNTUK CONTENT UTAMA ── */
-      /* Cukup animasikan pembungkus utama (.pg) agar tombol tidak terperangkap */
-      .pg,
-      .nav-toggle-btn {
-        opacity: 0 !important;
-        transform: scale(0.95);
-        filter: blur(10px);
-        transition:
-          opacity 1.4s cubic-bezier(0.34, 1.3, 0.64, 1),
-          transform 1.4s cubic-bezier(0.34, 1.3, 0.64, 1),
-          filter 1.4s ease;
-        will-change: opacity, transform, filter;
+      @media (max-width: 400px) {
+        .card-photo {
+          height: 210px;
+        }
+        .photo-frame {
+          width: 140px;
+          height: 140px;
+        }
+        .s-name {
+          font-size: 1.3rem;
+        }
+        .card-info {
+          padding: 6px 14px 12px;
+        }
       }
 
-      /* Tembakan animasi transisi masuk */
-      body.app-ready .pg,
-      body.app-ready .nav-toggle-btn {
-        opacity: 1 !important;
-        transform: scale(1);
-        filter: blur(0);
-      }
+      /* (nav button positions handled inside pill bar) */
 
-      /* ── GAYA UNTUK LOGO INSTANSI ── */
+      /* Logo instansi */
       .school-logos {
-        position: absolute;
-        top: 25px; /* Jarak dari atas */
+        position: fixed;
+        top: 12px;
         left: 0;
-        width: 100%;
+        right: 0;
         display: flex;
-        justify-content: space-between; /* Mendorong logo ke ujung kiri dan kanan */
-        padding: 0 40px; /* Jarak dari samping layar */
-        z-index: 99; /* Memastikan logo selalu di atas */
-        pointer-events: none; /* Agar logo tidak menghalangi klik/swipe layar */
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 16px;
+        z-index: 50;
+        pointer-events: none;
       }
-
       .school-logos img {
-        width: 45px; /* Ukuran default logo di laptop/PC */
+        width: 52px;
         height: auto;
-        filter: drop-shadow(
-          0 4px 8px rgba(0, 0, 0, 0.4)
-        ); /* Efek bayangan biar elegan */
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
         opacity: 0;
-        transform: translateY(-20px);
-        animation: logoFadeIn 1.2s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
+        transform: translateY(-16px);
+        animation: fadeDown 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
       }
-
-      /* Delay sedikit untuk logo agar muncul berbarengan dengan konten cinematic */
       .school-logos .logo-kiri {
-        animation-delay: 0.3s;
+        animation-delay: 0.2s;
       }
       .school-logos .logo-kanan {
-        animation-delay: 0.5s;
+        animation-delay: 0.4s;
       }
-
-      @keyframes logoFadeIn {
+      @keyframes fadeDown {
         to {
           opacity: 1;
           transform: translateY(0);
         }
       }
-
-      /* ── RESPONSIVE UNTUK HP ── */
       @media (max-width: 768px) {
-        .school-logos {
-          top: 15px;
-          padding: 0 20px; /* Jarak samping di HP lebih sempit */
-        }
         .school-logos img {
-          width: 45px; /* Ukuran logo di HP diperkecil */
+          width: 40px;
         }
+      }
+
+      /* Tilt hover efek */
+      .card.active {
+        transition:
+          border-color 1.5s ease,
+          box-shadow 1.5s ease;
       }
     </style>
   </head>
   <body>
-    <!-- ── LOGO INSTANSI KIRI & KANAN ── -->
+    <!-- Partikel holografik -->
+    <div id="particles-js"></div>
+    <div class="aurora-mesh"></div>
+    <div class="grid-floor"></div>
+
+    <!-- Logo instansi -->
     <div class="school-logos">
       <img src="logo/okut.png" alt="Logo Pemkab OKU Timur" class="logo-kiri" />
       <img
@@ -1643,62 +1702,131 @@
       />
     </div>
 
-    <!-- ── intro ── -->
-    <div class="intro-screen" id="introScreen">
-      <div class="intro-ornament">
-        <div class="intro-ornament-inner"></div>
-      </div>
+    <!-- Toast fullscreen -->
+    <div id="fs-toast"></div>
 
-      <div class="intro-content">
-        <div class="intro-badge">
-          <span class="bl"></span> SELAYANG PANDANG <span class="bl"></span>
-        </div>
-        <h1 class="intro-title">Pelepasan Siswa Kelas VI</h1>
-        <h2 class="intro-subtitle">SD Negeri 01 Totorejo</h2>
-        <div class="intro-line"></div>
-        <p class="intro-meta">Tahun Ajaran 2025/2026</p>
-
-        <button class="intro-btn" id="startIntroBtn">
-          Mulai Acara Pelepasan <span class="btn-sparkle">✦</span>
+    <!-- ═══════════════ LAYAR GERBANG ═══════════════ -->
+    <div id="welcomeScreen">
+      <div class="welcome-orb"></div>
+      <div class="welcome-inner">
+        <div class="welcome-chip">SD Negeri 01 Totorejo</div>
+        <h1 class="welcome-title">Pelepasan<br />Kelas VI</h1>
+        <p class="welcome-sub">
+          SD Negeri 01 Toto Rejo · Tahun Ajaran 2025/2026
+        </p>
+        <div class="welcome-line"></div>
+        <button id="welcomeBtn" class="welcome-btn">
+          <span class="btn-icon">◈</span>
+          Buka Layar Pelepasan
         </button>
       </div>
     </div>
 
-    <canvas id="cv"></canvas>
-    <div class="aurora"></div>
-    <div id="flash"></div>
-    <div id="fs-toast"></div>
+    <!-- ═══════════════ LAYAR INTRO ═══════════════ -->
+    <div id="introScreen">
+      <div class="intro-ring">
+        <div class="intro-ring-item"></div>
+        <div class="intro-ring-item"></div>
+        <div class="intro-ring-item"></div>
+        <div class="intro-ring-item"></div>
+      </div>
+      <div class="intro-content">
+        <div class="intro-tag">Selayang Pandang · Tahun 2026</div>
+        <h1 class="intro-title">Pelepasan Siswa<br />Kelas VI</h1>
+        <h2 class="intro-sub">SD Negeri 01 Toto Rejo</h2>
+        <div class="intro-divider">
+          <div class="intro-divider-line"></div>
+          <div class="intro-divider-gem">◈</div>
+          <div class="intro-divider-line"></div>
+        </div>
+        <p class="intro-year">Tahun Ajaran 2025/2026</p>
+      </div>
+    </div>
 
-    <div class="pg">
-      <header>
-        <h1>Pelepasan Siswa SD Negeri 01 Toto Rejo</h1>
-        <h1 class="sch">Tahun 2025/2026</h1>
-        <div class="gl2"></div>
-        <div class="gl"></div>
+    <!-- ═══════════════ APLIKASI UTAMA ═══════════════ -->
+    <div class="app" id="mainApp">
+      <header id="mainHeader">
+        <div class="header-chip">
+          <span class="h-dot"></span> Pelepasan Siswa
+          <span class="h-dot"></span>
+        </div>
+        <h1 class="header-title">SD Negeri 01 Toto Rejo</h1>
+        <p class="header-year">Tahun Ajaran 2025/2026</p>
+        <div class="header-rule"></div>
       </header>
 
-      <div class="sz">
-        <div class="vp" id="vp"></div>
+      <div class="stage">
+        <div class="viewport" id="viewport"></div>
       </div>
 
-      <div class="ctl">
-        <div class="crow">
-          <button class="nb" id="pBtn" title="Sebelumnya (←)">&#10094;</button>
-
-          <!-- Auto-play timer -->
-          <div class="tr" id="trEl" title="Auto-play (Spasi)">
-            <svg width="40" height="40" viewBox="0 0 40 40">
-              <circle class="tt" cx="20" cy="20" r="16.5" />
-              <circle class="tf" id="tfEl" cx="20" cy="20" r="16.5" />
+      <div class="controls">
+        <!-- ══ PILL BAR ══ -->
+        <div class="pill-bar">
+          <!-- Prev -->
+          <button class="pill-btn nav" id="pBtn" title="Sebelumnya (←)">
+            <svg
+              viewBox="0 0 10 16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="8,2 2,8 8,14" />
             </svg>
-            <div class="ti" id="tiEl">&#9654;</div>
+          </button>
+
+          <!-- Timer / Play-Pause -->
+          <div class="timer-ring" id="timerRing" title="Auto-play (Spasi)">
+            <svg width="38" height="38" viewBox="0 0 38 38">
+              <circle class="tr-track" cx="19" cy="19" r="16.5" />
+              <circle class="tr-fill" id="trFill" cx="19" cy="19" r="16.5" />
+            </svg>
+            <div class="timer-icon" id="timerIcon">&#9654;</div>
           </div>
 
-          <div class="dots" id="dotsEl"></div>
-          <span class="cnt" id="cntEl">1 / 1</span>
+          <!-- Next -->
+          <button class="pill-btn nav" id="nBtn" title="Selanjutnya (→)">
+            <svg
+              viewBox="0 0 10 16"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="2,2 8,8 2,14" />
+            </svg>
+          </button>
 
-          <!-- Fullscreen button -->
-          <button class="fs-btn" id="fsBtn" title="Fullscreen (F11)">
+          <!-- Separator -->
+          <div class="pill-sep"></div>
+
+          <!-- Dots indikator -->
+          <div class="dots-wrap" id="dotsWrap"></div>
+          <span class="slide-counter" id="slideCounter">1 / 1</span>
+
+          <!-- Separator -->
+          <div class="pill-sep"></div>
+
+          <!-- Musik (placeholder — hubungkan ke Audio jika ada file audio) -->
+          <button class="pill-btn" id="musicBtn" title="Musik Latar (opsional)">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M9 18V5l12-2v13" />
+              <circle cx="6" cy="18" r="3" />
+              <circle cx="18" cy="16" r="3" />
+            </svg>
+          </button>
+
+          <!-- Fullscreen -->
+          <button class="pill-btn" id="fsBtn" title="Fullscreen (F11)">
             <svg
               id="fsIcon"
               viewBox="0 0 15 15"
@@ -1711,102 +1839,81 @@
               <path d="M1 5V1h4M10 1h4v4M14 10v4h-4M5 14H1v-4" />
             </svg>
           </button>
-
-          <button class="nb" id="nBtn" title="Selanjutnya (→)">&#10095;</button>
         </div>
-
-        <p class="hint">
-          ← → Navigasi &nbsp;·&nbsp; Spasi Auto-play &nbsp;·&nbsp; F Flip Foto
-          &nbsp;·&nbsp; F11 Fullscreen
+        <!-- Hint keyboard -->
+        <p class="ctrl-hint">
+          ← → Navigasi &nbsp;·&nbsp; Spasi Auto-play &nbsp;·&nbsp; F Balik Foto
+          &nbsp;·&nbsp; F11 Layar Penuh
         </p>
       </div>
     </div>
 
-    <button
-      id="nav-toggle"
-      class="nav-toggle-btn"
-      aria-label="Buka Daftar Siswa"
-    >
-      <span class="arrow-icon">‹</span>
+    <!-- ═══════════════ SIDEBAR ═══════════════ -->
+    <button id="navToggle" class="nav-toggle-btn" aria-label="Daftar Siswa">
+      ‹
     </button>
-
-    <div id="student-sidebar" class="student-sidebar">
+    <div id="studentSidebar" class="student-sidebar">
       <div class="sidebar-header">
         <h3>Daftar Siswa</h3>
-        <button id="sidebar-close" class="sidebar-close-btn">&times;</button>
+        <button id="sidebarClose" class="sidebar-close">&times;</button>
       </div>
-      <ul id="sidebar-list" class="sidebar-list"></ul>
+      <ul id="sidebarList" class="sidebar-list"></ul>
     </div>
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
 
-    <div id="sidebar-overlay" class="sidebar-overlay"></div>
-
+    <!-- ═══════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════ -->
     <script>
-      /* ── STARFIELD ── */
-      (function () {
-        const c = document.getElementById("cv"),
-          ctx = c.getContext("2d");
-        let W,
-          H,
-          stars = [];
-        function rsz() {
-          W = c.width = innerWidth;
-          H = c.height = innerHeight;
-        }
-        function mk() {
-          return {
-            x: Math.random() * W,
-            y: Math.random() * H,
-            r: Math.random() * 1.4 + 0.25,
-            a: Math.random(),
-            da: (Math.random() - 0.5) * 0.007,
-            vy: Math.random() * 0.13 + 0.04,
-            gold: Math.random() < 0.13,
-          };
-        }
-        function init() {
-          stars = Array.from({ length: 190 }, mk);
-        }
-        function draw() {
-          ctx.clearRect(0, 0, W, H);
-          stars.forEach((s) => {
-            s.a += s.da;
-            if (s.a <= 0 || s.a >= 1) s.da *= -1;
-            s.y -= s.vy;
-            if (s.y + s.r < 0) {
-              s.y = H + s.r;
-              s.x = Math.random() * W;
-            }
-            ctx.save();
-            ctx.globalAlpha = s.a * 0.9;
-            ctx.fillStyle = s.gold ? "#F5D780" : "#FFFFFF";
-            ctx.beginPath();
-            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.restore();
-          });
-          requestAnimationFrame(draw);
-        }
-        rsz();
-        init();
-        draw();
-        window.addEventListener("resize", () => {
-          rsz();
-          init();
-        });
-      })();
+      /* ── PARTIKEL HOLOGRAFIK ── */
+      particlesJS("particles-js", {
+        particles: {
+          number: { value: 120, density: { enable: true, value_area: 900 } },
+          color: { value: ["#00d4ff", "#7c3aed", "#a78bfa", "#80eeff"] },
+          shape: { type: "circle" },
+          opacity: {
+            value: 0.45,
+            random: true,
+            anim: { enable: true, speed: 0.8, opacity_min: 0.05 },
+          },
+          size: {
+            value: 1.8,
+            random: true,
+            anim: { enable: true, speed: 2, size_min: 0.3 },
+          },
+          line_linked: {
+            enable: true,
+            distance: 130,
+            color: "#00d4ff",
+            opacity: 0.08,
+            width: 1,
+          },
+          move: {
+            enable: true,
+            speed: 0.6,
+            direction: "none",
+            random: true,
+            straight: false,
+            out_mode: "out",
+            bounce: false,
+          },
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: { enable: true, mode: "grab" },
+            onclick: { enable: true, mode: "push" },
+            resize: true,
+          },
+          modes: {
+            grab: { distance: 140, line_linked: { opacity: 0.25 } },
+            push: { particles_nb: 2 },
+          },
+        },
+        retina_detect: true,
+      });
 
-      /* ── DATA ── */
-      const GRADS = [
-        ["#0c1a3a", "#0d3d68"],
-        ["#180c3a", "#2a1265"],
-        ["#0c321c", "#0c5430"],
-        ["#2a1800", "#563200"],
-        ["#0c3535", "#0c5050"],
-        ["#270c34", "#4c0e62"],
-        ["#001828", "#003252"],
-        ["#261200", "#4e2700"],
-      ];
-
+      /* ── STATE ── */
       let students = [],
         cur = 0,
         transitioning = false,
@@ -1819,12 +1926,12 @@
         CIRC = 2 * Math.PI * 16.5;
       const flipState = {};
 
+      /* ── LOAD DATA ── */
       async function load() {
         try {
           const r = await fetch("data.json");
           students = await r.json();
         } catch {
-          // Roster fallback jika file data.json gagal dimuat
           students = [
             {
               nama: "Ahmad Fauzi",
@@ -1833,8 +1940,8 @@
               namaIbu: "Sri Wahyuni",
               citaCita: "Dokter Spesialis Anak",
               pesan: "Jadilah orang yang bermanfaat bagi sesama.",
-              foto: "...",
-              fotoCita: "...",
+              foto: "",
+              fotoCita: "",
             },
             {
               nama: "Siti Rahmawati",
@@ -1843,238 +1950,181 @@
               namaIbu: "Nurul Fadilah",
               citaCita: "Guru Bahasa Inggris",
               pesan: "Terus belajar dan jangan pernah menyerah.",
-              foto: "...",
-              fotoCita: "...",
+              foto: "",
+              fotoCita: "",
+            },
+            {
+              nama: "Budi Prasetyo",
+              ttl: "Totorejo, 3 Januari 2014",
+              namaAyah: "Suryanto",
+              namaIbu: "Dewi Lestari",
+              citaCita: "Insinyur Sipil",
+              pesan: "Kerja keras dan doa adalah kuncinya.",
+              foto: "",
+              fotoCita: "",
             },
           ];
         }
-
-        // PUSH SLIDE PENUTUP EXCLUSIVE KE AKHIR ARRAY
-        students.push({
-          isPenutup: true,
-        });
-
-        // Jalankan render bawaan kode kamu
+        students.push({ isPenutup: true });
         renderCards();
         buildDots();
-        show(0, true);
-        if (typeof renderSidebarNav === "function") {
-          renderSidebarNav();
-        }
-
-        // setTimeout(() => autoFlipActive(), 7000);
+        showCard(0, true);
+        renderSidebar();
       }
 
-      /* ── BUILD ── */
+      /* ── RENDER KARTU ── */
       function renderCards() {
-        const vp = document.getElementById("vp");
+        const vp = document.getElementById("viewport");
         vp.innerHTML = "";
-
         students.forEach((s, i) => {
           const el = document.createElement("div");
           el.className = "card";
-
-          // PERIKSA: Jika ini slide penutup, gunakan template profesional yang berbeda
           if (s.isPenutup) {
-            el.classList.add("card-penutup");
+            el.classList.add("card-closing");
             el.innerHTML = `
-        <div class="penutup-content ai" style="animation-delay:.15s">
-          <div class="penutup-badge">Masa Depan Menanti</div>
-          <h2 class="penutup-title">Terima Kasih</h2>
-          <div class="penutup-divider">
-            <span class="p-line"></span>
-            <span class="p-diamond">&#10022;</span>
-            <span class="p-line"></span>
+        <div class="closing-content ai" style="animation-delay:.1s">
+          <div class="closing-tag">Masa Depan Menanti</div>
+          <h2 class="closing-title">Terima Kasih</h2>
+          <div class="closing-divider">
+            <span class="c-line"></span>
+            <span class="c-gem">◈</span>
+            <span class="c-line"></span>
           </div>
-          <p class="penutup-quote">
-            "Masa depan adalah milik mereka yang percaya pada keindahan impian mereka. Teruslah melangkah, jagalah api semangat belajarmu, dan jadilah kebanggaan bagi nusa dan bangsa."
+          <p class="closing-quote">
+            "Masa depan adalah milik mereka yang percaya pada keindahan impian mereka.
+            Teruslah melangkah, jagalah api semangat belajarmu, dan jadilah kebanggaan
+            bagi nusa dan bangsa."
           </p>
-          <div class="penutup-footer">
-            <p class="sch-name">SD Negeri 01 Totorejo</p>
-            <p class="sch-year">Tahun Ajaran 2025/2026</p>
+          <div class="closing-footer">
+            <p class="closing-school">SD Negeri 01 Totorejo</p>
+            <p class="closing-year">Tahun Ajaran 2025/2026</p>
           </div>
-        </div>
-      `;
+        </div>`;
           } else {
-            // TEMPLATE BAWAAN UNTUK SISWA BIASA
+            const siswaNo = i + 1;
+            const initials = encodeURIComponent(s.nama);
             el.innerHTML = `
-        <div class="cp">
-          <div class="photo-wrap">
-            <div class="orbit"></div>
-            <div class="ring-spin"></div>
-            <div class="flip-scene" data-fi="${i}" title="Klik untuk lihat masa depan ✨">
+        <div class="card-photo">
+          <div class="photo-frame">
+            <div class="photo-orbit"></div>
+            <div class="photo-ring"></div>
+            <div class="flip-scene" data-fi="${i}" title="Klik untuk lihat cita-cita ✨">
               <div class="flip-front">
-                <img src="${s.foto}" alt="${s.nama}" onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(s.nama)}&fontSize=38'">
+                <img src="${s.foto}" alt="${s.nama}"
+                  onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed=${initials}&fontSize=38&backgroundColor=060913&textColor=00d4ff'">
               </div>
               <div class="flip-back">
-                <img src="${s.fotoCita || s.foto}" alt="${s.nama} — ${s.citaCita}" onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(s.nama + " Cita-cita")}&backgroundColor=0d3d68&textColor=f5d780&fontSize=38'">
+                <img src="${s.fotoCita || s.foto}" alt="${s.nama} — ${s.citaCita}"
+                  onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(s.nama + "Cita")}&fontSize=34&backgroundColor=0a0f22&textColor=a78bfa'">
               </div>
             </div>
-            <div class="photo-badge">
-              <div class="pb-dot pa" data-pi="${i}" data-side="0" title="Foto sekarang"></div>
-              <div class="pb-dot" data-pi="${i}" data-side="1" title="Foto masa depan"></div>
+            <div class="photo-dots">
+              <div class="pd pa" data-pi="${i}" data-side="0" title="Foto sekarang"></div>
+              <div class="pd"    data-pi="${i}" data-side="1" title="Foto cita-cita"></div>
             </div>
             <div class="photo-label" id="plbl-${i}">Foto Sekarang</div>
           </div>
         </div>
-        <div class="cdv"></div>
-        <div class="ci">
-          <h2 class="sname ai" style="animation-delay:.05s">${s.nama}</h2>
-          <p class="sttl ai" style="animation-delay:.13s">${s.ttl}</p>
-          <div class="sdiv ai" style="animation-delay:.5s"></div>
-          <div class="itbl">
-            <div class="irow ai" style="animation-delay:.5s">
-              <span class="ilbl">Nama Ayah</span><span class="idot">&#9670;</span><span class="ival">${s.namaAyah}</span>
+        <div class="card-divider"></div>
+        <div class="card-info">
+          <div class="card-number-bg">${String(siswaNo).padStart(2, "0")}</div>
+          <h2 class="s-name ai" style="animation-delay:.05s">${s.nama}</h2> 
+          <div class="s-rule ai" style="animation-delay:.18s"></div>
+          <div class="info-table">
+            <div class="info-row ai" style="animation-delay:.24s">
+              <span class="info-label">Tempat, Tgl Lahir</span>
+              <span class="info-sep">◆</span>
+              <span class="info-val">${s.ttl}</span>
             </div>
-            <div class="irow ai" style="animation-delay:.34s">
-              <span class="ilbl">Nama Ibu</span><span class="idot">&#9670;</span><span class="ival">${s.namaIbu}</span>
+            <div class="info-row ai" style="animation-delay:.30s">
+              <span class="info-label">Nama Ayah</span>
+              <span class="info-sep">◆</span>
+              <span class="info-val">${s.namaAyah}</span>
+            </div>
+            <div class="info-row ai" style="animation-delay:.36s">
+              <span class="info-label">Nama Ibu</span>
+              <span class="info-sep">◆</span>
+              <span class="info-val">${s.namaIbu}</span>
             </div>
           </div>
-          <div class="db ai" style="animation-delay:.42s">
-            <p class="dtag">&#10022; Cita-cita</p>
-            <p class="dval">${s.citaCita}</p>
-            <p class="mtag">&#10022; Pesan</p>
-            <p class="mval">"${s.pesan}"</p>
+          <div class="dream-box ai" style="animation-delay:.44s">
+            <p class="dream-tag">◈ Cita-cita</p>
+            <p class="dream-val">${s.citaCita}</p>
+            <p class="dream-quote-tag">◈ Pesan &amp; Kesan</p>
+            <p class="dream-quote">"${s.pesan}"</p>
           </div>
-        </div>
-      `;
+        </div>`;
           }
           vp.appendChild(el);
         });
 
-        // Pasang kembali event listener flip khusus slide siswa biasa
+        /* Event listener flip */
         document.querySelectorAll(".flip-scene").forEach((fs) => {
           fs.addEventListener("click", () => doFlip(parseInt(fs.dataset.fi)));
         });
-        document.querySelectorAll(".pb-dot").forEach((d) => {
+        document.querySelectorAll(".pd").forEach((d) => {
           d.addEventListener("click", (e) => {
             e.stopPropagation();
-            const idx = parseInt(d.dataset.pi),
-              side = parseInt(d.dataset.side);
+            const idx = parseInt(d.dataset.pi);
+            const side = parseInt(d.dataset.side);
             if (flipState[idx] !== (side === 1)) doFlip(idx);
+          });
+        });
+
+        /* Tilt 3D pada kartu desktop */
+        document.querySelectorAll(".card").forEach((c) => {
+          c.addEventListener("mousemove", (e) => {
+            if (!c.classList.contains("active")) return;
+            const r = c.getBoundingClientRect();
+            const mx = (e.clientX - r.left) / r.width - 0.5;
+            const my = (e.clientY - r.top) / r.height - 0.5;
+            c.style.transform = `perspective(1200px) rotateY(${mx * 6}deg) rotateX(${-my * 4}deg) scale(1.01)`;
+          });
+          c.addEventListener("mouseleave", () => {
+            c.style.transform = "";
           });
         });
       }
 
-      /* ── REFACTOR FUNGSI FLIP (Bebas Patah-Patah) ── */
-      /* ── FUNGSI FADE SUPER RINGAN ── */
+      /* ── FLIP FOTO ── */
       function doFlip(idx) {
         flipState[idx] = !flipState[idx];
         const flipped = flipState[idx];
         const scene = document.querySelector(`.flip-scene[data-fi="${idx}"]`);
         const lbl = document.getElementById(`plbl-${idx}`);
-        const dots = document.querySelectorAll(`.pb-dot[data-pi="${idx}"]`);
-
+        const dots = document.querySelectorAll(`.pd[data-pi="${idx}"]`);
         if (!scene) return;
-
-        // Terapkan efek fade lewat CSS class
         scene.classList.toggle("flipped", flipped);
-
-        // Ganti teks label dengan efek memudar menyesuaikan durasi foto
         if (lbl) {
           lbl.style.opacity = "0";
           setTimeout(() => {
-            lbl.textContent = flipped ? "Foto Masa Depan ✦" : "Foto Sekarang";
+            lbl.textContent = flipped ? "Foto Cita-cita ◈" : "Foto Sekarang";
             lbl.style.opacity = "1";
-          }, 1000); // Teks berganti tepat di pertengahan efek fade
+          }, 900);
         }
-
-        // Pindahkan indikator titik aktif
         dots.forEach((d, i) =>
           d.classList.toggle("pa", flipped ? i === 1 : i === 0),
         );
       }
 
-      function autoFlipActive() {
-        // Jika saat ini berada di slide penutup, hentikan proses auto-flip foto
-        if (students[cur] && students[cur].isPenutup) return;
-
-        // Otomatis membalik ke "Foto Cita-cita" jika saat ini masih "Foto Sekarang"
-        if (!flipState[cur]) {
-          doFlip(cur);
-        }
+      /* ── AUTO FLIP (7 detik setelah ganti slide) ── */
+      function autoFlipCheck() {
+        if (students[cur]?.isPenutup) return;
+        if (!flipState[cur]) doFlip(cur);
       }
 
-      /* ── TILT ── */
-      function tilt(e) {
-        const c = e.currentTarget,
-          r = c.getBoundingClientRect();
-        const mx = (e.clientX - r.left) / r.width - 0.5,
-          my = (e.clientY - r.top) / r.height - 0.5;
-        c.style.transform = `perspective(1200px) rotateY(${mx * 7}deg) rotateX(${-my * 5}deg) scale(1.012)`;
-        c.style.transition = "transform .12s ease";
-      }
-      function untilt(e) {
-        e.currentTarget.style.transform = "";
-        e.currentTarget.style.transition = "transform .6s ease";
-      }
-
-      /* ── DOTS ── */
-      function buildDots() {
-        const el = document.getElementById("dotsEl");
-        el.innerHTML = "";
-        if (students.length <= 16) {
-          students.forEach((_, i) => {
-            const d = document.createElement("div");
-            d.className = "dot";
-            d.addEventListener("click", () => goto(i));
-            el.appendChild(d);
-          });
-        }
-      }
-      function updDots() {
-        document
-          .querySelectorAll(".dot")
-          .forEach((d, i) => d.classList.toggle("a", i === cur));
-        document.getElementById("cntEl").textContent =
-          `${cur + 1} / ${students.length}`;
-      }
-
-      /* ── SHOW ── */
-      function show(idx, init = false) {
-        const cards = document.querySelectorAll(".card");
-        cards.forEach((c, i) => {
-          if (i === idx) {
-            c.classList.remove(
-              "to-left",
-              "to-right",
-              "from-right",
-              "from-left",
-            );
-            if (!init) {
-              c.classList.add(navDir === "next" ? "from-right" : "from-left");
-              void c.offsetWidth;
-            }
-            c.classList.add("active");
-            replayAnim(c);
-            if (flipState[i] === true) {
-              flipState[i] = false;
-              resetFlip(i);
-            }
-            setTimeout(() => {
-              if (cur === i) autoFlipActive();
-            }, 7000);
-          } else {
-            c.classList.remove("active", "from-right", "from-left");
-          }
-        });
-        updDots();
-      }
+      /* ── RESET FLIP ── */
       function resetFlip(idx) {
         const scene = document.querySelector(`.flip-scene[data-fi="${idx}"]`);
         const lbl = document.getElementById(`plbl-${idx}`);
-        const dots = document.querySelectorAll(`.pb-dot[data-pi="${idx}"]`);
+        const dots = document.querySelectorAll(`.pd[data-pi="${idx}"]`);
         if (scene) scene.classList.remove("flipped");
-        if (lbl) {
-          // Jika slide penutup gunakan teks "Pelepasan VI", jika siswa gunakan "Foto Sekarang"
-          lbl.textContent =
-            students[idx] && students[idx].isPenutup
-              ? "Pelepasan VI"
-              : "Foto Sekarang";
-        }
+        if (lbl) lbl.textContent = "Foto Sekarang";
         dots.forEach((d, i) => d.classList.toggle("pa", i === 0));
       }
-      function replayAnim(card) {
+
+      /* ── ANIMASI MASUK ULANG ── */
+      function replayAnimations(card) {
         card.querySelectorAll(".ai").forEach((el) => {
           el.style.animation = "none";
           void el.offsetHeight;
@@ -2082,63 +2132,103 @@
         });
       }
 
-      /* ── NAVIGATE ── */
+      /* ── DOTS & COUNTER ── */
+      function buildDots() {
+        const wrap = document.getElementById("dotsWrap");
+        wrap.innerHTML = "";
+        if (students.length <= 18) {
+          students.forEach((_, i) => {
+            const d = document.createElement("div");
+            d.className = "dot";
+            d.addEventListener("click", () => goto(i));
+            wrap.appendChild(d);
+          });
+        }
+      }
+      function updateDots() {
+        document
+          .querySelectorAll(".dot")
+          .forEach((d, i) => d.classList.toggle("active", i === cur));
+        document.getElementById("slideCounter").textContent =
+          `${cur + 1} / ${students.length}`;
+      }
+
+      /* ── SHOW SLIDE ── */
+      function showCard(idx, init = false) {
+        const cards = document.querySelectorAll(".card");
+        cards.forEach((c, i) => {
+          if (i === idx) {
+            c.classList.remove(
+              "exit-left",
+              "exit-right",
+              "enter-right",
+              "enter-left",
+            );
+            if (!init) {
+              c.classList.add(navDir === "next" ? "enter-right" : "enter-left");
+              void c.offsetWidth;
+            }
+            c.classList.add("active");
+            replayAnimations(c);
+            if (flipState[i]) {
+              flipState[i] = false;
+              resetFlip(i);
+            }
+            setTimeout(() => {
+              if (cur === i) autoFlipCheck();
+            }, 7000);
+          } else {
+            c.classList.remove("active", "enter-right", "enter-left");
+          }
+        });
+        updateDots();
+        updateSidebarActive();
+      }
+
+      /* ── NAVIGASI ── */
       function goto(idx) {
         if (transitioning || idx === cur) return;
         transitioning = true;
         navDir = idx > cur ? "next" : "prev";
         const prev = cur;
         cur = idx;
-        // const fl = document.getElementById("flash");
-        // fl.style.transition = "none";
-        // fl.style.opacity = "1";
-        // setTimeout(() => {
-        //   fl.style.transition = "opacity 0.5s ease";
-        //   fl.style.opacity = "0";
-        // }, 1500);
         const cards = document.querySelectorAll(".card");
         cards[prev].classList.remove("active");
-        cards[prev].classList.add(navDir === "next" ? "to-left" : "to-right");
+        cards[prev].classList.add(
+          navDir === "next" ? "exit-left" : "exit-right",
+        );
         setTimeout(() => {
-          cards[prev].classList.remove("to-left", "to-right");
+          cards[prev].classList.remove("exit-left", "exit-right");
           transitioning = false;
-        }, 2500);
-        setTimeout(() => show(cur), 1000);
+        }, 800);
+        setTimeout(() => showCard(cur), 300);
         if (ap) restartTimer();
       }
+
       function chg(d) {
         const n = students.length;
-        let nextIdx = cur + d;
-
-        // ── TAMBAHAN BARU: Jika sudah di slide akhir dan mencoba maju lagi ──
-        if (nextIdx >= n) {
-          if (ap) toggleAP(); // Otomatis matikan Autoplay (berhenti berputar)
-          return; // Berhenti di sini, jangan biarkan kembali ke awal
-        }
-
-        // Proteksi jika menekan tombol kembali di slide pertama agar tidak loop ke akhir
-        if (nextIdx < 0) {
+        let next = cur + d;
+        if (next >= n) {
+          if (ap) toggleAP();
           return;
         }
-
-        goto(nextIdx);
-        if (typeof updateSidebarActive === "function") {
-          updateSidebarActive();
-        }
+        if (next < 0) return;
+        goto(next);
       }
 
       /* ── AUTOPLAY ── */
-      const tfEl = document.getElementById("tfEl"),
-        tiEl = document.getElementById("tiEl");
-      tfEl.style.strokeDasharray = CIRC;
-      tfEl.style.strokeDashoffset = CIRC;
+      const trFill = document.getElementById("trFill");
+      const timerIcon = document.getElementById("timerIcon");
+      trFill.style.strokeDasharray = CIRC;
+      trFill.style.strokeDashoffset = CIRC;
+
       function toggleAP() {
         ap = !ap;
-        tiEl.innerHTML = ap ? "&#9646;&#9646;" : "&#9654;";
+        timerIcon.innerHTML = ap ? "&#9646;&#9646;" : "&#9654;";
         if (ap) startTimer();
         else {
           stopTimer();
-          tfEl.style.strokeDashoffset = CIRC;
+          trFill.style.strokeDashoffset = CIRC;
         }
       }
       function startTimer() {
@@ -2154,73 +2244,76 @@
       function restartTimer() {
         stopTimer();
         tElapsed = 0;
-        tfEl.style.strokeDashoffset = CIRC;
+        trFill.style.strokeDashoffset = CIRC;
         if (ap) startTimer();
       }
       function tickTimer() {
         const now = performance.now();
         tElapsed = now - tStart;
         const p = Math.min(tElapsed / AUTO, 1);
-        tfEl.style.strokeDashoffset = CIRC * (1 - p);
+        trFill.style.strokeDashoffset = CIRC * (1 - p);
         if (p >= 1) {
           chg(1);
-          //   tElapsed = 0;
-          //   tStart = performance.now();
-          //   tRaf = requestAnimationFrame(tickTimer);
           return;
         }
-        if (ap) {
-          tRaf = requestAnimationFrame(tickTimer);
-        }
+        if (ap) tRaf = requestAnimationFrame(tickTimer);
       }
-      document.getElementById("trEl").addEventListener("click", toggleAP);
+      document.getElementById("timerRing").addEventListener("click", toggleAP);
 
-      /* ════════════════════════════════════════
-         ── FULLSCREEN ──
-         Shortcut : F11  (keyboard)
-         Tombol   : fsBtn (klik)
-      ════════════════════════════════════════ */
-      const fsBtn = document.getElementById("fsBtn");
-      const fsIcon = document.getElementById("fsIcon");
-      const fsToast = document.getElementById("fs-toast");
-
-      /* SVG paths untuk dua state */
-      const ICON_ENTER = "M1 5V1h4M10 1h4v4M14 10v4h-4M5 14H1v-4"; /* expand */
-      const ICON_EXIT = "M5 1v4H1M9 1v4h4M9 13v-4h4M5 13v-4H1"; /* compress */
-
+      /* ── FULLSCREEN ── */
+      const ICON_ENTER = "M1 5V1h4M10 1h4v4M14 10v4h-4M5 14H1v-4";
+      const ICON_EXIT = "M5 1v4H1M9 1v4h4M9 13v-4h4M5 13v-4H1";
       let toastTimer = null;
       function showToast(msg) {
-        fsToast.textContent = msg;
-        fsToast.classList.add("show");
+        const t = document.getElementById("fs-toast");
+        t.textContent = msg;
+        t.classList.add("show");
         clearTimeout(toastTimer);
-        toastTimer = setTimeout(() => fsToast.classList.remove("show"), 2200);
+        toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
       }
-
       function updateFsIcon() {
         const isFs = !!document.fullscreenElement;
-        fsIcon
+        document
+          .getElementById("fsIcon")
           .querySelector("path")
           .setAttribute("d", isFs ? ICON_EXIT : ICON_ENTER);
-        fsBtn.title = isFs
-          ? "Keluar Fullscreen (F11 / Esc)"
-          : "Fullscreen (F11)";
       }
-
       function toggleFullscreen() {
         if (!document.fullscreenElement) {
           document.documentElement
             .requestFullscreen({ navigationUI: "hide" })
-            .then(() => showToast("✦ Fullscreen — tekan Esc untuk keluar"))
+            .then(() => showToast("◈ Fullscreen — tekan Esc untuk keluar"))
             .catch(() => showToast("Fullscreen tidak didukung browser ini"));
         } else {
           document.exitFullscreen().then(() => showToast("Keluar Fullscreen"));
         }
       }
-
-      fsBtn.addEventListener("click", toggleFullscreen);
-
+      document
+        .getElementById("fsBtn")
+        .addEventListener("click", toggleFullscreen);
       document.addEventListener("fullscreenchange", updateFsIcon);
-      document.addEventListener("webkitfullscreenchange", updateFsIcon);
+
+      /* ── MUSIK (opsional — letakkan file audio/backsound.mp3 di folder audio/) ── */
+      let audio = null,
+        musicOn = false;
+      const musicBtn = document.getElementById("musicBtn");
+      musicBtn.addEventListener("click", () => {
+        if (!audio) {
+          audio = new Audio("audio/backsound.mp3");
+          audio.loop = true;
+          audio.volume = 0.4;
+        }
+        musicOn = !musicOn;
+        if (musicOn) {
+          audio.play().catch(() => {}); // Abaikan error jika file tidak ada
+          musicBtn.style.color = "var(--cyan)";
+          musicBtn.style.background = "rgba(0,212,255,0.1)";
+        } else {
+          audio.pause();
+          musicBtn.style.color = "";
+          musicBtn.style.background = "";
+        }
+      });
 
       /* ── KEYBOARD ── */
       document.addEventListener("keydown", (e) => {
@@ -2236,13 +2329,13 @@
         }
       });
 
-      /* ── TOUCH ── */
+      /* ── TOUCH SWIPE ── */
       let tx0 = 0;
-      const vpEl = document.getElementById("vp");
-      vpEl.addEventListener("touchstart", (e) => (tx0 = e.touches[0].clientX), {
+      const vp = document.getElementById("viewport");
+      vp.addEventListener("touchstart", (e) => (tx0 = e.touches[0].clientX), {
         passive: true,
       });
-      vpEl.addEventListener(
+      vp.addEventListener(
         "touchend",
         (e) => {
           const dx = e.changedTouches[0].clientX - tx0;
@@ -2254,105 +2347,73 @@
       document.getElementById("pBtn").addEventListener("click", () => chg(-1));
       document.getElementById("nBtn").addEventListener("click", () => chg(1));
 
-      load();
+      /* ── SIDEBAR ── */
+      const sidebar = document.getElementById("studentSidebar");
+      const sidebarOverlay = document.getElementById("sidebarOverlay");
+      const navToggle = document.getElementById("navToggle");
 
-      /* ── LOGIKA SIDEBAR NAVIGATOR ── */
-      const navToggle = document.getElementById("nav-toggle");
-      const sidebar = document.getElementById("student-sidebar");
-      const sidebarClose = document.getElementById("sidebar-close");
-      const sidebarOverlay = document.getElementById("sidebar-overlay");
-      const sidebarList = document.getElementById("sidebar-list");
-
-      // Fungsi Buka / Tutup Menu
       function toggleSidebar() {
         const isOpen = sidebar.classList.toggle("open");
         sidebarOverlay.classList.toggle("open", isOpen);
-        // Sembunyikan tombol kecil pemicu saat menu terbuka agar bersih
         navToggle.style.transform = isOpen
           ? "translateY(-50%) translateX(100%)"
           : "translateY(-50%)";
       }
-
       navToggle.addEventListener("click", toggleSidebar);
-      sidebarClose.addEventListener("click", toggleSidebar);
+      document
+        .getElementById("sidebarClose")
+        .addEventListener("click", toggleSidebar);
       sidebarOverlay.addEventListener("click", toggleSidebar);
 
-      // Render Otomatis Nama Siswa ke Sidebar
-      function renderSidebarNav() {
-        sidebarList.innerHTML = "";
-
-        // Menggunakan variabel 'students' sesuai dengan kode Anda
-        if (typeof students !== "undefined" && Array.isArray(students)) {
-          students.forEach((item, idx) => {
-            // ── TAMBAHAN BARU: Skip slide penutup agar tidak muncul di daftar nama siswa ──
-            if (item.isPenutup) return;
-
-            const li = document.createElement("li");
-            li.textContent = item.nama || `Siswa ${idx + 1}`;
-            li.setAttribute("data-idx", idx);
-
-            if (idx === cur) li.classList.add("active");
-
-            // Mekanisme Lompat ke Foto Siswa Pilihan
-            li.addEventListener("click", () => {
-              if (idx !== cur) {
-                const diff = idx - cur;
-                chg(diff); // Memanggil fungsi perubahan slide bawaan kode Anda
-              }
-              toggleSidebar(); // Otomatis tutup sidebar setelah memilih
-            });
-
-            sidebarList.appendChild(li);
+      function renderSidebar() {
+        const list = document.getElementById("sidebarList");
+        list.innerHTML = "";
+        students.forEach((s, idx) => {
+          if (s.isPenutup) return;
+          const li = document.createElement("li");
+          li.textContent = s.nama || `Siswa ${idx + 1}`;
+          li.setAttribute("data-idx", idx);
+          if (idx === cur) li.classList.add("active");
+          li.addEventListener("click", () => {
+            if (idx !== cur) goto(idx);
+            toggleSidebar();
           });
-        }
-      }
-
-      // Fungsi untuk meng-update status 'active' di sidebar saat user klik tombol next/prev bawaan
-      function updateSidebarActive() {
-        const items = sidebarList.querySelectorAll("li");
-        items.forEach((item, idx) => {
-          item.classList.toggle("active", idx === cur);
+          list.appendChild(li);
         });
       }
 
-      /* ══════════════════════════════════════════════════════
-   ── CONTROLLER CINEMATIC INTRO SCREEN ──
-   Membuka tirai intro, mengizinkan audio/fitur otomatis
-   ══════════════════════════════════════════════════════ */
+      function updateSidebarActive() {
+        document.querySelectorAll("#sidebarList li").forEach((li) => {
+          li.classList.toggle("active", parseInt(li.dataset.idx) === cur);
+        });
+      }
+
+      /* ── WELCOME SCREEN ── */
       document.addEventListener("DOMContentLoaded", () => {
+        const welcomeScreen = document.getElementById("welcomeScreen");
+        const welcomeBtn = document.getElementById("welcomeBtn");
         const introScreen = document.getElementById("introScreen");
-        const startBtn = document.getElementById("startIntroBtn");
 
-        if (startBtn && introScreen) {
-          startBtn.addEventListener("click", () => {
-            // 1. Jalankan animasi hilangnya tirai intro
+        welcomeBtn.addEventListener("click", () => {
+          welcomeScreen.classList.add("hidden");
+          setTimeout(() => {
             introScreen.classList.add("hidden");
-
-            // 2. ── SENTUHAN BARU: Picu animasi masuk untuk Slide Pertama ──
-            // Diberi jeda 250ms agar seirama dengan efek memudarnya tirai pembuka
             setTimeout(() => {
-              document.body.classList.add("app-ready");
-            }, 250);
-
-            // 3. Hapus elemen intro dari DOM setelah benar-benar hilang
+              document.getElementById("mainHeader").classList.add("visible");
+            }, 200);
             setTimeout(() => {
               introScreen.remove();
-            }, 1400);
-
-            // 4. Jalankan Autoplay
-            if (
-              typeof toggleAP === "function" &&
-              typeof ap !== "undefined" &&
-              !ap
-            ) {
-              // Jeda waktu autoplay disesuaikan agar menunggu slide pertama selesai transisi
-              setTimeout(() => {
-                toggleAP();
-              }, 1500);
-            }
-          });
-        }
+              welcomeScreen.remove();
+            }, 1800);
+            setTimeout(() => {
+              if (typeof toggleAP === "function" && !ap) toggleAP();
+            }, 1600);
+          }, 4800);
+        });
       });
+
+      /* ── INIT ── */
+      load();
     </script>
   </body>
 </html>

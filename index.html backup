@@ -229,7 +229,6 @@
         perspective: 1200px;
       }
 
-      /* ── PREMIUM ANGLED WIPE TRANSITION (GANTI KODE LAMA KAMU) ── */
       .card {
         position: absolute;
         inset: 0;
@@ -243,49 +242,43 @@
         box-shadow:
           0 0 0 1px rgba(255, 255, 255, 0.03) inset,
           0 40px 80px rgba(0, 0, 0, 0.6);
-        
-        /* KUNCI UTAMA: Kita pakai transisi clip-path yang super halus */
-        transition: 
-          clip-path 2.2s cubic-bezier(0.76, 0, 0.24, 1),
-          visibility 2.2s;
-        will-change: clip-path;
-        
+        opacity: 0;
         visibility: hidden;
         pointer-events: none;
+        transition:
+          opacity 2.5s cubic-bezier(0.4, 0, 0.2, 1),
+          transform 2.5s cubic-bezier(0.4, 0, 0.2, 1),
+          visibility 2.5s;
+        will-change: transform, opacity;
       }
-
-      /* Keadaan awal: Bersiap di sebelah kanan dengan potongan miring (diagonal) */
       .card.from-right {
-        visibility: hidden;
-        clip-path: polygon(100% 0, 140% 0, 100% 100%, 60% 100%);
+        transform: translateX(90px) scale(0.94);
+        opacity: 0;
       }
-
-      /* Keadaan awal: Bersiap di sebelah kiri */
       .card.from-left {
-        visibility: hidden;
-        clip-path: polygon(-40% 0, 0 0, -40% 100%, -40% 100%);
+        transform: translateX(-90px) scale(0.94);
+        opacity: 0;
       }
-
-      /* Saat Aktif: Topeng terbuka penuh menyapu seluruh kartu */
       .card.active {
+        opacity: 0.7;
         visibility: visible;
         pointer-events: all;
-        clip-path: polygon(0 0, 140% 0, 100% 100%, -40% 100%);
+        transform: translateX(0) scale(1);
         animation: borderPulse 5s ease 1.2s infinite;
       }
-
-      /* Saat Keluar ke Kiri: Tersapu habis ke arah kiri */
       .card.to-left {
+        opacity: 0;
         visibility: hidden;
         pointer-events: none;
-        clip-path: polygon(-40% 0, 0 0, -40% 100%, -40% 100%);
+        transform: translateX(-90px) scale(0.94);
+        transition-duration: 2.5s;
       }
-
-      /* Saat Keluar ke Kanan */
       .card.to-right {
+        opacity: 0;
         visibility: hidden;
         pointer-events: none;
-        clip-path: polygon(100% 0, 140% 0, 100% 100%, 60% 100%);
+        transform: translateX(90px) scale(0.94);
+        transition-duration: 2.5s;
       }
       @keyframes borderPulse {
         0%,
@@ -1637,6 +1630,61 @@
           width: 45px; /* Ukuran logo di HP diperkecil */
         }
       }
+
+      /* ── GAYA VISUAL LAYAR GERBANG UTAMA ── */
+      #welcomeScreen {
+        position: fixed;
+        inset: 0;
+        background: #06091a; /* Menyelaraskan dengan background aplikasi */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999; /* Berada di lapisan paling atas saat dimuat */
+        transition:
+          opacity 1s ease,
+          visibility 1s ease;
+        text-align: center;
+        padding: 20px;
+      }
+      #welcomeScreen.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      .welcome-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 2.8rem;
+        color: #f5f0e8;
+        margin-bottom: 5px;
+        letter-spacing: 2px;
+      }
+      .welcome-subtitle {
+        font-family: "DM Sans", sans-serif;
+        font-size: 1.1rem;
+        color: #d4a943;
+        margin-bottom: 40px;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+      }
+      .welcome-btn {
+        padding: 16px 42px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #06091a;
+        background: linear-gradient(135deg, #d4a943, #f5d780);
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 8px 25px rgba(212, 169, 67, 0.25);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        letter-spacing: 1px;
+      }
+      .welcome-btn:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 15px 35px rgba(212, 169, 67, 0.45);
+      }
     </style>
   </head>
   <body>
@@ -1648,6 +1696,12 @@
         alt="Logo Tut Wuri Handayani"
         class="logo-kanan"
       />
+    </div>
+
+    <div id="welcomeScreen">
+      <h1 class="welcome-title">Selamat Datang</h1>
+      <p class="welcome-subtitle">SD Negeri 01 Totorejo</p>
+      <button id="welcomeBtn" class="welcome-btn">BUKA LAYAR PELEPASAN</button>
     </div>
 
     <!-- ── intro ── -->
@@ -1664,10 +1718,6 @@
         <h2 class="intro-subtitle">SD Negeri 01 Totorejo</h2>
         <div class="intro-line"></div>
         <p class="intro-meta">Tahun Ajaran 2025/2026</p>
-
-        <button class="intro-btn" id="startIntroBtn">
-          Mulai Acara Pelepasan <span class="btn-sparkle">✦</span>
-        </button>
       </div>
     </div>
 
@@ -2323,40 +2373,50 @@
       }
 
       /* ══════════════════════════════════════════════════════
-   ── CONTROLLER CINEMATIC INTRO SCREEN ──
-   Membuka tirai intro, mengizinkan audio/fitur otomatis
+   ── CONTROLLER GERBANG UTAMA & AUTOMATIC INTRO ──
    ══════════════════════════════════════════════════════ */
       document.addEventListener("DOMContentLoaded", () => {
+        const welcomeScreen = document.getElementById("welcomeScreen");
+        const welcomeBtn = document.getElementById("welcomeBtn");
         const introScreen = document.getElementById("introScreen");
-        const startBtn = document.getElementById("startIntroBtn");
 
-        if (startBtn && introScreen) {
-          startBtn.addEventListener("click", () => {
-            // 1. Jalankan animasi hilangnya tirai intro
-            introScreen.classList.add("hidden");
+        if (welcomeBtn && welcomeScreen && introScreen) {
+          welcomeBtn.addEventListener("click", () => {
+            // 1. Hilangkan gerbang utama, layar Intro langsung aktif di belakangnya
+            welcomeScreen.classList.add("hidden");
 
-            // 2. ── SENTUHAN BARU: Picu animasi masuk untuk Slide Pertama ──
-            // Diberi jeda 250ms agar seirama dengan efek memudarnya tirai pembuka
+            // TIPS OPTIONAL: Jika Anda punya file audio musik latar, jalankan di sini!
+            // contoh: let lagu = new Audio('audio/backsound.mp3'); lagu.play();
+
+            // 2. TIMING OTOMATIS: Biarkan animasi teks intro berjalan sendiri tanpa tombol
+            // Angka 4500 artinya intro tampil selama 4,5 detik sebelum pindah otomatis ke slide.
+            // Anda bebas mengubah durasi ini (dalam milidetik) sesuai panjang teks intro Anda.
             setTimeout(() => {
-              document.body.classList.add("app-ready");
-            }, 250);
+              // Jalankan transisi memudarnya tirai pembuka secara otomatis
+              introScreen.classList.add("hidden");
 
-            // 3. Hapus elemen intro dari DOM setelah benar-benar hilang
-            setTimeout(() => {
-              introScreen.remove();
-            }, 1400);
-
-            // 4. Jalankan Autoplay
-            if (
-              typeof toggleAP === "function" &&
-              typeof ap !== "undefined" &&
-              !ap
-            ) {
-              // Jeda waktu autoplay disesuaikan agar menunggu slide pertama selesai transisi
+              // Picu transisi cinematic masuk untuk Slide Pertama (Kartu Siswa ke-1)
               setTimeout(() => {
-                toggleAP();
-              }, 1500);
-            }
+                document.body.classList.add("app-ready");
+              }, 250);
+
+              // Hapus elemen sampah agar tidak memperberat memori browser
+              setTimeout(() => {
+                introScreen.remove();
+                welcomeScreen.remove();
+              }, 1400);
+
+              // Aktifkan Fitur Autoplay pergantian slide otomatis
+              if (
+                typeof toggleAP === "function" &&
+                typeof ap !== "undefined" &&
+                !ap
+              ) {
+                setTimeout(() => {
+                  toggleAP();
+                }, 1500);
+              }
+            }, 4500); // <── ATUR DURASI INTRO DI SINI (4500 = 4,5 Detik)
           });
         }
       });
