@@ -13,8 +13,11 @@
     <!-- GSAP untuk animasi sinematik premium -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/CustomEase.min.js"></script>
-    <!-- Particles.js untuk efek partikel holografik -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+
+    <!-- <script src="js/gsap.min.js"></script>
+    <script src="js/CustomEase.min.js"></script>
+    <script src="js/particles.min.js"></script> -->
     <style>
       /* ════════════════════════════════════════════
        DESIGN SYSTEM — "GALAKSI IMPIAN"
@@ -58,6 +61,12 @@
         background: var(--bg);
         font-family: "Outfit", sans-serif;
         color: var(--w);
+
+        /* TAMBAHKAN BARIS DI BAWAH INI */
+        user-select: none;
+        -webkit-user-select: none; /* Untuk Safari */
+        -moz-user-select: none; /* Untuk Firefox */
+        -ms-user-select: none; /* Untuk IE/Edge */
       }
 
       /* Gunakan dvh (dynamic viewport height) agar address bar HP tidak memotong */
@@ -997,7 +1006,7 @@
         bottom: -20px;
         right: -10px;
         font-family: "Playfair Display", serif;
-        font-size: 10rem;
+        font-size: 13rem;
         font-weight: 900;
         line-height: 1;
         color: rgba(0, 212, 255, 0.03);
@@ -1799,6 +1808,24 @@
               <circle cx="18" cy="16" r="3" />
             </svg>
           </button>
+          <button
+            id="welcomeFsBtn"
+            class="welcome-music-btn"
+            title="Fullscreen (F11)"
+          >
+            <svg
+              id="welcomeFsIcon"
+              viewBox="0 0 15 15"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              style="width: 12px; height: 12px"
+            >
+              <path d="M1 5V1h4M10 1h4v4M14 10v4h-4M5 14H1v-4" />
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -2205,8 +2232,20 @@
         const scene = document.querySelector(`.flip-scene[data-fi="${idx}"]`);
         const lbl = document.getElementById(`plbl-${idx}`);
         const dots = document.querySelectorAll(`.pd[data-pi="${idx}"]`);
-        if (scene) scene.classList.remove("flipped");
-        if (lbl) lbl.textContent = "Foto Sekarang";
+
+        if (scene) {
+          scene.style.transition = "none"; // 1. Matikan animasi transisi CSS sementara
+          scene.classList.remove("flipped");
+          void scene.offsetHeight; // 2. Paksa browser menerapkan perubahan wujud instan
+          scene.style.transition = ""; // 3. Kembalikan transisi CSS bawaan untuk flip otomatis nanti
+        }
+        if (lbl) {
+          lbl.style.transition = "none";
+          lbl.textContent = "Foto Sekarang";
+          lbl.style.opacity = "1";
+          void lbl.offsetHeight;
+          lbl.style.transition = "";
+        }
         dots.forEach((d, i) => d.classList.toggle("pa", i === 0));
       }
 
@@ -2279,6 +2318,15 @@
         navDir = idx > cur ? "next" : "prev";
         const prev = cur;
         cur = idx;
+
+        // ▼▼▼ TAMBAHKAN BLOK KODE INI DI SINI, BRO! ▼▼▼
+        // Reset foto target secara instan di detik 0 sebelum slide mulai bergeser masuk
+        if (flipState[cur]) {
+          flipState[cur] = false;
+          resetFlip(cur);
+        }
+        // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
         const cards = document.querySelectorAll(".card");
         cards[prev].classList.remove("active");
         cards[prev].classList.add(
@@ -2391,9 +2439,15 @@
         toastTimer = setTimeout(() => t.classList.remove("show"), 2200);
       }
       function updateFsIcon() {
+        const fsIcon = document.getElementById("fsIcon");
+        const welcomeFsIcon = document.getElementById("welcomeFsIcon");
         const isFs = !!document.fullscreenElement;
         document
           .getElementById("fsIcon")
+          .querySelector("path")
+          .setAttribute("d", isFs ? ICON_EXIT : ICON_ENTER);
+        document
+          .getElementById("welcomeFsIcon")
           .querySelector("path")
           .setAttribute("d", isFs ? ICON_EXIT : ICON_ENTER);
       }
@@ -2410,6 +2464,10 @@
       document
         .getElementById("fsBtn")
         .addEventListener("click", toggleFullscreen);
+      const welcomeFsBtn = document.getElementById("welcomeFsBtn");
+      if (welcomeFsBtn) {
+        welcomeFsBtn.addEventListener("click", toggleFullscreen);
+      }
       document.addEventListener("fullscreenchange", updateFsIcon);
 
       /* ── MUSIK ── */
