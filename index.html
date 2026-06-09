@@ -159,9 +159,10 @@
         );
       }
 
-      /* ════════════════════════
-       LAYAR GERBANG UTAMA
-    ════════════════════════ */
+      /* ════════════════════════════════════════════════
+         WELCOME SCREEN — PANGGUNG AGUNG
+         Professional Event Backdrop with Full Animations
+      ════════════════════════════════════════════════ */
       #welcomeScreen {
         position: fixed;
         inset: 0;
@@ -170,199 +171,1072 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        background: var(--bg);
+        background: radial-gradient(
+          ellipse 130% 90% at 50% 105%,
+          #0c0520 0%,
+          #040616 45%,
+          #03040d 100%
+        );
+        overflow: hidden;
         transition:
-          opacity 1s ease,
-          visibility 1s ease;
+          opacity 1.2s ease,
+          visibility 1.2s ease;
       }
       #welcomeScreen.hidden {
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
       }
-      .welcome-orb {
+
+      /* ── AURORA MULTI-LAYER ── */
+      .ws-aurora {
         position: absolute;
         inset: 0;
-        overflow: hidden;
         pointer-events: none;
+        background:
+          radial-gradient(
+            ellipse 95% 65% at 12% 22%,
+            rgba(124, 58, 237, 0.2) 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 75% 65% at 88% 78%,
+            rgba(0, 212, 255, 0.14) 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 65% 95% at 50% 115%,
+            rgba(244, 63, 94, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse 55% 55% at 92% 8%,
+            rgba(0, 212, 255, 0.09) 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 45% 65% at 4% 82%,
+            rgba(167, 139, 250, 0.12) 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            ellipse 60% 40% at 50% 50%,
+            rgba(0, 212, 255, 0.04) 0%,
+            transparent 70%
+          );
+        animation: wsAuroraShift 22s ease-in-out infinite alternate;
+        will-change: filter, transform;
       }
-      .welcome-orb::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 500px;
-        height: 500px;
-        background: radial-gradient(
-          circle,
-          rgba(0, 212, 255, 0.15) 0%,
-          transparent 65%
-        );
-        animation: orbPulse 4s ease-in-out infinite;
-      }
-      .welcome-orb::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 800px;
-        height: 800px;
-        background: radial-gradient(
-          circle,
-          rgba(124, 58, 237, 0.08) 0%,
-          transparent 60%
-        );
-        animation: orbPulse 6s ease-in-out infinite reverse;
-      }
-      @keyframes orbPulse {
-        0%,
-        100% {
-          transform: translate(-50%, -50%) scale(1);
-          opacity: 0.7;
+      @keyframes wsAuroraShift {
+        0% {
+          filter: hue-rotate(0deg) brightness(1);
+          transform: scale(1);
         }
-        50% {
-          transform: translate(-50%, -50%) scale(1.2);
+        33% {
+          filter: hue-rotate(14deg) brightness(1.1);
+          transform: scale(1.025);
+        }
+        66% {
+          filter: hue-rotate(-9deg) brightness(0.96);
+          transform: scale(0.988);
+        }
+        100% {
+          filter: hue-rotate(6deg) brightness(1.05);
+          transform: scale(1.01);
+        }
+      }
+
+      /* ── PERSPECTIVE GRID LANTAI ── */
+      .ws-grid {
+        position: absolute;
+        bottom: -80px;
+        left: 0;
+        right: 0;
+        height: 55vh;
+        pointer-events: none;
+        background-image:
+          linear-gradient(
+            to right,
+            rgba(0, 212, 255, 0.08) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(0, 212, 255, 0.08) 1px,
+            transparent 1px
+          );
+        background-size: 65px 65px;
+        transform: perspective(480px) rotateX(62deg);
+        transform-origin: bottom;
+        mask-image: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.7) 0%,
+          transparent 72%
+        );
+        -webkit-mask-image: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.7) 0%,
+          transparent 72%
+        );
+        animation: wsGridPulse 7s ease-in-out infinite alternate;
+      }
+      @keyframes wsGridPulse {
+        0% {
+          opacity: 0.5;
+        }
+        100% {
           opacity: 1;
         }
       }
-      .welcome-inner {
-        position: relative;
+
+      /* ── SCANLINE OVERLAY ── */
+      .ws-scanline {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 3px,
+          rgba(0, 0, 0, 0.025) 3px,
+          rgba(0, 0, 0, 0.025) 6px
+        );
+        z-index: 1;
+      }
+
+      /* ── MOVING HORIZONTAL LIGHT BEAM ── */
+      .ws-highlight-beam {
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent 5%,
+          rgba(0, 212, 255, 0.45) 40%,
+          rgba(167, 139, 250, 0.4) 60%,
+          transparent 95%
+        );
+        animation: wsBeamMove 10s ease-in-out infinite;
+        pointer-events: none;
         z-index: 2;
+        opacity: 0;
+      }
+      @keyframes wsBeamMove {
+        0% {
+          top: -2%;
+          opacity: 0;
+        }
+        5% {
+          opacity: 0.8;
+        }
+        92% {
+          opacity: 0.5;
+        }
+        100% {
+          top: 102%;
+          opacity: 0;
+        }
+      }
+
+      /* ── SHOOTING METEORS / BINTANG JATUH (VERSI REALISTIS) ── */
+      /* ── SHOOTING METEORS / BINTANG JATUH (SUBTLE & RARE) ── */
+      .ws-meteors {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+      .ws-meteor {
+        position: absolute;
+        height: 1px; /* Dipertipis agar elegan */
+        width: 80px; /* Ekor diperpendek */
+        /* Warna diubah ke putih-perak samar (bukan neon mencolok) */
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(226, 232, 240, 0.2) 60%,
+          rgba(255, 255, 255, 0.6) 100%
+        );
+        filter: drop-shadow(
+          0 0 3px rgba(255, 255, 255, 0.4)
+        ); /* Efek pijar dikurangi */
+        opacity: 0;
+        animation: wsMeteorFall linear infinite;
+      }
+
+      /* Jumlah dikurangi jadi 5, durasi total diperlama agar jarang muncul, 
+         dan delay diatur berjauhan supaya tidak keluar bersamaan */
+      .ws-meteor:nth-child(1) {
+        top: 2%;
+        left: 5%;
+        animation-duration: 14s;
+        animation-delay: 0s;
+      }
+      .ws-meteor:nth-child(2) {
+        top: 5%;
+        left: 45%;
+        animation-duration: 18s;
+        animation-delay: 4s;
+      }
+      .ws-meteor:nth-child(3) {
+        top: 1%;
+        left: 70%;
+        animation-duration: 16s;
+        animation-delay: 9s;
+      }
+      .ws-meteor:nth-child(4) {
+        top: 7%;
+        left: 30%;
+        animation-duration: 20s;
+        animation-delay: 13s;
+      }
+      .ws-meteor:nth-child(5) {
+        top: 4%;
+        left: 60%;
+        animation-duration: 15s;
+        animation-delay: 2s;
+      }
+
+      @keyframes wsMeteorFall {
+        0% {
+          transform: translate3d(0, 0, 0) rotate(35deg) scale(0.6);
+          opacity: 0;
+        }
+        /* Meteor hanya muncul sekilas di awal rentang waktu */
+        2% {
+          opacity: 0.6; /* Transparansi maksimal dibatasi 50% saja */
+        }
+        10% {
+          opacity: 1;
+        }
+        18% {
+          /* Meteor sudah meluncur dan menghilang di posisi ini */
+          transform: translate3d(500px, 350px, 0) rotate(35deg) scale(0.9);
+          opacity: 0;
+        }
+        /* Sisa waktu dari 14.01% hingga 100% digunakan untuk 'antre' dalam kondisi gaib */
+        100% {
+          transform: translate3d(500px, 350px, 0) rotate(35deg) scale(0.8);
+          opacity: 0;
+        }
+      }
+
+      /* ── BOKEH FLOATING ORBS ── */
+      .ws-bokeh {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .ws-bokeh-item {
+        position: absolute;
+        border-radius: 50%;
+        animation: wsBokehFloat ease-in-out infinite alternate;
+      }
+      .ws-bokeh-item:nth-child(1) {
+        width: 7px;
+        height: 7px;
+        background: rgba(0, 212, 255, 0.7);
+        top: 18%;
+        left: 12%;
+        animation-duration: 8s;
+        filter: blur(1px);
+      }
+      .ws-bokeh-item:nth-child(2) {
+        width: 4px;
+        height: 4px;
+        background: rgba(167, 139, 250, 0.85);
+        top: 32%;
+        left: 82%;
+        animation-duration: 10s;
+        animation-delay: 1.2s;
+      }
+      .ws-bokeh-item:nth-child(3) {
+        width: 9px;
+        height: 9px;
+        background: rgba(0, 212, 255, 0.5);
+        top: 62%;
+        left: 22%;
+        animation-duration: 12s;
+        animation-delay: 2.1s;
+        filter: blur(2px);
+      }
+      .ws-bokeh-item:nth-child(4) {
+        width: 3px;
+        height: 3px;
+        background: rgba(244, 63, 94, 0.9);
+        top: 14%;
+        left: 56%;
+        animation-duration: 7s;
+        animation-delay: 0.4s;
+      }
+      .ws-bokeh-item:nth-child(5) {
+        width: 6px;
+        height: 6px;
+        background: rgba(0, 212, 255, 0.65);
+        top: 78%;
+        left: 68%;
+        animation-duration: 11s;
+        animation-delay: 3.3s;
+      }
+      .ws-bokeh-item:nth-child(6) {
+        width: 8px;
+        height: 8px;
+        background: rgba(167, 139, 250, 0.6);
+        top: 44%;
+        left: 8%;
+        animation-duration: 13s;
+        animation-delay: 1.6s;
+        filter: blur(1.5px);
+      }
+      .ws-bokeh-item:nth-child(7) {
+        width: 4px;
+        height: 4px;
+        background: rgba(128, 238, 255, 0.8);
+        top: 82%;
+        left: 42%;
+        animation-duration: 6.5s;
+        animation-delay: 2.8s;
+      }
+      .ws-bokeh-item:nth-child(8) {
+        width: 6px;
+        height: 6px;
+        background: rgba(0, 212, 255, 0.7);
+        top: 9%;
+        left: 92%;
+        animation-duration: 14s;
+        animation-delay: 0.9s;
+        filter: blur(1px);
+      }
+      .ws-bokeh-item:nth-child(9) {
+        width: 3px;
+        height: 3px;
+        background: rgba(245, 158, 11, 0.9);
+        top: 55%;
+        left: 62%;
+        animation-duration: 9.5s;
+        animation-delay: 4.1s;
+      }
+      .ws-bokeh-item:nth-child(10) {
+        width: 5px;
+        height: 5px;
+        background: rgba(0, 212, 255, 0.75);
+        top: 28%;
+        left: 35%;
+        animation-duration: 7.8s;
+        animation-delay: 1.9s;
+      }
+      .ws-bokeh-item:nth-child(11) {
+        width: 9px;
+        height: 9px;
+        background: rgba(167, 139, 250, 0.5);
+        top: 68%;
+        left: 90%;
+        animation-duration: 15s;
+        animation-delay: 0.2s;
+        filter: blur(2px);
+      }
+      .ws-bokeh-item:nth-child(12) {
+        width: 4px;
+        height: 4px;
+        background: rgba(128, 238, 255, 0.75);
+        top: 22%;
+        left: 48%;
+        animation-duration: 8.8s;
+        animation-delay: 3.5s;
+      }
+      @keyframes wsBokehFloat {
+        0% {
+          transform: translateY(0) scale(1);
+          opacity: 0.35;
+        }
+        50% {
+          opacity: 0.95;
+        }
+        100% {
+          transform: translateY(-45px) scale(1.35);
+          opacity: 0.25;
+        }
+      }
+
+      /* ── PULSING RINGS DARI PUSAT ── */
+      .ws-rings {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .ws-ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 1px solid;
+        transform: translate(-50%, -50%);
+        animation: wsRingExpand ease-out infinite;
+      }
+      .ws-ring:nth-child(1) {
+        width: 140px;
+        height: 140px;
+        border-color: rgba(0, 212, 255, 0.45);
+        animation-duration: 6s;
+        animation-delay: 0s;
+      }
+      .ws-ring:nth-child(2) {
+        width: 300px;
+        height: 300px;
+        border-color: rgba(0, 212, 255, 0.28);
+        animation-duration: 6s;
+        animation-delay: 1.2s;
+      }
+      .ws-ring:nth-child(3) {
+        width: 500px;
+        height: 500px;
+        border-color: rgba(0, 212, 255, 0.16);
+        animation-duration: 6s;
+        animation-delay: 2.4s;
+      }
+      .ws-ring:nth-child(4) {
+        width: 720px;
+        height: 720px;
+        border-color: rgba(124, 58, 237, 0.12);
+        animation-duration: 6s;
+        animation-delay: 3.6s;
+      }
+      .ws-ring:nth-child(5) {
+        width: 980px;
+        height: 980px;
+        border-color: rgba(0, 212, 255, 0.06);
+        animation-duration: 6s;
+        animation-delay: 4.8s;
+      }
+      @keyframes wsRingExpand {
+        0% {
+          transform: translate(-50%, -50%) scale(0.65);
+          opacity: 0;
+        }
+        12% {
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(1.12);
+          opacity: 0;
+        }
+      }
+
+      /* ── LIGHT RAYS / SINAR CAHAYA ── */
+      .ws-rays {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 1px;
+        height: 1px;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .ws-ray {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1px;
+        height: 65vh;
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 212, 255, 0.15),
+          transparent 80%
+        );
+        transform-origin: top center;
+        animation: wsRayPulse 9s ease-in-out infinite alternate;
+      }
+      .ws-ray:nth-child(1) {
+        transform: rotate(-65deg);
+        animation-delay: 0s;
+      }
+      .ws-ray:nth-child(2) {
+        transform: rotate(-35deg);
+        animation-delay: 1.2s;
+        background: linear-gradient(
+          to bottom,
+          rgba(167, 139, 250, 0.12),
+          transparent 80%
+        );
+      }
+      .ws-ray:nth-child(3) {
+        transform: rotate(-5deg);
+        animation-delay: 2.4s;
+      }
+      .ws-ray:nth-child(4) {
+        transform: rotate(25deg);
+        animation-delay: 1.2s;
+        background: linear-gradient(
+          to bottom,
+          rgba(167, 139, 250, 0.12),
+          transparent 80%
+        );
+      }
+      .ws-ray:nth-child(5) {
+        transform: rotate(55deg);
+        animation-delay: 0s;
+      }
+      .ws-ray:nth-child(6) {
+        transform: rotate(-100deg);
+        animation-delay: 3s;
+      }
+      .ws-ray:nth-child(7) {
+        transform: rotate(85deg);
+        animation-delay: 3s;
+      }
+      @keyframes wsRayPulse {
+        0% {
+          opacity: 0.25;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.15;
+        }
+      }
+
+      /* ── CORNER ORNAMENTS / SUDUT DEKORATIF ── */
+      .ws-corners {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 3;
+      }
+      .ws-corner-piece {
+        position: absolute;
+        width: 90px;
+        height: 90px;
+        animation: wsCornerPulse 5s ease-in-out infinite alternate;
+      }
+      .ws-corner-piece:nth-child(1) {
+        top: 22px;
+        left: 22px;
+        border-top: 1px solid rgba(0, 212, 255, 0.4);
+        border-left: 1px solid rgba(0, 212, 255, 0.4);
+        animation-delay: 0s;
+      }
+      .ws-corner-piece:nth-child(2) {
+        top: 22px;
+        right: 22px;
+        border-top: 1px solid rgba(0, 212, 255, 0.4);
+        border-right: 1px solid rgba(0, 212, 255, 0.4);
+        animation-delay: 0.6s;
+      }
+      .ws-corner-piece:nth-child(3) {
+        bottom: 70px;
+        left: 22px;
+        border-bottom: 1px solid rgba(0, 212, 255, 0.4);
+        border-left: 1px solid rgba(0, 212, 255, 0.4);
+        animation-delay: 1.2s;
+      }
+      .ws-corner-piece:nth-child(4) {
+        bottom: 70px;
+        right: 22px;
+        border-bottom: 1px solid rgba(0, 212, 255, 0.4);
+        border-right: 1px solid rgba(0, 212, 255, 0.4);
+        animation-delay: 1.8s;
+      }
+      .ws-corner-piece::before {
+        content: "";
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: var(--cyan);
+        border-radius: 50%;
+        box-shadow:
+          0 0 8px var(--cyan),
+          0 0 16px rgba(0, 212, 255, 0.4);
+        animation: wsCornerDot 5s ease-in-out infinite alternate;
+      }
+      .ws-corner-piece:nth-child(1)::before {
+        top: -3px;
+        left: -3px;
+      }
+      .ws-corner-piece:nth-child(2)::before {
+        top: -3px;
+        right: -3px;
+        left: auto;
+      }
+      .ws-corner-piece:nth-child(3)::before {
+        bottom: -3px;
+        top: auto;
+        left: -3px;
+      }
+      .ws-corner-piece:nth-child(4)::before {
+        bottom: -3px;
+        right: -3px;
+        top: auto;
+        left: auto;
+      }
+      .ws-corner-piece::after {
+        content: "";
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: rgba(0, 212, 255, 0.5);
+        border-radius: 50%;
+      }
+      .ws-corner-piece:nth-child(1)::after {
+        bottom: -2px;
+        right: -2px;
+      }
+      .ws-corner-piece:nth-child(2)::after {
+        bottom: -2px;
+        left: -2px;
+      }
+      .ws-corner-piece:nth-child(3)::after {
+        top: -2px;
+        right: -2px;
+      }
+      .ws-corner-piece:nth-child(4)::after {
+        top: -2px;
+        left: -2px;
+      }
+      @keyframes wsCornerPulse {
+        0% {
+          opacity: 0.35;
+        }
+        100% {
+          opacity: 0.95;
+        }
+      }
+      @keyframes wsCornerDot {
+        0% {
+          box-shadow: 0 0 6px var(--cyan);
+        }
+        100% {
+          box-shadow:
+            0 0 14px var(--cyan),
+            0 0 28px rgba(0, 212, 255, 0.5);
+        }
+      }
+
+      /* ── SPARKLE / GLITTER ── */
+      .ws-glitters {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 2;
+      }
+      .ws-glitter {
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        background: white;
+        border-radius: 50%;
+        animation: wsGlitter ease-in-out infinite;
+      }
+      .ws-glitter:nth-child(1) {
+        top: 10%;
+        left: 7%;
+        animation-duration: 2.8s;
+        animation-delay: 0s;
+      }
+      .ws-glitter:nth-child(2) {
+        top: 7%;
+        left: 30%;
+        animation-duration: 3.9s;
+        animation-delay: 0.4s;
+      }
+      .ws-glitter:nth-child(3) {
+        top: 16%;
+        left: 55%;
+        animation-duration: 2.4s;
+        animation-delay: 0.9s;
+      }
+      .ws-glitter:nth-child(4) {
+        top: 5%;
+        left: 75%;
+        animation-duration: 3.3s;
+        animation-delay: 0.2s;
+      }
+      .ws-glitter:nth-child(5) {
+        top: 23%;
+        left: 93%;
+        animation-duration: 4.1s;
+        animation-delay: 1.7s;
+      }
+      .ws-glitter:nth-child(6) {
+        top: 70%;
+        left: 4%;
+        animation-duration: 3.6s;
+        animation-delay: 2s;
+      }
+      .ws-glitter:nth-child(7) {
+        top: 84%;
+        left: 17%;
+        animation-duration: 2.7s;
+        animation-delay: 0.6s;
+      }
+      .ws-glitter:nth-child(8) {
+        top: 76%;
+        left: 45%;
+        animation-duration: 3.1s;
+        animation-delay: 1.3s;
+      }
+      .ws-glitter:nth-child(9) {
+        top: 88%;
+        left: 63%;
+        animation-duration: 4.4s;
+        animation-delay: 2.4s;
+      }
+      .ws-glitter:nth-child(10) {
+        top: 80%;
+        left: 87%;
+        animation-duration: 3.5s;
+        animation-delay: 0.8s;
+      }
+      .ws-glitter:nth-child(11) {
+        top: 38%;
+        left: 2%;
+        animation-duration: 4.9s;
+        animation-delay: 3s;
+      }
+      .ws-glitter:nth-child(12) {
+        top: 48%;
+        left: 96%;
+        animation-duration: 4.6s;
+        animation-delay: 1.6s;
+      }
+      .ws-glitter:nth-child(13) {
+        top: 28%;
+        left: 86%;
+        animation-duration: 3.2s;
+        animation-delay: 0.3s;
+      }
+      .ws-glitter:nth-child(14) {
+        top: 58%;
+        left: 11%;
+        animation-duration: 2.9s;
+        animation-delay: 2.1s;
+      }
+      .ws-glitter:nth-child(15) {
+        top: 63%;
+        left: 74%;
+        animation-duration: 4s;
+        animation-delay: 1s;
+      }
+      @keyframes wsGlitter {
+        0%,
+        100% {
+          transform: scale(0) rotate(0deg);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1) rotate(45deg);
+          opacity: 1;
+          box-shadow:
+            0 0 6px white,
+            0 0 14px rgba(0, 212, 255, 0.8);
+        }
+      }
+
+      .ws-top-bar-text {
+        font-size: 0.62rem;
+        letter-spacing: 0.42em;
+        text-transform: uppercase;
+        color: rgba(0, 212, 255, 0.55);
+        white-space: nowrap;
+      }
+      .ws-top-bar-dot {
+        width: 3px;
+        height: 3px;
+        background: rgba(0, 212, 255, 0.3);
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+
+      /* ── CENTER CONTENT ── */
+      .ws-center {
+        position: relative;
+        z-index: 10;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 12px;
+        gap: 14px;
         text-align: center;
+        padding: 2rem 5rem;
       }
-      .welcome-chip {
+      @keyframes wsFloat {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-14px);
+        }
+      }
+
+      /* Badge atas */
+      .ws-badge {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        font-size: 0.72rem;
-        letter-spacing: 0.35em;
-        text-transform: uppercase;
+        gap: 10px;
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
         color: var(--cyan);
-        padding: 6px 18px;
+        padding: 7px 22px;
         border: 1px solid rgba(0, 212, 255, 0.3);
         border-radius: 50px;
-        background: rgba(0, 212, 255, 0.05);
+        background: rgba(0, 212, 255, 0.06);
         backdrop-filter: blur(10px);
+        animation: wsBadgeGlow 3.5s ease-in-out infinite alternate;
       }
-      .welcome-chip::before {
+      .ws-badge::before {
         content: "◈";
-        font-size: 0.7rem;
+        font-size: 0.62rem;
+        animation: wsGemSpin 10s linear infinite;
+        display: inline-block;
       }
-      .welcome-title {
-        font-family: "Playfair Display", serif;
-        font-size: clamp(2.8rem, 6vw, 5rem);
-        font-weight: 900;
-        line-height: 1.08;
-        background: linear-gradient(
-          135deg,
-          var(--w) 0%,
-          var(--cyan-lt) 50%,
-          var(--cyan) 100%
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        filter: drop-shadow(0 0 30px rgba(0, 212, 255, 0.3));
+      .ws-badge::after {
+        content: "◈";
+        font-size: 0.62rem;
+        animation: wsGemSpin 10s linear infinite reverse;
+        display: inline-block;
       }
-      .welcome-sub {
-        font-size: 0.95rem;
-        font-weight: 300;
-        color: var(--w60);
-        letter-spacing: 0.12em;
+      @keyframes wsBadgeGlow {
+        0% {
+          box-shadow: 0 0 10px rgba(0, 212, 255, 0.08);
+        }
+        100% {
+          box-shadow:
+            0 0 22px rgba(0, 212, 255, 0.32),
+            0 0 44px rgba(0, 212, 255, 0.12);
+        }
       }
-      .welcome-line {
-        width: 120px;
+
+      /* Ornament garis ── */
+      .ws-ornament {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        width: 100%;
+        max-width: 460px;
+        margin: 2px 0;
+      }
+      .ws-orn-line {
+        flex: 1;
         height: 1px;
         background: linear-gradient(
           90deg,
           transparent,
-          var(--cyan),
+          rgba(0, 212, 255, 0.5),
+          rgba(167, 139, 250, 0.45),
           transparent
         );
-        margin: 8px 0;
+        background-size: 200% 100%;
+        animation: wsLineShimmer 3.5s linear infinite;
       }
-      .welcome-btn {
+      @keyframes wsLineShimmer {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+      .ws-orn-gem {
+        color: var(--cyan);
+        font-size: 1.1rem;
+        text-shadow:
+          0 0 14px var(--cyan),
+          0 0 28px rgba(0, 212, 255, 0.5);
+        animation: wsGemSpin 9s linear infinite;
+        display: inline-block;
+      }
+      @keyframes wsGemSpin {
+        0% {
+          transform: rotate(0deg) scale(1);
+        }
+        50% {
+          transform: rotate(180deg) scale(1.3);
+        }
+        100% {
+          transform: rotate(360deg) scale(1);
+        }
+      }
+
+      /* Eyebrow teks */
+      .ws-eyebrow {
+        font-size: clamp(0.72rem, 1.4vw, 0.95rem);
+        font-weight: 300;
+        letter-spacing: 0.55em;
+        text-transform: uppercase;
+        color: rgba(128, 238, 255, 0.75);
+        margin-bottom: -6px;
+      }
+
+      /* Judul utama BESAR */
+      .ws-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3.8rem, 7.5vw, 6rem);
+        font-weight: 900;
+        line-height: 1.2;
+        background: linear-gradient(
+          135deg,
+          #ffffff 0%,
+          #d8f6ff 25%,
+          var(--cyan-lt) 50%,
+          var(--cyan) 72%,
+          var(--violet-lt) 100%
+        );
+        background-size: 220% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 50px rgba(0, 212, 255, 0.35));
+        animation: wsTitleShimmer 10s linear infinite;
+        letter-spacing: 0.05em;
+      }
+      @keyframes wsTitleShimmer {
+        0% {
+          background-position: 0% center;
+        }
+        100% {
+          background-position: 220% center;
+        }
+      }
+
+      /* Sub-judul */
+      .ws-title-sub {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.1rem, 4vw, 2.5rem);
+        font-weight: 400;
+        font-style: italic;
+        letter-spacing: 0.12em;
+        color: var(--w);
+        margin-top: px;
+      }
+
+      /* Tahun ajaran */
+      .ws-year-text {
+        font-size: clamp(0.75rem, 1.3vw, 0.92rem);
+        font-weight: 300;
+        color: var(--cyan-lt);
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+      }
+
+      /* Divider */
+      .ws-divider {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        width: 100%;
+        max-width: 360px;
+        margin: 4px 0;
+      }
+      .ws-div-line {
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(0, 212, 255, 0.45),
+          transparent
+        );
+      }
+      .ws-div-gem {
+        color: var(--cyan);
+        font-size: 0.9rem;
+        text-shadow: 0 0 10px var(--cyan);
+      }
+
+      /* ── TOMBOL MASUK UTAMA ── */
+      .ws-enter-btn {
         display: inline-flex;
         align-items: center;
         gap: 12px;
-        margin-top: 16px;
-        padding: 12px 38px;
+        margin-top: 10px;
+        padding: 15px 52px;
         font-family: "Outfit", sans-serif;
-        font-size: 0.9rem;
-        font-weight: 600;
-        letter-spacing: 0.1em;
+        font-size: 0.86rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
         text-transform: uppercase;
-        color: var(--bg);
-        background: var(--cyan);
+        color: #020c14;
+        background: linear-gradient(135deg, var(--cyan) 0%, #00a8cc 100%);
         border: none;
         border-radius: 50px;
         cursor: pointer;
-        box-shadow:
-          0 0 30px rgba(0, 212, 255, 0.4),
-          0 0 60px rgba(0, 212, 255, 0.15);
-        transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
-      }
-      .welcome-btn::before {
-        content: "";
-        position: absolute;
-        inset: -2px;
-        background: conic-gradient(
-          from 0deg,
-          var(--cyan),
-          var(--violet-lt),
-          var(--cyan-lt),
-          var(--cyan)
-        );
-        border-radius: 50px;
-        animation: spinBorder 3s linear infinite;
-        z-index: -1;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-      }
-      .welcome-btn:hover::before {
-        opacity: 1;
-      }
-      .welcome-btn:hover {
-        transform: translateY(-2px) scale(1.02);
         box-shadow:
-          0 0 50px rgba(0, 212, 255, 0.6),
-          0 0 100px rgba(0, 212, 255, 0.25);
+          0 0 30px rgba(0, 212, 255, 0.55),
+          0 0 60px rgba(0, 212, 255, 0.22),
+          inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        transition: all 0.35s ease;
+        animation: wsButtonPulse 3.2s ease-in-out infinite;
       }
-      .welcome-btn:active {
-        transform: scale(0.97);
-      }
-      @keyframes spinBorder {
-        to {
-          transform: rotate(360deg);
+      @keyframes wsButtonPulse {
+        0%,
+        100% {
+          box-shadow:
+            0 0 28px rgba(0, 212, 255, 0.55),
+            0 0 56px rgba(0, 212, 255, 0.2);
+        }
+        50% {
+          box-shadow:
+            0 0 55px rgba(0, 212, 255, 0.85),
+            0 0 110px rgba(0, 212, 255, 0.38),
+            0 0 160px rgba(0, 212, 255, 0.12);
         }
       }
-      .btn-icon {
-        font-size: 1.1rem;
+      .ws-enter-btn::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -65%;
+        width: 45%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.28);
+        transform: skewX(-22deg);
+        animation: wsBtnShine 3.8s linear infinite;
+      }
+      @keyframes wsBtnShine {
+        0% {
+          left: -65%;
+          opacity: 0;
+        }
+        8% {
+          opacity: 1;
+        }
+        48% {
+          left: 130%;
+          opacity: 0;
+        }
+        100% {
+          left: 130%;
+          opacity: 0;
+        }
+      }
+      .ws-enter-btn:hover {
+        transform: translateY(-4px) scale(1.04);
+        box-shadow:
+          0 0 65px rgba(0, 212, 255, 0.9),
+          0 0 130px rgba(0, 212, 255, 0.45);
+      }
+      .ws-enter-btn:active {
+        transform: scale(0.96);
       }
 
-      /* Tombol musik di welcome screen */
-      .welcome-music-row {
+      /* ── KONTROL (MUSIK + FULLSCREEN) ── */
+      .ws-ctrl-row {
         display: flex;
         align-items: center;
         gap: 10px;
-        margin-top: 20px;
+        margin-top: 6px;
       }
-      .welcome-music-btn {
+      .ws-ctrl-btn {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 9px 15px;
+        padding: 9px 16px;
         border-radius: 50px;
-        border: 1px solid rgba(0, 212, 255, 0.3);
-        background: rgba(0, 212, 255, 0.06);
+        border: 1px solid rgba(0, 212, 255, 0.28);
+        background: rgba(0, 212, 255, 0.05);
         color: var(--cyan-lt);
         font-family: "Outfit", sans-serif;
         font-size: 0.78rem;
@@ -370,17 +1244,84 @@
         letter-spacing: 0.1em;
         cursor: pointer;
         transition: all 0.25s ease;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+      .ws-ctrl-btn:hover {
+        background: rgba(0, 212, 255, 0.12);
+        border-color: rgba(0, 212, 255, 0.55);
+        transform: translateY(-2px);
+        box-shadow: 0 0 16px rgba(0, 212, 255, 0.22);
+      }
+      .ws-ctrl-btn svg {
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0;
+      }
+
+      /* ── TICKER BERJALAN DI BAWAH ── */
+      .ws-ticker-wrap {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        background: rgba(0, 212, 255, 0.055);
+        border-top: 1px solid rgba(0, 212, 255, 0.14);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
         backdrop-filter: blur(10px);
+        z-index: 5;
+      }
+      .ws-ticker-track {
+        display: flex;
+        white-space: nowrap;
+        animation: wsTicker 80s linear infinite;
+      }
+      .ws-ticker-item {
+        font-size: 0.72rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: rgba(0, 212, 255, 0.65);
+        padding: 0 0;
+      }
+      .ws-ticker-sep {
+        padding: 0 32px;
+        color: rgba(0, 212, 255, 0.3);
+        font-size: 0.55rem;
+      }
+      @keyframes wsTicker {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* backward compat — CSS yang direferens JS lama tetap ada */
+      .welcome-music-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 16px;
+        border-radius: 50px;
+        border: 1px solid rgba(0, 212, 255, 0.28);
+        background: rgba(0, 212, 255, 0.05);
+        color: var(--cyan-lt);
+        font-family: "Outfit", sans-serif;
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        backdrop-filter: blur(12px);
       }
       .welcome-music-btn:hover {
         background: rgba(0, 212, 255, 0.12);
         border-color: rgba(0, 212, 255, 0.55);
-        color: var(--cyan);
-      }
-      .welcome-music-btn.muted {
-        color: rgba(240, 244, 255, 0.3);
-        border-color: rgba(255, 255, 255, 0.08);
-        background: rgba(255, 255, 255, 0.02);
+        transform: translateY(-2px);
       }
       .welcome-music-btn svg {
         width: 14px;
@@ -388,9 +1329,29 @@
         flex-shrink: 0;
       }
 
-      /* ════════════════════════
-       LAYAR INTRO SINEMATIK
-    ════════════════════════ */
+      /* ── LOGO ATAS TENGAH ── */
+      .ws-logo-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px; /* Jarak antara logo kiri dan kanan */
+        margin-bottom: 8px; /* Jarak ke tulisan/badge di bawahnya */
+      }
+      .ws-logo {
+        height: 70px; /* Atur tinggi logo sesuai kebutuhan */
+        width: auto;
+        object-fit: contain;
+        /* Efek bayangan cahaya agar menyatu dengan tema panggung neon */
+        filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.4));
+        transition: transform 0.3s ease;
+      }
+      .ws-logo:hover {
+        transform: scale(1.08); /* Efek membesar sedikit saat disentuh kursor */
+      }
+
+      /* ═════════════════════════════════════════
+   🎬 LAYAR INTRO VIDEO WISUDA (LIVE TIMELINE 10s)
+   ═════════════════════════════════════════ */
       #introScreen {
         position: fixed;
         inset: 0;
@@ -399,161 +1360,278 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        background: var(--bg);
+        background: radial-gradient(circle at center, #0a1128 0%, #020617 100%);
         text-align: center;
         padding: 24px;
-        transition:
-          opacity 1.5s ease,
-          transform 1.5s ease,
-          filter 1.5s ease;
-        will-change: opacity, transform, filter;
+        overflow: hidden;
+        transform-origin: center center;
+
+        /* TIMELINE OTOMATIS 10 DETIK: Diam & bergerak di tempat, lalu detik ke-8.5 melesat hilang */
+        /* animation: introTimeline 10s cubic-bezier(0.7, 0, 0.3, 1) forwards; */
       }
+
+      #introScreen.play-intro {
+        animation: introTimeline 10s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+      }
+
+      /* Pengaman cadangan jika ditutup manual lewat JS */
       #introScreen.hidden {
         opacity: 0;
-        transform: scale(1.04);
-        filter: blur(12px);
+        transform: scale(3.5);
+        filter: blur(15px);
         pointer-events: none;
+        transition: all 1.2s cubic-bezier(0.7, 0, 0.3, 1);
       }
-      .intro-ring {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        pointer-events: none;
-      }
-      .intro-ring-item {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        border-radius: 50%;
-        border: 1px solid;
-        animation: ringExpand 4s ease-out infinite;
-      }
-      .intro-ring-item:nth-child(1) {
-        width: 200px;
-        height: 200px;
-        margin: -100px;
-        border-color: rgba(0, 212, 255, 0.35);
-        animation-delay: 0s;
-      }
-      .intro-ring-item:nth-child(2) {
-        width: 360px;
-        height: 360px;
-        margin: -180px;
-        border-color: rgba(0, 212, 255, 0.22);
-        animation-delay: 0.7s;
-      }
-      .intro-ring-item:nth-child(3) {
-        width: 520px;
-        height: 520px;
-        margin: -260px;
-        border-color: rgba(0, 212, 255, 0.12);
-        animation-delay: 1.4s;
-      }
-      .intro-ring-item:nth-child(4) {
-        width: 680px;
-        height: 680px;
-        margin: -340px;
-        border-color: rgba(0, 212, 255, 0.06);
-        animation-delay: 2.1s;
-      }
-      @keyframes ringExpand {
+
+      /* 🎬 CSS TIMELINE UTAMA (TOTAL 10 DETIK) */
+      @keyframes introTimeline {
         0% {
-          transform: scale(0.8);
-          opacity: 0;
-        }
-        20% {
           opacity: 1;
+          transform: scale(1);
+          filter: blur(0);
+          pointer-events: auto;
+        }
+        85% {
+          /* Tetap tampil sempurna sampai detik ke 8.5 */
+          opacity: 1;
+          transform: scale(1.02);
+          filter: blur(0);
         }
         100% {
-          transform: scale(1.1);
+          /* Detik 8.5 ke 10: Membesar masif menembus layar & hancur membuka slide pertama */
           opacity: 0;
+          transform: scale(3.8);
+          filter: blur(15px);
+          pointer-events: none;
         }
       }
-      .intro-content {
+
+      /* ── ANIMASI 1: KAMERA MAJU PERLAHAN (KEN BURNS) ── */
+      .intro-camera-wrapper {
         position: relative;
         z-index: 2;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-        max-width: 760px;
+        /* Selama 10 detik, teks dipaksa terus maju perlahan sebesar 10% agar hidup */
+        /* animation: cameraDrift 10s ease-out forwards; */
+        transform-origin: center center;
       }
-      .intro-tag {
-        font-size: 0.7rem;
-        letter-spacing: 0.5em;
-        text-transform: uppercase;
-        color: var(--cyan);
-        font-weight: 500;
-        opacity: 0;
-        transform: translateY(20px);
-        animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s;
+      /* 🎯 Keterangan: Kamera ikut bergerak hanya saat intro aktif */
+      #introScreen.play-intro .intro-camera-wrapper {
+        animation: cameraDrift 9s ease-out forwards;
       }
-      .intro-title {
-        font-family: "Playfair Display", serif;
-        font-size: clamp(2.8rem, 5.5vw, 4.5rem);
-        font-weight: 900;
-        line-height: 1.1;
+      @keyframes cameraDrift {
+        0% {
+          transform: scale(1);
+        }
+        40% {
+          transform: scale(2);
+        } /* Maju perlahan */
+        100% {
+          transform: scale(4);
+          opacity: 0;
+          filter: blur(5px);
+        } /* Ikut melebar saat closing */
+      }
+
+      /* ── ANIMASI 2: KILAUAN EMAS BERGERAK (GOLD SHIMMER) ── */
+      .gold-text {
+        /* Efek gradasi emas melingkar yang bisa digeser posisinya */
         background: linear-gradient(
-          135deg,
-          #ffffff 0%,
-          var(--cyan-lt) 60%,
-          var(--cyan) 100%
+          90deg,
+          #ffe596 0%,
+          #ddb043 25%,
+          #fff6d6 50%,
+          #ddb043 75%,
+          #ffe596 100%
         );
+        background-size: 200% auto;
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 2px 8px rgba(221, 176, 67, 0.3));
+        /* Berkilau konstan sepanjang masa intro */
+        animation: goldShine 5s linear infinite;
+      }
+      @keyframes goldShine {
+        0% {
+          background-position: 0% center;
+        }
+        100% {
+          background-position: 200% center;
+        }
+      }
+
+      /* ── ANIMASI 3: LAMPU SOROT BERGESER (SWEEPING SPOTLIGHT) ── */
+      .cinema-spotlight {
+        position: absolute;
+        width: 140vw;
+        height: 140vh;
+        background: radial-gradient(
+          circle at center,
+          rgba(0, 212, 255, 0.18) 0%,
+          transparent 60%
+        );
+        pointer-events: none;
+        /* Lampu bergoyang lembut ke kanan-kiri-atas-bawah */
+        animation: spotlightGlow 8s ease-in-out infinite alternate;
+      }
+      @keyframes spotlightGlow {
+        0% {
+          transform: translate(-10%, -10%) scale(1);
+          opacity: 0.7;
+        }
+        50% {
+          transform: translate(5%, 5%) scale(1.1);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-5%, 10%) scale(0.9);
+          opacity: 0.8;
+        }
+      }
+
+      /* ── ANIMASI 4: PARTIKEL DEBU EMAS MELAYANG (FLOATING DUST) ── */
+      .cinema-particles {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+      }
+      .particle {
+        position: absolute;
+        background: rgba(221, 176, 67, 0.4);
+        border-radius: 50%;
+        filter: blur(1px);
+      }
+      .particle:nth-child(1) {
+        width: 6px;
+        height: 6px;
+        top: 20%;
+        left: 30%;
+        animation: floatUp 8s infinite linear;
+      }
+      .particle:nth-child(2) {
+        width: 4px;
+        height: 4px;
+        top: 60%;
+        left: 70%;
+        animation: floatUp 12s infinite linear 2s;
+      }
+      .particle:nth-child(3) {
+        width: 8px;
+        height: 8px;
+        top: 40%;
+        left: 20%;
+        animation: floatUp 10s infinite linear 4s;
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(100vh) translateX(0) scale(0.5);
+          opacity: 0;
+        }
+        20% {
+          opacity: 0.6;
+        }
+        80% {
+          opacity: 0.6;
+        }
+        100% {
+          transform: translateY(-10vh) translateX(50px) scale(1.2);
+          opacity: 0;
+        }
+      }
+
+      /* ── 🌟 PENYELAMAT ISI SLIDE SISWA (JANGAN DIHAPUS!) ── */
+      @keyframes fadeUp {
+        0% {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ── KEMUNCULAN TEKS PERTAMA KALI (REVEAL AWAL) ── */
+      .intro-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+        max-width: 850px;
+      }
+      @keyframes videoReveal {
+        0% {
+          opacity: 0;
+          transform: translateY(30px);
+          filter: blur(10px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+          filter: blur(0);
+        }
+      }
+      .intro-tag {
+        font-size: 0.8rem;
+        letter-spacing: 0.65em;
+        text-transform: uppercase;
+        color: rgba(0, 212, 255, 0.8);
+        font-weight: 600;
+        animation: videoReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.2s;
         opacity: 0;
-        transform: translateY(30px);
-        animation: fadeUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.7s;
+      }
+      .intro-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3rem, 6.5vw, 5rem);
+        font-weight: 800;
+        line-height: 1.2;
+        color: #ffffff;
+        text-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+        animation: videoReveal 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.5s;
+        opacity: 0;
       }
       .intro-sub {
-        font-size: clamp(1rem, 2vw, 1.5rem);
+        font-size: clamp(1.2rem, 2.5vw, 1.8rem);
         font-weight: 300;
-        color: var(--w60);
-        letter-spacing: 0.1em;
+        color: rgba(255, 255, 255, 0.8);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        animation: videoReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.8s;
         opacity: 0;
-        transform: translateY(20px);
-        animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) forwards 1s;
       }
       .intro-divider {
         display: flex;
         align-items: center;
-        gap: 16px;
-        width: 100%;
+        gap: 24px;
+        width: 260px;
+        animation: videoReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards 1.1s;
         opacity: 0;
-        animation: fadeUp 1s forwards 1.3s;
       }
       .intro-divider-line {
         flex: 1;
         height: 1px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          var(--cyan),
-          transparent
-        );
-        opacity: 0.45;
+        background: linear-gradient(90deg, transparent, #ddb043, transparent);
       }
       .intro-divider-gem {
-        color: var(--cyan);
-        font-size: 1rem;
-        animation: spin 8s linear infinite;
-      }
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
+        color: #ddb043;
+        font-size: 0.9rem;
       }
       .intro-year {
-        font-size: 0.85rem;
-        color: var(--w30);
-        letter-spacing: 0.2em;
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.4);
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        animation: videoReveal 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards 1.4s;
         opacity: 0;
-        animation: fadeUp 1s forwards 1.6s;
       }
+
       @keyframes fadeUp {
-        to {
+        0% {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        100% {
           opacity: 1;
           transform: translateY(0);
         }
@@ -786,7 +1864,7 @@
 
       /* ─── SISI FOTO ─── */
       .card-photo {
-        width: 42%;
+        width: 50%;
         flex-shrink: 0;
         position: relative;
         display: flex;
@@ -824,8 +1902,8 @@
       .photo-frame {
         position: relative;
         z-index: 1;
-        width: 260px;
-        height: 260px;
+        width: 420px;
+        height: 420px;
       }
       /* Orbit luar berputar */
       .photo-orbit {
@@ -1137,100 +2215,229 @@
         line-height: 1.65;
       }
 
-      /* ════════════════════════
-       SLIDE PENUTUP KHUSUS
-    ════════════════════════ */
-      .card-closing {
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        padding: 50px 40px;
-        background:
-          radial-gradient(
-            ellipse 80% 60% at 50% 40%,
-            rgba(0, 212, 255, 0.06) 0%,
-            transparent 60%
-          ),
-          var(--card-bg) !important;
+      /* ═════════════════════════════════════════
+   🎬 STYLE KARTU PENUTUP SINEMATIK (CLOSING CARD)
+   ═════════════════════════════════════════ */
+      .card.card-closing {
+        /* 🛠️ Mematikan layout grid/split dari kartu siswa biasa */
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        grid-template-columns: none !important;
+
+        position: relative;
+        /* Menggunakan warna gradasi gelap premium yang persis sama dengan Intro */
+        /* background: radial-gradient(
+          circle at center,
+          #0a1128 0%,
+          #020617 100%
+        ) !important; */
+        border: 2px solid rgba(221, 176, 67, 0.25) !important;
+        box-shadow:
+          0 20px 50px rgba(0, 0, 0, 0.8),
+          inset 0 0 40px rgba(221, 176, 67, 0.05) !important;
+        padding: 40px 24px !important;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
       }
+
+      /* 🔦 Efek Lampu Sorot Lembut di Belakang Teks */
+      .closing-spotlight {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at 50% 35%,
+          rgba(0, 212, 255, 0.12) 0%,
+          transparent 65%
+        );
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      /* ✨ Partikel Debu Emas Melayang Mini */
+      .closing-particles {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+      }
+      .c-particle {
+        position: absolute;
+        background: rgba(221, 176, 67, 0.35);
+        border-radius: 50%;
+        filter: blur(0.5px);
+        animation: closingFloat 10s infinite linear;
+      }
+      .c-particle:nth-child(1) {
+        width: 5px;
+        height: 5px;
+        top: 80%;
+        left: 15%;
+        animation-delay: 0s;
+      }
+      .c-particle:nth-child(2) {
+        width: 3px;
+        height: 3px;
+        top: 50%;
+        left: 85%;
+        animation-delay: 2.5s;
+      }
+      .c-particle:nth-child(3) {
+        width: 6px;
+        height: 6px;
+        top: 75%;
+        left: 60%;
+        animation-delay: 5s;
+      }
+
+      @keyframes closingFloat {
+        0% {
+          transform: translateY(60px) translateX(0) scale(0.8);
+          opacity: 0;
+        }
+        20% {
+          opacity: 0.6;
+        }
+        80% {
+          opacity: 0.6;
+        }
+        100% {
+          transform: translateY(-120px) translateX(20px) scale(1.2);
+          opacity: 0;
+        }
+      }
+
+      /* 📦 Konten Teks */
       .closing-content {
-        max-width: 660px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 22px;
+        position: relative;
+        z-index: 3;
+        max-width: 620px;
+        text-align: center;
       }
+
       .closing-tag {
-        font-size: 0.65rem;
-        letter-spacing: 0.45em;
+        font-size: 1.2rem;
+        letter-spacing: 0.4em;
         text-transform: uppercase;
-        color: var(--cyan);
+        color: var(--cyan, #00d4ff);
         font-weight: 600;
+        margin-bottom: 10px;
       }
+
       .closing-title {
         font-family: "Playfair Display", serif;
-        font-size: clamp(3.5rem, 7vw, 6rem);
+        font-size: clamp(2.3rem, 5vw, 4.2rem);
         font-weight: 900;
-        line-height: 1;
-        background: linear-gradient(
-          135deg,
-          var(--w) 0%,
-          var(--cyan-lt) 50%,
-          var(--cyan) 100%
-        );
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        filter: drop-shadow(0 0 40px rgba(0, 212, 255, 0.3));
+        margin: 0 0 16px 0;
+        line-height: 1.1;
       }
+
+      /* ── Garis Pembatas Cantik Berwarna Emas ── */
       .closing-divider {
         display: flex;
         align-items: center;
-        gap: 18px;
-        width: 100%;
-        max-width: 320px;
+        justify-content: center;
+        gap: 16px;
+        margin-bottom: 24px;
       }
-      .c-line {
-        flex: 1;
+      .closing-divider .c-line {
+        width: 100px;
         height: 1px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          var(--cyan),
-          transparent
-        );
-        opacity: 0.5;
+        background: linear-gradient(90deg, transparent, #ddb043, transparent);
       }
-      .c-gem {
-        color: var(--cyan);
-        font-size: 1rem;
-        animation: orbPulse 3s ease-in-out infinite;
+      .closing-divider .c-gem {
+        color: #ddb043;
+        font-size: 0.9rem;
+        text-shadow: 0 0 8px rgba(221, 176, 67, 0.6);
+        /* Ikut berputar otomatis seperti ornamen intro */
+        animation: spin 10s linear infinite;
       }
+
+      /* 💬 Kutipan Mutiara */
       .closing-quote {
-        font-family: "Playfair Display", serif;
+        font-size: clamp(0.95rem, 1.8vw, 1.5rem);
         font-style: italic;
-        font-size: clamp(1.1rem, 2vw, 1.5rem);
-        color: var(--w60);
-        line-height: 1.75;
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.7;
+        margin-bottom: 36px;
+        font-weight: 300;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
       }
+
+      /* 🏢 Bagian Footer Sekolah */
       .closing-footer {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        margin-top: 8px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 20px;
       }
       .closing-school {
-        font-size: 1rem;
+        font-size: 1.05rem;
         font-weight: 600;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--w);
+        color: #ffffff;
+        margin: 0 0 4px 0;
+        letter-spacing: 0.05em;
       }
       .closing-year {
-        font-size: 0.82rem;
-        color: var(--cyan-lt);
-        letter-spacing: 0.12em;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.4);
+        margin: 0;
+        letter-spacing: 0.15em;
+      }
+
+      /* ═════════════════════════════════════════
+   🎯 STYLE QR CODE POJOK KANAN BAWAH KARTU
+   ═════════════════════════════════════════ */
+      .closing-qr-wrapper {
+        position: absolute;
+        bottom: 30px; /* Jarak pas dari bawah kartu */
+        right: 30px; /* Jarak pas dari kanan kartu */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 10; /* Memastikan berada di atas lapisan partikel debu */
+        animation: fadeInAudio 1s ease-out;
+      }
+
+      .closing-qr {
+        width: 100px; /* Sedikit lebih ringkas karena posisinya di pojok */
+        height: 100px;
+        padding: 5px;
+        background: #020617;
+        border: 1.5px solid rgba(221, 176, 67, 0.35);
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(221, 176, 67, 0.1);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* Efek interaktif premium saat disorot */
+      .closing-qr:hover {
+        transform: scale(1.08) translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 212, 255, 0.25);
+        border-color: rgba(0, 212, 255, 0.5);
+      }
+
+      .qr-text {
+        font-size: 0.6rem; /* Ukuran teks mikro agar estetik */
+        color: var(--w60);
+        margin: 5px 0 0 0;
+        letter-spacing: 0.05em;
+        font-weight: 500;
+      }
+
+      /* 📱 RESPONSIF MOBILE: Jika layar HP terlalu kecil, kita kembalikan ke tengah bawah otomatis agar tidak bertabrakan dengan teks */
+      @media (max-width: 576px) {
+        .closing-qr-wrapper {
+          position: relative;
+          bottom: auto;
+          right: auto;
+          margin-top: 25px;
+        }
+        .closing-qr {
+          width: 85px;
+          height: 85px;
+        }
       }
 
       /* ════════════════════════
@@ -1777,23 +2984,125 @@
     <!-- Toast fullscreen -->
     <div id="fs-toast"></div>
 
-    <!-- ═══════════════ LAYAR GERBANG ═══════════════ -->
     <div id="welcomeScreen">
-      <div class="welcome-orb"></div>
-      <div class="welcome-inner">
-        <div class="welcome-chip">SD Negeri 01 Totorejo</div>
-        <h1 class="welcome-title">Pelepasan<br />Kelas VI</h1>
-        <p class="welcome-sub">
-          SD Negeri 01 Toto Rejo · Tahun Ajaran 2025/2026
-        </p>
-        <div class="welcome-line"></div>
-        <button id="welcomeBtn" class="welcome-btn">
-          <span class="btn-icon">◈</span>
-          Buka Layar Pelepasan
+      <!-- ════ LAYER 1: AURORA ════ -->
+      <div class="ws-aurora"></div>
+
+      <!-- ════ LAYER 2: PERSPECTIVE GRID ════ -->
+      <div class="ws-grid"></div>
+
+      <!-- ════ LAYER 3: SCANLINE + BEAM ════ -->
+      <div class="ws-scanline"></div>
+      <div class="ws-highlight-beam"></div>
+
+      <!-- ════ LAYER 4: SHOOTING STARS ════ -->
+      <div class="ws-meteors">
+        <div class="ws-meteor"></div>
+        <div class="ws-meteor"></div>
+        <div class="ws-meteor"></div>
+        <div class="ws-meteor"></div>
+        <div class="ws-meteor"></div>
+      </div>
+
+      <!-- ════ LAYER 5: BOKEH ORBS ════ -->
+      <div class="ws-bokeh">
+        <div class="ws-bokeh-item"></div>
+        <div class="ws-bokeh-item"></div>
+        <div class="ws-bokeh-item"></div>
+        <div class="ws-bokeh-item"></div>
+        <div class="ws-bokeh-item"></div>
+        <div class="ws-bokeh-item"></div>
+        <div class="ws-bokeh-item"></div>
+        <div class="ws-bokeh-item"></div>
+        <div class="ws-bokeh-item"></div>
+        <div class="ws-bokeh-item"></div>
+        <div class="ws-bokeh-item"></div>
+        <div class="ws-bokeh-item"></div>
+      </div>
+
+      <!-- ════ LAYER 6: PULSING RINGS ════ -->
+      <div class="ws-rings">
+        <div class="ws-ring"></div>
+        <div class="ws-ring"></div>
+        <div class="ws-ring"></div>
+        <div class="ws-ring"></div>
+        <div class="ws-ring"></div>
+      </div>
+
+      <!-- ════ LAYER 7: LIGHT RAYS ════ -->
+      <div class="ws-rays">
+        <div class="ws-ray"></div>
+        <div class="ws-ray"></div>
+        <div class="ws-ray"></div>
+        <div class="ws-ray"></div>
+        <div class="ws-ray"></div>
+        <div class="ws-ray"></div>
+        <div class="ws-ray"></div>
+      </div>
+
+      <!-- ════ LAYER 8: CORNER ORNAMENTS ════ -->
+      <div class="ws-corners">
+        <div class="ws-corner-piece"></div>
+        <div class="ws-corner-piece"></div>
+        <div class="ws-corner-piece"></div>
+        <div class="ws-corner-piece"></div>
+      </div>
+
+      <!-- ════ LAYER 9: GLITTER SPARKLES ════ -->
+      <div class="ws-glitters">
+        <div class="ws-glitter"></div>
+        <div class="ws-glitter"></div>
+        <div class="ws-glitter"></div>
+        <div class="ws-glitter"></div>
+        <div class="ws-glitter"></div>
+        <div class="ws-glitter"></div>
+        <div class="ws-glitter"></div>
+        <div class="ws-glitter"></div>
+        <div class="ws-glitter"></div>
+        <div class="ws-glitter"></div>
+        <div class="ws-glitter"></div>
+        <div class="ws-glitter"></div>
+        <div class="ws-glitter"></div>
+        <div class="ws-glitter"></div>
+        <div class="ws-glitter"></div>
+      </div>
+
+      <!-- ════ KONTEN UTAMA TENGAH ════ -->
+      <div class="ws-center">
+        <div class="ws-logo-container">
+          <img src="logo/okut.png" alt="Logo OKUT" class="ws-logo" />
+          <img src="logo/twh.png" alt="Logo TWH" class="ws-logo" />
+        </div>
+        <div class="ws-badge">
+          SDN 01 Toto Rejo Kec. Belitang II Kab. OKU Timur
+        </div>
+
+        <div class="ws-ornament">
+          <div class="ws-orn-line"></div>
+          <span class="ws-orn-gem">✦</span>
+          <div class="ws-orn-line"></div>
+        </div>
+
+        <p class="ws-eyebrow">Selamat &amp; Bahagia</p>
+
+        <h1 class="ws-title">Pelepasan Siswa<br />Kelas VI</h1>
+
+        <p class="ws-title-sub">SD Negeri 01 Toto Rejo</p>
+        <p class="ws-year-text">Tahun Ajaran 2025 / 2026</p>
+
+        <div class="ws-divider">
+          <div class="ws-div-line"></div>
+          <span class="ws-div-gem">◈</span>
+          <div class="ws-div-line"></div>
+        </div>
+
+        <button id="welcomeBtn" class="ws-enter-btn">
+          <span>◈</span> Buka Layar Pelepasan
         </button>
-        <!-- Tombol pilihan musik sebelum mulai -->
-        <div class="welcome-music-row">
-          <button id="welcomeMusicBtn" class="welcome-music-btn">
+
+        <div class="ws-ctrl-row">
+          <!-- Tombol Musik -->
+          <button id="welcomeMusicBtn" class="ws-ctrl-btn" title="Musik">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -1802,15 +3111,17 @@
               stroke-linecap="round"
               stroke-linejoin="round"
               id="welcomeMusicIcon"
+              style="width: 14px; height: 14px"
             >
               <path d="M9 18V5l12-2v13" />
               <circle cx="6" cy="18" r="3" />
               <circle cx="18" cy="16" r="3" />
             </svg>
           </button>
+          <!-- Tombol Fullscreen -->
           <button
             id="welcomeFsBtn"
-            class="welcome-music-btn"
+            class="ws-ctrl-btn"
             title="Fullscreen (F11)"
           >
             <svg
@@ -1821,32 +3132,78 @@
               stroke-width="1.6"
               stroke-linecap="round"
               stroke-linejoin="round"
-              style="width: 12px; height: 12px"
+              style="width: 14px; height: 14px"
             >
               <path d="M1 5V1h4M10 1h4v4M14 10v4h-4M5 14H1v-4" />
             </svg>
           </button>
         </div>
       </div>
+
+      <!-- ════ TICKER BERJALAN ════ -->
+      <div class="ws-ticker-wrap">
+        <div class="ws-ticker-track">
+          <span class="ws-ticker-item"
+            >Pelepasan Siswa Kelas VI SD Negeri 01 Totorejo Tahun Ajaran 2025 /
+            2026</span
+          ><span class="ws-ticker-sep">✦</span>
+          <span class="ws-ticker-item">Semoga Sukses &amp; Berprestasi</span
+          ><span class="ws-ticker-sep">✦</span>
+          <span class="ws-ticker-item"
+            >Terima Kasih Guru, Staff &amp; Seluruh Orang Tua</span
+          ><span class="ws-ticker-sep">✦</span>
+          <span class="ws-ticker-item"
+            >Gapailah cita-citamu setinggi bintang di angkasa</span
+          ><span class="ws-ticker-sep">✦</span>
+          <span class="ws-ticker-item"
+            >Siswa hari ini adalah pemimpin di masa depan</span
+          ><span class="ws-ticker-sep">✦</span>
+
+          <span class="ws-ticker-item"
+            >Pelepasan Siswa Kelas VI SD Negeri 01 Totorejo Tahun Ajaran 2025 /
+            2026</span
+          ><span class="ws-ticker-sep">✦</span>
+          <span class="ws-ticker-item">Semoga Sukses &amp; Berprestasi</span
+          ><span class="ws-ticker-sep">✦</span>
+          <span class="ws-ticker-item"
+            >Terima Kasih Guru, Staff &amp; Seluruh Orang Tua</span
+          ><span class="ws-ticker-sep">✦</span>
+          <span class="ws-ticker-item"
+            >Gapailah cita-citamu setinggi bintang di angkasa</span
+          ><span class="ws-ticker-sep">✦</span>
+          <span class="ws-ticker-item"
+            >Siswa hari ini adalah pemimpin di masa depan</span
+          ><span class="ws-ticker-sep">✦</span>
+        </div>
+      </div>
     </div>
 
     <!-- ═══════════════ LAYAR INTRO ═══════════════ -->
     <div id="introScreen">
-      <div class="intro-ring">
-        <div class="intro-ring-item"></div>
-        <div class="intro-ring-item"></div>
-        <div class="intro-ring-item"></div>
-        <div class="intro-ring-item"></div>
+      <div class="cinema-spotlight"></div>
+
+      <div class="cinema-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
       </div>
+
       <div class="intro-content">
         <div class="intro-tag">Selayang Pandang · Tahun 2026</div>
-        <h1 class="intro-title">Pelepasan Siswa<br />Kelas VI</h1>
-        <h2 class="intro-sub">SD Negeri 01 Toto Rejo</h2>
+
+        <h1 class="intro-title">
+          Pelepasan Siswa<br /><span class="gold-text">Kelas VI</span>
+        </h1>
+
+        <h2 class="intro-sub">SD Negeri 01 Totorejo</h2>
+
         <div class="intro-divider">
           <div class="intro-divider-line"></div>
-          <div class="intro-divider-gem">◈</div>
+          <div class="intro-divider-gem">✦</div>
           <div class="intro-divider-line"></div>
         </div>
+
         <p class="intro-year">Tahun Ajaran 2025/2026</p>
       </div>
     </div>
@@ -2095,23 +3452,40 @@
           if (s.isPenutup) {
             el.classList.add("card-closing");
             el.innerHTML = `
+        <div class="closing-spotlight"></div>
+        <div class="closing-particles">
+          <div class="c-particle"></div>
+          <div class="c-particle"></div>
+          <div class="c-particle"></div>
+        </div>
+
         <div class="closing-content ai" style="animation-delay:.1s">
-          <div class="closing-tag">Masa Depan Menanti</div>
-          <h2 class="closing-title">Terima Kasih</h2>
+          <h2 class="closing-title gold-text">Terima Kasih</h2>
+          
           <div class="closing-divider">
             <span class="c-line"></span>
             <span class="c-gem">◈</span>
             <span class="c-line"></span>
           </div>
+
+          <div class="closing-tag">Masa Depan Menanti</div>
+
           <p class="closing-quote">
             "Masa depan adalah milik mereka yang percaya pada keindahan impian mereka.
             Teruslah melangkah, jagalah api semangat belajarmu, dan jadilah kebanggaan
             bagi nusa dan bangsa."
           </p>
+          
           <div class="closing-footer">
             <p class="closing-school">SD Negeri 01 Totorejo</p>
             <p class="closing-year">Tahun Ajaran 2025/2026</p>
           </div>
+          
+        </div>
+        <div class="closing-qr-wrapper">
+          <img src="logo/qr.png" alt="Scan Slide" class="closing-qr" 
+               onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data='+encodeURIComponent(window.location.href)+'&color=ddb043&bgcolor=020617'">
+          <p class="qr-text">Scan Slide 📸</p>
         </div>`;
           } else {
             const siswaNo = i + 1;
@@ -2689,6 +4063,10 @@
           const userWantsMute = muted; // Kunci status pilihan terakhir user
 
           welcomeScreen.classList.add("hidden");
+
+          if (introScreen) {
+            introScreen.classList.add("play-intro");
+          }
           initAudio();
 
           // Eksekusi efek fade sinematik tepat saat HALAMAN INTRO (Selayang Pandang) muncul
@@ -2724,7 +4102,7 @@
                 if (muted && audio) audio.pause();
               }
             }, 1600);
-          }, 4800);
+          }, 8000);
         });
       });
 
