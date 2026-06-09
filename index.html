@@ -1024,18 +1024,9 @@
           transparent,
           rgba(0, 212, 255, 0.5),
           rgba(167, 139, 250, 0.45),
+          rgba(0, 212, 255, 0.5),
           transparent
         );
-        background-size: 200% 100%;
-        animation: wsLineShimmer 3.5s linear infinite;
-      }
-      @keyframes wsLineShimmer {
-        0% {
-          background-position: 200% 0;
-        }
-        100% {
-          background-position: -200% 0;
-        }
       }
       .ws-orn-gem {
         color: var(--cyan);
@@ -1071,31 +1062,36 @@
       /* Judul utama BESAR */
       .ws-title {
         font-family: "Playfair Display", serif;
-        font-size: clamp(3.8rem, 7.5vw, 6rem);
+        font-size: clamp(3rem, 7.5vw, 6rem);
         font-weight: 900;
         line-height: 1.2;
+
         background: linear-gradient(
-          135deg,
-          #ffffff 0%,
-          #d8f6ff 25%,
-          var(--cyan-lt) 50%,
-          var(--cyan) 72%,
-          var(--violet-lt) 100%
+          90deg,
+          var(--cyan-lt) 0%,
+          var(--w) 30%,
+          var(--cyan) 60%,
+          var(--w) 80%,
+          var(--cyan-lt) 100%
         );
-        background-size: 220% auto;
+        background-size: 250% auto;
         -webkit-background-clip: text;
         background-clip: text;
+
         -webkit-text-fill-color: transparent;
         filter: drop-shadow(0 0 50px rgba(0, 212, 255, 0.35));
-        animation: wsTitleShimmer 10s linear infinite;
+        animation: wsTitleShimmer 40s linear infinite;
         letter-spacing: 0.05em;
       }
       @keyframes wsTitleShimmer {
         0% {
-          background-position: 0% center;
+          background-position: 200% center;
+        }
+        50% {
+          background-position: -200% center;
         }
         100% {
-          background-position: 220% center;
+          background-position: -200% center;
         }
       }
 
@@ -1168,7 +1164,7 @@
           0 0 60px rgba(0, 212, 255, 0.22),
           inset 0 1px 0 rgba(255, 255, 255, 0.25);
         transition: all 0.35s ease;
-        animation: wsButtonPulse 3.2s ease-in-out infinite;
+        /* animation: wsButtonPulse 3.2s ease-in-out infinite; */
       }
       @keyframes wsButtonPulse {
         0%,
@@ -1721,7 +1717,7 @@
       .header-rule {
         width: 200px;
         height: 1px;
-        margin: 6px auto 0;
+        margin: 6px auto 6px;
         background: linear-gradient(
           90deg,
           transparent,
@@ -2081,7 +2077,7 @@
       /* Nomor urut besar di belakang */
       .card-number-bg {
         position: absolute;
-        bottom: -20px;
+        bottom: -25px;
         right: -10px;
         font-family: "Playfair Display", serif;
         font-size: 13rem;
@@ -2090,6 +2086,7 @@
         color: rgba(0, 212, 255, 0.03);
         pointer-events: none;
         user-select: none;
+        z-index: 0;
       }
 
       /* Animasi masuk elemen info */
@@ -2106,7 +2103,7 @@
         font-weight: 700;
         line-height: 1.1;
         color: var(--w);
-        margin-bottom: 4px;
+        margin-bottom: 15px;
         word-break: break-word;
       }
       .s-nomor {
@@ -2122,7 +2119,7 @@
       .s-rule {
         width: 60px;
         height: 2px;
-        margin-bottom: 18px;
+        margin-bottom: 35px;
         background: linear-gradient(90deg, var(--cyan), var(--violet-lt));
         border-radius: 2px;
       }
@@ -2639,6 +2636,10 @@
         .app {
           padding-bottom: 72px;
         }
+
+        .header-rule {
+          margin: 12px auto 12px;
+        }
       }
 
       /* ─── TOAST FULLSCREEN ─── */
@@ -2832,7 +2833,7 @@
         /* overflow visible agar label foto tidak terpotong border */
         .card-photo {
           width: 100%;
-          height: 190px;
+          height: 300px;
           flex-shrink: 0;
           overflow: visible;
         }
@@ -2848,25 +2849,25 @@
         /* Pindahkan label ke bawah foto supaya tidak tertutup border atas kartu */
         .photo-label {
           top: auto;
-          bottom: -28px;
+          bottom: -42px;
         }
         .photo-dots {
           bottom: -20px;
         }
 
         .photo-frame {
-          width: 140px;
-          height: 140px;
+          width: 180px;
+          height: 180px;
         }
         .s-name {
           font-size: 1.5rem;
-          margin-bottom: 2px;
+          margin-bottom: 6px;
         }
         .s-nomor {
           margin-bottom: 10px;
         }
         .s-rule {
-          margin-bottom: 12px;
+          margin-bottom: 20px;
         }
         .info-label {
           width: 72px;
@@ -2881,9 +2882,6 @@
         }
         .dream-quote {
           font-size: 0.78rem;
-        }
-        .card-number-bg {
-          font-size: 5rem;
         }
         .info-table {
           gap: 6px;
@@ -2902,17 +2900,22 @@
 
       @media (max-width: 400px) {
         .card-photo {
-          height: 170px;
+          height: 200px;
         }
         .photo-frame {
-          width: 118px;
-          height: 118px;
+          width: 125px;
+          height: 125px;
         }
         .s-name {
           font-size: 1.3rem;
         }
         .card-info {
           padding: 6px 14px 12px;
+        }
+
+        .ws-logo {
+          height: 40px; /* Atur tinggi logo sesuai kebutuhan */
+          width: auto;
         }
       }
 
@@ -2955,6 +2958,22 @@
         .school-logos img {
           width: 40px;
         }
+        .ws-logo {
+          height: 50px; /* Atur tinggi logo sesuai kebutuhan */
+          width: auto;
+        }
+
+        .card-number-bg {
+          font-size: 9rem; /* 🛠️ Diperkecil dari 13rem agar tidak meluber keluar HP */
+          bottom: -5px; /* 🛠️ Posisi vertikal disesuaikan ulang */
+          right: 5px; /* 🛠️ Digeser sedikit ke dalam agar tidak terpotong casing layar */
+          color: rgba(
+            0,
+            212,
+            255,
+            0.05
+          ); /* 💡 Opacity dinaikkan ke 7% agar tegas & terlihat di HP */
+        }
       }
 
       /* Tilt hover efek */
@@ -2989,11 +3008,11 @@
       <div class="ws-aurora"></div>
 
       <!-- ════ LAYER 2: PERSPECTIVE GRID ════ -->
-      <div class="ws-grid"></div>
+      <!-- <div class="ws-grid"></div> -->
 
       <!-- ════ LAYER 3: SCANLINE + BEAM ════ -->
-      <div class="ws-scanline"></div>
-      <div class="ws-highlight-beam"></div>
+      <!-- <div class="ws-scanline"></div>
+      <div class="ws-highlight-beam"></div> -->
 
       <!-- ════ LAYER 4: SHOOTING STARS ════ -->
       <div class="ws-meteors">
@@ -3030,7 +3049,7 @@
       </div>
 
       <!-- ════ LAYER 7: LIGHT RAYS ════ -->
-      <div class="ws-rays">
+      <!-- <div class="ws-rays">
         <div class="ws-ray"></div>
         <div class="ws-ray"></div>
         <div class="ws-ray"></div>
@@ -3038,7 +3057,7 @@
         <div class="ws-ray"></div>
         <div class="ws-ray"></div>
         <div class="ws-ray"></div>
-      </div>
+      </div> -->
 
       <!-- ════ LAYER 8: CORNER ORNAMENTS ════ -->
       <div class="ws-corners">
@@ -3097,7 +3116,7 @@
         </div>
 
         <button id="welcomeBtn" class="ws-enter-btn">
-          <span>◈</span> Buka Layar Pelepasan
+          <span>◈</span> Muali
         </button>
 
         <div class="ws-ctrl-row">
@@ -3515,8 +3534,7 @@
         <div class="card-divider"></div>
         <div class="card-info">
           <div class="card-number-bg">${String(siswaNo).padStart(2, "0")}</div>
-          <h2 class="s-name ai" style="animation-delay:.05s">${s.nama}</h2>
-          
+          <h2 class="s-name ai gold-text" style="animation-delay:.05s">${s.nama}</h2>
           <div class="s-rule ai" style="animation-delay:.18s"></div>
           <div class="info-table">
             <div class="info-row ai" style="animation-delay:.24s">
@@ -3649,8 +3667,12 @@
         document
           .querySelectorAll(".dot")
           .forEach((d, i) => d.classList.toggle("active", i === cur));
-        document.getElementById("slideCounter").textContent =
-          `${cur + 1} / ${students.length - 1}`;
+        if (cur + 1 == students.length) {
+          document.getElementById("slideCounter").textContent = `End`;
+        } else {
+          document.getElementById("slideCounter").textContent =
+            `${cur + 1} / ${students.length - 1}`;
+        }
       }
 
       /* ── SHOW SLIDE ── */
