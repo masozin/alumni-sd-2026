@@ -1064,7 +1064,7 @@
       /* Judul utama BESAR */
       .ws-title {
         font-family: "Playfair Display", serif;
-        font-size: clamp(2.2rem, 6vw, 6rem);
+        font-size: clamp(2.2rem, 11vmin, 6rem);
         font-weight: 900;
         line-height: 1.2;
 
@@ -1100,9 +1100,9 @@
       /* Sub-judul */
       .ws-title-sub {
         font-family: "Playfair Display", serif;
-        font-size: clamp(1.1rem, 4vw, 2.5rem);
+        font-size: clamp(1.1rem, 7vh, 2.5rem);
         font-weight: 400;
-        font-style: italic;
+        /* font-style: italic; */
         letter-spacing: 0.12em;
         color: var(--w);
         margin-top: 1px;
@@ -1392,7 +1392,7 @@
         85% {
           /* Tetap tampil sempurna sampai detik ke 8.5 */
           opacity: 1;
-          transform: scale(1.02);
+          transform: scale(1);
           filter: blur(0);
         }
         100% {
@@ -1451,10 +1451,37 @@
       }
       @keyframes goldShine {
         0% {
-          background-position: 0% center;
+          background-position: 200% center;
         }
         100% {
-          background-position: 200% center;
+          background-position: 0% center;
+        }
+      }
+
+      .neon-text {
+        /* Efek gradasi neon melingkar yang bisa digeser posisinya */
+        background: linear-gradient(
+          90deg,
+          var(--cyan-lt) 0%,
+          var(--w) 30%,
+          var(--cyan) 60%,
+          var(--w) 80%,
+          var(--cyan-lt) 100%
+        );
+        background-size: 250% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 50px rgba(0, 212, 255, 0.35));
+        /* Berkilau konstan sepanjang masa intro */
+        animation: neonShine 8s linear infinite;
+      }
+      @keyframes neonShine {
+        0% {
+          background-position: 250% center;
+        }
+        100% {
+          background-position: 0% center;
         }
       }
 
@@ -1581,7 +1608,7 @@
       }
       .intro-title {
         font-family: "Playfair Display", serif;
-        font-size: clamp(3rem, 6.5vw, 5rem);
+        font-size: clamp(2.2rem, 10vmin, 6rem);
         font-weight: 800;
         line-height: 1.2;
         color: #ffffff;
@@ -1590,7 +1617,7 @@
         opacity: 0;
       }
       .intro-sub {
-        font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+        font-size: clamp(1.2rem, 4vmin, 2rem);
         font-weight: 300;
         color: rgba(255, 255, 255, 0.8);
         letter-spacing: 0.2em;
@@ -1902,7 +1929,7 @@
       .photo-frame {
         position: relative;
         z-index: 1;
-        width: 70%;
+        width: 55vh;
         aspect-ratio: 1 / 1; /* Memastikan kotak/lingkaran tetap proporsional */
         height: auto;
       }
@@ -2104,20 +2131,12 @@
       /* Nama siswa */
       .s-name {
         font-family: "Playfair Display", serif;
-        font-size: clamp(1.8rem, 5vh, 2.8rem);
+        font-size: clamp(1.8rem, 4.5vmax, 3rem);
         font-weight: 700;
         line-height: 1.15;
         color: var(--w);
         margin-bottom: clamp(8px, 2vh, 15px);
         word-break: break-word;
-      }
-      .s-nomor {
-        font-size: clamp(0.65rem, 1.5vh, 0.8rem);
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--cyan);
-        font-weight: 500;
-        margin-bottom: clamp(10px, 2.5vh, 16px);
       }
 
       /* Divider akseen */
@@ -2143,10 +2162,10 @@
       .info-row {
         display: flex;
         align-items: baseline;
-        gap: 2vw;
+        gap: 2.2vw;
       }
       .info-label {
-        font-size: clamp(0.8rem, 1.1vmax, 2rem);
+        font-size: clamp(0.8rem, 1.2vmax, 3rem);
         color: var(--w30);
         font-weight: 400;
         width: clamp(75px, 20vw, 95px);
@@ -2159,7 +2178,7 @@
         opacity: 0.6;
       }
       .info-val {
-        font-size: clamp(0.8rem, 1.1vmax, 2rem);
+        font-size: clamp(0.8rem, 1.2vmax, 3rem);
         color: var(--w);
         font-weight: 500;
       }
@@ -2917,9 +2936,6 @@
       }
 
       @media (max-width: 400px) {
-        .s-name {
-          font-size: 1.3rem;
-        }
         .card-info {
           padding: 6px 14px 12px;
         }
@@ -3114,7 +3130,7 @@
         </div>
 
         <button id="welcomeBtn" class="ws-enter-btn">
-          <span>◈</span> Muali
+          <span>◈ Mulai</span>
         </button>
 
         <div class="ws-ctrl-row">
@@ -3210,7 +3226,7 @@
         <div class="intro-tag">Selayang Pandang · Tahun 2026</div>
 
         <h1 class="intro-title">
-          Pelepasan Siswa<br /><span class="gold-text">Kelas VI</span>
+          <spa class="neon-text">Pelepasan Siswa</spa></span><br /><span class="gold-text">Kelas VI</span>
         </h1>
 
         <h2 class="intro-sub">SD Negeri 01 Totorejo</h2>
@@ -3532,7 +3548,7 @@
         <div class="card-divider"></div>
         <div class="card-info">
           <div class="card-number-bg">${String(siswaNo).padStart(2, "0")}</div>
-          <h2 class="s-name ai gold-text" style="animation-delay:.05s">${s.nama}</h2>
+          <h2 class="s-name ai" style="animation-delay:.05s"><span class="gold-text">${s.nama}</span></h2>
           <div class="s-rule ai" style="animation-delay:.18s"></div>
           <div class="info-table">
             <div class="info-row ai" style="animation-delay:.24s">
