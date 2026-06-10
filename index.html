@@ -1064,7 +1064,7 @@
       /* Judul utama BESAR */
       .ws-title {
         font-family: "Playfair Display", serif;
-        font-size: clamp(2.2rem, 10vmin, 6rem);
+        font-size: clamp(2.2rem, 9vmin, 6rem);
         font-weight: 900;
         line-height: 1.2;
 
@@ -1099,13 +1099,14 @@
 
       /* Sub-judul */
       .ws-title-sub {
-        font-family: "Playfair Display", serif;
-        font-size: clamp(1.1rem, 5vh, 2.5rem);
+        /* font-family: "Playfair Display", serif; */
+        font-size: clamp(1.1rem, 2.5vh, 2.5rem);
         font-weight: 400;
         /* font-style: italic; */
         letter-spacing: 0.12em;
         color: var(--w);
         margin-top: 1px;
+        text-transform: uppercase;
       }
 
       /* Tahun ajaran */
@@ -2644,6 +2645,10 @@
       }
 
       @media (max-width: 786px) {
+        .ws-ornament{
+          margin-bottom: 6vh;
+        }
+
         .pill-bar {
           height: 44px;
         }
