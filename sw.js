@@ -47,8 +47,7 @@ const ASSETS = [
    '/foto/ilyas_maulana_abdulloh.jpg','/foto/ilyas_maulana_abdulloh2.jpg',
    '/foto/azriel_faris_noufal.jpg','/foto/azriel_faris_noufal2.jpg',
  
-   'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap',
-   'https://fonts.gstatic.com/s/outfit/v11/Q3pyGzN0dm4bGGW_7i28cb2_C6uL.woff2',
+   'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap'
 ];
 
 // Menginstal Service Worker dan menyimpan aset dasar ke memori HP (Bisa dibuka offline)
