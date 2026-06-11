@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#00d4ff" />
     <title>Pelepasan Kelas VI — SDN 01 Toto Rejo 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link
       href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@200;300;400;500;600;700&display=swap"
       rel="stylesheet"
@@ -1164,7 +1164,7 @@
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker
-            .register("/sw.js")
+            .register("sw.js")
             .then((reg) => console.log("PWA aktif dan terdaftar!"))
             .catch((err) => console.log("Gagal mendaftarkan PWA", err));
         });
