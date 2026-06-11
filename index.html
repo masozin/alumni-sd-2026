@@ -357,7 +357,7 @@
         <!-- Hint keyboard -->
         <p class="ctrl-hint">
           ← → Navigasi &nbsp;·&nbsp; Spasi Auto-play &nbsp;·&nbsp; F Balik Foto
-          &nbsp;·&nbsp; F11 Layar Penuh
+          &nbsp;·&nbsp; F11 Layar Penuh &nbsp;·&nbsp; M Mute
         </p>
       </div>
     </div>
@@ -881,7 +881,7 @@
         if (!document.fullscreenElement) {
           document.documentElement
             .requestFullscreen({ navigationUI: "hide" })
-            .then(() => showToast("◈ Fullscreen — tekan Esc untuk keluar"))
+            .then(() => showToast("◈ Fullscreen — tekan F11 untuk keluar"))
             .catch(() => showToast("Fullscreen tidak didukung browser ini"));
         } else {
           document.exitFullscreen().then(() => showToast("Keluar Fullscreen"));
@@ -982,7 +982,7 @@
         musicBtn.style.background = muted ? "" : "rgba(0,212,255,0.1)";
       }
 
-      musicBtn.addEventListener("click", () => {
+      function toggleMusic() {
         if (!audio) {
           initAudio();
           fadeInAudio(800);
@@ -1004,10 +1004,29 @@
             fadeInAudio(800);
           }
         }
-      });
+      }
 
-      /* ── KEYBOARD ── */
+      musicBtn.addEventListener("click", toggleMusic);
+
+      /* ── KEYBOARD SHORTCUTS ── */
       document.addEventListener("keydown", (e) => {
+        // 🔎 DEBUG 1: Melihat tombol apa saja yang sebenarnya sedang kamu tekan
+        console.log("Tombol ditekan:", e.key, "| Kode:", e.code);
+
+        // 🔎 DEBUG 2: Memastikan kursor kamu tidak sedang terjebak di dalam kolom ketikan teks
+        const activeEl = document.activeElement.tagName;
+        if (
+          activeEl === "INPUT" ||
+          activeEl === "TEXTAREA" ||
+          document.activeElement.isContentEditable
+        ) {
+          console.warn(
+            "Shortcut diabaikan karena kamu sedang mengetik di elemen:",
+            activeEl,
+          );
+          return;
+        }
+
         if (e.key === "ArrowRight" || e.key === "ArrowDown") chg(1);
         else if (e.key === "ArrowLeft" || e.key === "ArrowUp") chg(-1);
         else if (e.key === " ") {
@@ -1017,6 +1036,13 @@
         else if (e.key === "F11") {
           e.preventDefault();
           toggleFullscreen();
+        }
+        // 🔎 DEBUG 3: Melacak apakah block M ini berhasil masuk atau tidak
+        else if (e.key === "m" || e.key === "M") {
+          console.log(
+            "👉 Tombol M terdeteksi! Mencoba memicu fungsi toggleMusic()...",
+          );
+          toggleMusic();
         }
       });
 
