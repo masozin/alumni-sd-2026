@@ -2234,7 +2234,7 @@ header.visible {
             #0a1128 0%,
             #020617 100%
           ) !important; */
-  border: 2px solid rgba(221, 176, 67, 0.25) !important;
+  /* border: 2px solid rgba(221, 176, 67, 0.25) !important; */
   box-shadow:
     0 20px 50px rgba(0, 0, 0, 0.8),
     inset 0 0 40px rgba(221, 176, 67, 0.05) !important;

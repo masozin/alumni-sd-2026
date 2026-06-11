@@ -512,6 +512,7 @@
           const el = document.createElement("div");
           el.className = "card";
           if (s.isPenutup) {
+            el.classList.add("card-closing");
             el.innerHTML = `
               <div class="closing-spotlight"></div>
               <div class="closing-particles"><div class="c-particle"></div><div class="c-particle"></div><div class="c-particle"></div></div>
@@ -1100,7 +1101,7 @@
           return;
 
         // Tombol Enter Kunci Masuk (Sudah lancar jaya manggil openSlide!)
-        if (e.key === "Enter") {
+        if (e.key === "p" || e.key === "P") {
           openSlide();
         } else if (e.key === "ArrowRight" || e.key === "ArrowDown") chg(1);
         else if (e.key === "ArrowLeft" || e.key === "ArrowUp") chg(-1);
