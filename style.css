@@ -2085,10 +2085,10 @@ header.visible {
 /* Nomor urut besar di belakang */
 .card-number-bg {
   position: absolute;
-  bottom: -25px;
+  bottom: -13px;
   right: -10px;
   font-family: "Playfair Display", serif;
-  font-size: 13rem;
+  font-size: 16rem;
   font-weight: 900;
   line-height: 1;
   color: rgba(0, 212, 255, 0.03);
@@ -2621,8 +2621,12 @@ header.visible {
 
 @media (max-width: 786px) {
   .ws-ornament{
-    margin-bottom: 6vh;
+    margin-bottom: 4vh;
   }
+  .ws-year-text{
+    margin-bottom: 4vh;
+  }
+  
 
   .pill-bar {
     height: 44px;
@@ -2657,9 +2661,9 @@ header.visible {
   }
 
   /* Beri ruang bawah pada app agar kartu tidak tertutup pill */
-  .app {
+  /* .app {
     padding-bottom: 72px;
-  }
+  } */
 
   .header-rule {
     margin: 12px auto 12px;
@@ -2969,14 +2973,14 @@ header.visible {
   }
 
   .card-number-bg {
-    font-size: 9rem; /* 🛠️ Diperkecil dari 13rem agar tidak meluber keluar HP */
-    bottom: -5px; /* 🛠️ Posisi vertikal disesuaikan ulang */
+    font-size: 13rem; /* 🛠️ Diperkecil dari 13rem agar tidak meluber keluar HP */
+    bottom: 5px; /* 🛠️ Posisi vertikal disesuaikan ulang */
     right: 5px; /* 🛠️ Digeser sedikit ke dalam agar tidak terpotong casing layar */
     color: rgba(
       0,
       212,
       255,
-      0.05
+      0.04
     ); /* 💡 Opacity dinaikkan ke 7% agar tegas & terlihat di HP */
   }
 }

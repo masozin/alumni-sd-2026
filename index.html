@@ -19,7 +19,7 @@
     <script src="js/gsap.min.js"></script>
     <script src="js/CustomEase.min.js"></script>
     <script src="js/particles.min.js"></script>
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="style.css" />
     <link rel="manifest" href="manifest.json" />
   </head>
   <body>
@@ -547,11 +547,11 @@
             <div class="flip-scene" data-fi="${i}" title="Klik untuk lihat cita-cita ✨">
               <div class="flip-front">
                 <img src="${s.foto}" alt="${s.nama}"
-                  onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed=${initials}&fontSize=38&backgroundColor=060913&textColor=00d4ff'">
+                  onerror="this.onerror=null; this.src='/logo/avatar.svg';">
               </div>
               <div class="flip-back">
                 <img src="${s.fotoCita || s.foto}" alt="${s.nama} — ${s.citaCita}"
-                  onerror="this.src='https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(s.nama + "Cita")}&fontSize=34&backgroundColor=0a0f22&textColor=a78bfa'">
+                  onerror="this.onerror=null; this.src='/logo/cita-cita.svg';">
               </div>
             </div>
             <div class="photo-dots">
