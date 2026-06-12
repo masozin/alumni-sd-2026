@@ -1344,66 +1344,59 @@ body {
   /* animation: introTimeline 10s cubic-bezier(0.7, 0, 0.3, 1) forwards; */
 }
 
-#introScreen.play-intro {
-  animation: introTimeline 10s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+.intro-camera-wrapper {
+  position: relative;
+  z-index: 2;
+  transform-origin: center center;
 }
 
-/* Pengaman cadangan jika ditutup manual lewat JS */
-#introScreen.hidden {
-  opacity: 0;
-  transform: scale(3.5);
-  filter: blur(15px);
-  pointer-events: none;
-  transition: all 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+#introScreen.play-intro .intro-camera-wrapper {
+  /* Kamera maju super perlahan agar hidup, tetapi TIDAK AKAN hilang sampai dipicu JS */
+  animation: cameraDriftSlow 20s ease-out forwards;
 }
 
-/* 🎬 CSS TIMELINE UTAMA (TOTAL 10 DETIK) */
-@keyframes introTimeline {
+@keyframes cameraDriftSlow {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.12); } /* Cuma maju anggun di tempat */
+}
+
+/* ── FASE 2: EFEK LEDAKAN/ZOOM OUT CINEMATIC (DIPICU OLEH JS) ── */
+#introScreen.exit-active {
+  /* Menggunakan durasi 1.5 detik dengan timing melesat cubic-bezier asli Anda */
+  animation: introZoomBurst 1.5s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+}
+
+#introScreen.exit-active .intro-camera-wrapper {
+  animation: cameraZoomBurst 1.5s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+}
+
+/* Animasi background melesat masif menembus layar */
+@keyframes introZoomBurst {
   0% {
-    opacity: 1;
-    transform: scale(1);
-    filter: blur(0);
-    pointer-events: auto;
-  }
-  85% {
-    /* Tetap tampil sempurna sampai detik ke 8.5 */
     opacity: 1;
     transform: scale(1);
     filter: blur(0);
   }
   100% {
-    /* Detik 8.5 ke 10: Membesar masif menembus layar & hancur membuka slide pertama */
     opacity: 0;
-    transform: scale(3.8);
+    transform: scale(3.8); /* Efek zoom masif bawaan Anda */
     filter: blur(15px);
     pointer-events: none;
   }
 }
 
-/* ── ANIMASI 1: KAMERA MAJU PERLAHAN (KEN BURNS) ── */
-.intro-camera-wrapper {
-  position: relative;
-  z-index: 2;
-  /* Selama 10 detik, teks dipaksa terus maju perlahan sebesar 10% agar hidup */
-  /* animation: cameraDrift 10s ease-out forwards; */
-  transform-origin: center center;
-}
-/* 🎯 Keterangan: Kamera ikut bergerak hanya saat intro aktif */
-#introScreen.play-intro .intro-camera-wrapper {
-  animation: cameraDrift 9s ease-out forwards;
-}
-@keyframes cameraDrift {
+/* Animasi teks/kamera ikut hancur melebar ke depan */
+@keyframes cameraZoomBurst {
   0% {
-    transform: scale(1);
+    transform: scale(1.1);
+    opacity: 1;
+    filter: blur(0);
   }
-  40% {
-    transform: scale(2);
-  } /* Maju perlahan */
   100% {
-    transform: scale(4);
+    transform: scale(4); /* Teks pecah membesar asli Anda */
     opacity: 0;
-    filter: blur(5px);
-  } /* Ikut melebar saat closing */
+    filter: blur(8px);
+  }
 }
 
 /* ── ANIMASI 2: KILAUAN EMAS BERGERAK (GOLD SHIMMER) ── */
@@ -3011,3 +3004,69 @@ header.visible {
     border-color 1.5s ease,
     box-shadow 1.5s ease;
 }
+
+/* Mode Sellector */
+.ws-mode-selector {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 25px;
+        font-family: 'Outfit', sans-serif;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.95rem;
+      }
+      .ws-mode-selector label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: color 0.3s;
+      }
+      .ws-mode-selector label:hover {
+        color: var(--cyan, #00d4ff);
+      }
+      .ws-mode-selector input[type="radio"] {
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        border-radius: 50%;
+        outline: none;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.3s;
+      }
+      .ws-mode-selector input[type="radio"]:checked {
+        border-color: var(--cyan, #00d4ff);
+        box-shadow: 0 0 10px var(--cyan, #00d4ff);
+      }
+      .ws-mode-selector input[type="radio"]:checked::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 8px;
+        height: 8px;
+        background: var(--cyan, #00d4ff);
+        border-radius: 50%;
+      }
+      
+      #introHint {
+        position: absolute;
+        bottom: 40px;
+        width: 100%;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.6);
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+        animation: pulseHint 2s infinite;
+        display: none;
+        cursor: pointer;
+        z-index: 100;
+      }
+      @keyframes pulseHint {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 1; }
+      }

@@ -1,4 +1,3 @@
-<script>
       /* ==========================================================================
          ZONA 1: STATE DATA & GLOBAL VARIABLES (Harus di Luar)
          ========================================================================== */
@@ -756,4 +755,3 @@
             .catch((err) => console.log("Gagal mendaftarkan PWA", err));
         });
       }
-    </script>

@@ -164,6 +164,18 @@
               <circle cx="18" cy="16" r="3" />
             </svg>
           </button>
+          <!-- Tombol manual/auto -->
+          <button id="welcomeApBtn" class="ws-ctrl-btn" title="Mode: Manual">
+            <span
+              id="welcomeApIcon"
+              style="
+                font-weight: bold;
+                font-family: &quot;Outfit&quot;, sans-serif;
+                font-size: 13px;
+              "
+              >M</span
+            >
+          </button>
           <!-- Tombol Fullscreen -->
           <button
             id="welcomeFsBtn"
@@ -181,6 +193,28 @@
               style="width: 14px; height: 14px"
             >
               <path d="M1 5V1h4M10 1h4v4M14 10v4h-4M5 14H1v-4" />
+            </svg>
+          </button>
+          <button
+            id="welcomeSidebarBtn"
+            class="ws-ctrl-btn"
+            title="Daftar Siswa"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              style="width: 14px; height: 14px"
+            >
+              <line x1="8" y1="6" x2="21" y2="6"></line>
+              <line x1="8" y1="12" x2="21" y2="12"></line>
+              <line x1="8" y1="18" x2="21" y2="18"></line>
+              <line x1="3" y1="6" x2="3.01" y2="6"></line>
+              <line x1="3" y1="12" x2="3.01" y2="12"></line>
+              <line x1="3" y1="18" x2="3.01" y2="18"></line>
             </svg>
           </button>
         </div>
@@ -385,8 +419,9 @@
       let students = [],
         cur = 0,
         transitioning = false,
-        navDir = "next";
-      let ap = false,
+        navDir = "next",
+        inIntro = false; // Penanda apakah user sedang berada di halaman Intro
+      let ap = true,
         tRaf = null,
         tStart = null,
         tElapsed = 0;
@@ -407,13 +442,16 @@
         "audio/lagu3.mp3",
       ];
 
-      // Wadah Elemen HTML (Akan diisi nanti di dalam Document Load)
+      // Wadah Elemen HTML
       let welcomeScreen,
         introScreen,
         welcomeBtn,
         musicBtn,
         welcomeMusicBtn,
-        welcomeMusicIcon;
+        welcomeMusicIcon,
+        welcomeApBtn,
+        welcomeApIcon,
+        welcomeSidebarBtn;
       let timerRing, trFill, timerIcon, vp, pBtn, nBtn;
       let sidebar, sidebarOverlay, navToggle, sidebarClose;
 
@@ -421,7 +459,7 @@
          ZONA 2: SEMUA FUNGSI UTAMA / GLOBAL FUNCTIONS (Harus di Luar)
          ========================================================================== */
 
-      // 1. Fungsi Utama Membuka Slide
+      // 1. Fungsi Utama Membuka Slide (Masuk ke Intro)
       function openSlide() {
         if (!welcomeScreen || welcomeScreen.classList.contains("hidden"))
           return;
@@ -429,7 +467,10 @@
         const userWantsMute = muted;
         welcomeScreen.classList.add("hidden");
 
-        if (introScreen) introScreen.classList.add("play-intro");
+        if (introScreen) {
+          introScreen.classList.add("play-intro");
+          inIntro = true;
+        }
         initAudio();
 
         if (userWantsMute) {
@@ -444,23 +485,126 @@
         }
         updateMusicIcon();
 
-        setTimeout(() => {
-          if (introScreen) introScreen.classList.add("hidden");
-          showCard(0, true);
+        // TAMBAHKAN TIMEOUT INI: Berfungsi memicu pemanggilan fungsi exitIntro()
+        // secara otomatis saat animasi intro CSS Anda selesai (misal setelah 6 detik)
+        if (ap) {
           setTimeout(() => {
-            document.getElementById("mainHeader").classList.add("visible");
-          }, 200);
-          setTimeout(() => {
-            if (introScreen) introScreen.remove();
-            if (welcomeScreen) welcomeScreen.remove();
-          }, 1800);
+            if (inIntro) exitIntro();
+          }, 8000); // Set 8 detik agar animasi intro selesai dengan indah
+        }
+      }
 
-          setTimeout(() => {
-            if (typeof toggleAP === "function" && !ap) {
-              toggleAP();
+      // Fungsi untuk menutup halaman Intro dan menampilkan Slide Utama
+      function exitIntro() {
+        if (!inIntro) return;
+        inIntro = false;
+
+        // PICU FASE 2: Suntikkan class exit-active untuk meledakkan animasi zoom-out sinematik!
+        if (introScreen) {
+          introScreen.classList.add("exit-active");
+        }
+
+        // Membuka slide pertama di latar belakang saat intro mulai melesat menghilang
+        showCard(0, true);
+
+        if (ap) {
+          restartTimer();
+        }
+
+        setTimeout(() => {
+          if (document.getElementById("mainHeader")) {
+            document.getElementById("mainHeader").classList.add("visible");
+          }
+        }, 200);
+
+        // Hapus elemen dari browser setelah 1.8 detik (menunggu animasi burst 1.5 detik selesai sempurna)
+        setTimeout(() => {
+          if (introScreen) introScreen.style.display = "none";
+          if (welcomeScreen) welcomeScreen.style.display = "none";
+        }, 1800);
+      }
+
+      function resetToWelcome() {
+        stopTimer(); // Hentikan jalannya timer otomatis slide
+        cur = 0; // Kembalikan index ke siswa pertama
+        inIntro = false;
+
+        // Reset mode menjadi AUTO (Otomatis) kembali saat kembali ke awal
+        ap = true;
+
+        // Reset data DAN visual flip untuk SEMUA siswa
+        students.forEach((_, i) => {
+          flipState[i] = false;
+          resetFlip(i); // Mencopot class .flipped & mereset teks label kartu
+        });
+
+        // 🎵 MUSIK: Fade-out terlebih dahulu jika sedang berputar, lalu reset total statusnya
+        if (audio && !audio.paused) {
+          let fadeVolume = audio.volume || 0.3;
+          const fadeInterval = setInterval(() => {
+            if (fadeVolume > 0.01) {
+              fadeVolume -= 0.05;
+              audio.volume = fadeVolume;
+            } else {
+              clearInterval(fadeInterval);
+              audio.pause();
+
+              // 🎯 RESET LAGU: Kembalikan ke lagu pertama di playlist
+              currentTrack = 0;
+              audio.src = playlist[currentTrack];
+              audio.currentTime = 0;
+              audio.volume = 0; // Siap untuk di-fade-in lagi nanti saat tombol "Mulai" diklik
+
+              // 🎯 RESET STATE & IKON: Dipaksa kembali aktif menggunakan musik
+              muted = false;
+              updateMusicIcon();
             }
-          }, 1600);
-        }, 8000);
+          }, 200);
+        } else {
+          // Jika musik memang sedang mati saat slide berakhir
+          currentTrack = 0;
+          if (audio) {
+            audio.src = playlist[currentTrack];
+            audio.currentTime = 0;
+            audio.volume = 0;
+          }
+          // 🎯 RESET STATE & IKON: Tetap dipaksa kembali aktif menggunakan musik
+          muted = false;
+          updateMusicIcon();
+        }
+
+        // Tampilkan kembali Welcome Screen yang sebelumnya disembunyikan
+        if (welcomeScreen) {
+          welcomeScreen.style.display = "";
+          welcomeScreen.classList.remove("hidden");
+        }
+
+        // Atur ulang Intro Screen agar siap jika nanti tombol "Mulai" diklik lagi
+        if (introScreen) {
+          introScreen.style.display = "";
+          introScreen.classList.remove("hidden", "exit-active", "play-intro");
+
+          const wrapper = introScreen.querySelector(".intro-camera-wrapper");
+          if (wrapper) wrapper.style.transform = "";
+        }
+
+        // Sembunyikan header menu utama presentasi
+        const mainHeader = document.getElementById("mainHeader");
+        if (mainHeader) {
+          mainHeader.classList.remove("visible");
+        }
+
+        // Reset ikon kontrol lingkaran ke simbol JEDA (||) karena status defaultnya kembali ke Auto
+        if (timerIcon) timerIcon.innerHTML = "&#9646;&#9646;";
+        if (trFill) trFill.style.strokeDashoffset = CIRC; // Reset lingkaran timer ke penuh kembali
+
+        // Sinkronkan kembali huruf ikon menjadi "A" (Auto) di halaman depan
+        if (typeof updateWelcomeApVisual === "function") {
+          updateWelcomeApVisual();
+        }
+
+        // Setel ulang tampilan slide ke kartu pertama tanpa transisi kasar
+        showCard(0, false);
       }
 
       // 2. Fungsi Load Data JSON
@@ -602,6 +746,7 @@
 
       // 4. Fungsi Balik Foto (Flip)
       function doFlip(idx) {
+        if (inIntro) return;
         flipState[idx] = !flipState[idx];
         const flipped = flipState[idx];
         const scene = document.querySelector(`.flip-scene[data-fi="${idx}"]`);
@@ -622,6 +767,7 @@
       }
 
       function autoFlipCheck() {
+        if (!ap) return;
         if (students[cur]?.isPenutup) return;
         if (!flipState[cur]) doFlip(cur);
       }
@@ -715,6 +861,10 @@
       }
 
       function goto(idx) {
+        if (inIntro) {
+          exitIntro();
+          return;
+        }
         if (transitioning || idx === cur) return;
         transitioning = true;
         navDir = idx > cur ? "next" : "prev";
@@ -756,6 +906,11 @@
       }
 
       function chg(d) {
+        // Jika sedang di intro dan user mengarah ke depan, tutup layar intro
+        if (inIntro) {
+          if (d > 0) exitIntro();
+          return;
+        }
         const n = students.length;
         let next = cur + d;
         if (next >= n) {
@@ -766,14 +921,25 @@
         goto(next);
       }
 
-      // 7. Fungsi Autoplay Timer Ring (Hanya mematikan/menjalankan Autoplay)
+      // 7. Fungsi Autoplay Timer Ring
       function toggleAP() {
+        if (inIntro) {
+          exitIntro();
+          return;
+        }
+        // JIKA SLIDE SUDAH HABIS: Jalankan soft-reset ke halaman utama tanpa merusak Fullscreen
         if (cur === students.length - 1) {
-          location.reload();
+          resetToWelcome(); // <-- Menggantikan location.reload();
           return;
         }
         ap = !ap;
         if (timerIcon) timerIcon.innerHTML = ap ? "&#9646;&#9646;" : "&#9654;";
+
+        // SINKRONISASI KE TOMBOL BARU DI WELCOME SCREEN
+        if (typeof updateWelcomeApVisual === "function") {
+          updateWelcomeApVisual();
+        }
+
         if (ap) {
           startTimer();
         } else {
@@ -919,6 +1085,22 @@
         }
       }
 
+      function updateWelcomeApVisual() {
+        if (!welcomeApBtn || !welcomeApIcon) return;
+
+        if (ap) {
+          welcomeApIcon.textContent = "A";
+          welcomeApBtn.title = "Mode: Otomatis";
+          welcomeApBtn.style.background = "rgba(0,212,255,0.1)"; // Efek aktif warna cyan
+          welcomeApBtn.style.color = "var(--cyan)";
+        } else {
+          welcomeApIcon.textContent = "M";
+          welcomeApBtn.title = "Mode: Manual";
+          welcomeApBtn.style.background = ""; // Reset tampilan bawaan
+          welcomeApBtn.style.color = "";
+        }
+      }
+
       function toggleMusic() {
         if (!audio) {
           initAudio();
@@ -1037,6 +1219,9 @@
         sidebarOverlay = document.getElementById("sidebarOverlay");
         navToggle = document.getElementById("navToggle");
         sidebarClose = document.getElementById("sidebarClose");
+        welcomeSidebarBtn = document.getElementById("welcomeSidebarBtn");
+        welcomeApBtn = document.getElementById("welcomeApBtn");
+        welcomeApIcon = document.getElementById("welcomeApIcon");
 
         // C. Seting Awal Timer Ring Stroke
         if (trFill) {
@@ -1055,13 +1240,40 @@
         if (sidebarOverlay)
           sidebarOverlay.addEventListener("click", toggleSidebar);
 
-        // E. Khusus Tombol Audio di Halaman Gerbang Depan (Welcome Screen)
+        if (welcomeSidebarBtn) {
+          welcomeSidebarBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+
+            // Trik otomatis agar Sidebar & Latar Gelapnya melompati lapisan Welcome Screen
+            if (sidebar) sidebar.style.zIndex = "10000";
+            if (sidebarOverlay) sidebarOverlay.style.zIndex = "9999";
+
+            toggleSidebar();
+          });
+        }
+
+        // Event listener klik area mana saja di layar Intro untuk melangkah maju
+        if (introScreen) {
+          introScreen.addEventListener("click", () => {
+            if (inIntro) exitIntro();
+          });
+        }
+
+        // E. Khusus Tombol Audio & AutoPlay di Halaman Gerbang Depan (Welcome Screen)
         welcomeMusicBtn = document.getElementById("welcomeMusicBtn");
         welcomeMusicIcon = document.getElementById("welcomeMusicIcon");
         if (welcomeMusicBtn) {
           welcomeMusicBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            toggleMusic(); // Langsung mainkan/pause musik dari welcome screen
+            toggleMusic(); // HANYA mengurus musik latar
+          });
+        }
+
+        if (welcomeApBtn) {
+          welcomeApBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleAP(); // Menyalakan/mematikan putaran otomatis
+            updateWelcomeApVisual(); // Mengubah huruf ikon menjadi A / M
           });
         }
 
@@ -1092,6 +1304,10 @@
           );
         }
 
+        if (typeof updateWelcomeApVisual === "function") {
+          updateWelcomeApVisual();
+        }
+
         // G. Mulai Mengambil Data Utama Presentasi
         load();
       });
@@ -1111,18 +1327,20 @@
           return;
 
         if (e.key === "p" || e.key === "P") {
-          openSlide();
+          if (inIntro) exitIntro();
+          else openSlide();
         } else if (e.key === "ArrowRight" || e.key === "ArrowDown") chg(1);
         else if (e.key === "ArrowLeft" || e.key === "ArrowUp") chg(-1);
         else if (e.key === " ") {
           e.preventDefault();
-          toggleAP();
+          if (inIntro) exitIntro();
+          else toggleAP();
         } else if (e.key === "f" || e.key === "F") doFlip(cur);
         else if (e.key === "F11") {
           e.preventDefault();
           toggleFullscreen();
         } else if (e.key === "m" || e.key === "M") {
-          toggleMusic(); // Berfungsi global (termasuk saat di Welcome Screen)
+          toggleMusic();
         }
       });
 
