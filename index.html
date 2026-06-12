@@ -408,7 +408,12 @@
       ];
 
       // Wadah Elemen HTML (Akan diisi nanti di dalam Document Load)
-      let welcomeScreen, introScreen, welcomeBtn, musicBtn;
+      let welcomeScreen,
+        introScreen,
+        welcomeBtn,
+        musicBtn,
+        welcomeMusicBtn,
+        welcomeMusicIcon;
       let timerRing, trFill, timerIcon, vp, pBtn, nBtn;
       let sidebar, sidebarOverlay, navToggle, sidebarClose;
 
@@ -416,7 +421,7 @@
          ZONA 2: SEMUA FUNGSI UTAMA / GLOBAL FUNCTIONS (Harus di Luar)
          ========================================================================== */
 
-      // 1. Fungsi Utama Membuka Slide (Sekarang sudah aman di luar!)
+      // 1. Fungsi Utama Membuka Slide
       function openSlide() {
         if (!welcomeScreen || welcomeScreen.classList.contains("hidden"))
           return;
@@ -453,7 +458,6 @@
           setTimeout(() => {
             if (typeof toggleAP === "function" && !ap) {
               toggleAP();
-              if (muted && audio) audio.pause();
             }
           }, 1600);
         }, 8000);
@@ -520,7 +524,17 @@
                 <h2 class="closing-title gold-text">Terima Kasih</h2>
                 <div class="closing-divider"><span class="c-line"></span><span class="c-gem">◈</span><span class="c-line"></span></div>
                 <div class="closing-tag">Masa Depan Menanti</div>
-                <p class="closing-quote">"Masa depan adalah milik mereka yang percaya pada keindahan impian mereka..."</p>
+                <p class="closing-quote">
+                  <span class="quote1">
+                    "Masa depan adalah milik mereka yang percaya pada keindahan impian mereka." <span class="quote-tag"> – Eleanor Roosevelt</span>
+                  </span>
+                  <span class="quote2">
+                    Teruslah belajar dan berusaha. Setiap langkah kecil yang kalian ambil hari ini akan menjadi jalan menuju kesuksesan di masa depan. Jangan takut menghadapi tantangan, karena setiap pengalaman adalah pelajaran berharga untuk meraih cita-cita.
+                  </span>
+                  <span class="quote3">
+                    Terbanglah setinggi mungkin, raihlah impianmu, dan jadilah kebanggaan bagi keluarga, sekolah, bangsa, dan negara.
+                  </span>
+                </p>
                 <div class="closing-footer"><p class="closing-school">SD Negeri 01 Toto Rejo</p><p class="closing-year">Tahun Ajaran 2025/2026</p></div>
               </div>
               <div class="closing-qr-wrapper">
@@ -752,7 +766,7 @@
         goto(next);
       }
 
-      // 7. Fungsi Autoplay Timer Ring
+      // 7. Fungsi Autoplay Timer Ring (Hanya mematikan/menjalankan Autoplay)
       function toggleAP() {
         if (cur === students.length - 1) {
           location.reload();
@@ -762,14 +776,9 @@
         if (timerIcon) timerIcon.innerHTML = ap ? "&#9646;&#9646;" : "&#9654;";
         if (ap) {
           startTimer();
-          if (audio && !muted) fadeInAudio(800);
         } else {
           stopTimer();
           if (trFill) trFill.style.strokeDashoffset = CIRC;
-          if (audio)
-            fadeOutAudio(1000, () => {
-              audio.pause();
-            });
         }
       }
 
@@ -883,7 +892,7 @@
         audio.addEventListener("ended", () => {
           currentTrack = (currentTrack + 1) % playlist.length;
           audio.src = playlist[currentTrack];
-          audio.play();
+          audio.play().catch(() => {});
         });
         audio.volume = 0;
         muted = false;
@@ -891,13 +900,23 @@
       }
 
       function updateMusicIcon() {
-        if (!musicBtn) return;
-        const svg = musicBtn.querySelector("svg");
         const ICON_MUSIC_ON = `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`;
         const ICON_MUSIC_OFF = `<line x1="2" y1="2" x2="22" y2="22"/><path d="M9 9v9"/><path d="M9 18a3 3 0 1 0 0 .001"/><path d="M15 9.34V5l6-1v7"/><path d="M18 16a3 3 0 1 0 .001 0"/>`;
-        if (svg) svg.innerHTML = muted ? ICON_MUSIC_OFF : ICON_MUSIC_ON;
-        musicBtn.style.color = muted ? "rgba(240,244,255,0.3)" : "var(--cyan)";
-        musicBtn.style.background = muted ? "" : "rgba(0,212,255,0.1)";
+
+        if (musicBtn) {
+          const svg = musicBtn.querySelector("svg");
+          if (svg) svg.innerHTML = muted ? ICON_MUSIC_OFF : ICON_MUSIC_ON;
+          musicBtn.style.color = muted
+            ? "rgba(240,244,255,0.3)"
+            : "var(--cyan)";
+          musicBtn.style.background = muted ? "" : "rgba(0,212,255,0.1)";
+        }
+
+        if (welcomeMusicBtn) {
+          welcomeMusicBtn.style.opacity = muted ? "0.5" : "1";
+          if (welcomeMusicIcon)
+            welcomeMusicIcon.innerHTML = muted ? ICON_MUSIC_OFF : ICON_MUSIC_ON;
+        }
       }
 
       function toggleMusic() {
@@ -913,8 +932,7 @@
             audio.pause();
           });
         } else {
-          if (ap || document.getElementById("introScreen") !== null)
-            fadeInAudio(800);
+          fadeInAudio(800);
         }
       }
 
@@ -956,7 +974,7 @@
          ZONA 3: DOCUMENT LOADED BLOCK (Mengurus Klik & Ambil Elemen HTML)
          ========================================================================== */
       document.addEventListener("DOMContentLoaded", () => {
-        // A. Pemicu Partikel Latar Belakang (Dijalankan pas HTML Siap)
+        // A. Pemicu Partikel Latar Belakang
         particlesJS("particles-js", {
           particles: {
             number: { value: 120, density: { enable: true, value_area: 900 } },
@@ -1041,20 +1059,12 @@
         welcomeMusicBtn = document.getElementById("welcomeMusicBtn");
         welcomeMusicIcon = document.getElementById("welcomeMusicIcon");
         if (welcomeMusicBtn) {
-          const SVG_ON = `<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>`;
-          const SVG_OFF = `<line x1="2" y1="2" x2="22" y2="22"/><path d="M9 9v9"/><path d="M9 18a3 3 0 1 0 0 .001"/><path d="M15 9.34V5l6-1v7"/><path d="M18 16a3 3 0 1 0 .001 0"/>`;
           welcomeMusicBtn.addEventListener("click", (e) => {
             e.stopPropagation();
-            muted = !muted;
-            if (muted) {
-              welcomeMusicBtn.style.opacity = "0.5";
-              if (welcomeMusicIcon) welcomeMusicIcon.innerHTML = SVG_OFF;
-            } else {
-              welcomeMusicBtn.style.opacity = "1";
-              if (welcomeMusicIcon) welcomeMusicIcon.innerHTML = SVG_ON;
-            }
+            toggleMusic(); // Langsung mainkan/pause musik dari welcome screen
           });
         }
+
         if (document.getElementById("fsBtn"))
           document
             .getElementById("fsBtn")
@@ -1100,7 +1110,6 @@
         )
           return;
 
-        // Tombol Enter Kunci Masuk (Sudah lancar jaya manggil openSlide!)
         if (e.key === "p" || e.key === "P") {
           openSlide();
         } else if (e.key === "ArrowRight" || e.key === "ArrowDown") chg(1);
@@ -1113,7 +1122,7 @@
           e.preventDefault();
           toggleFullscreen();
         } else if (e.key === "m" || e.key === "M") {
-          toggleMusic();
+          toggleMusic(); // Berfungsi global (termasuk saat di Welcome Screen)
         }
       });
 

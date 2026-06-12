@@ -2358,19 +2358,39 @@ header.visible {
 
 /* 💬 Kutipan Mutiara */
 .closing-quote {
-  font-size: clamp(0.95rem, 1.8vw, 1.5rem);
-  font-style: italic;
+  font-size: clamp(0.95rem, 1.2vmin, 1.5rem);
   color: rgba(255, 255, 255, 0.85);
-  line-height: 1.7;
+  line-height: 1.6;
   margin-bottom: 36px;
   font-weight: 300;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+.closing-quote .quote1 {
+  display: block;
+  font-size: clamp(1rem, 1.3vmin, 2.2rem);
+  color: var(--w);
+  font-weight: 600;
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+.closing-quote .quote-tag {
+  font-size: 1vmin;
+  color: rgba(255,255,255,0.7);
+  font-weight: 300;
+}
+
+.closing-quote .quote2,
+.closing-quote .quote3 {
+  display: block;
+  margin-bottom: 6px;
+}
+
 /* 🏢 Bagian Footer Sekolah */
 .closing-footer {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding-top: 20px;
+  padding-top: 12px;
 }
 .closing-school {
   font-size: 1.05rem;
@@ -2436,8 +2456,8 @@ header.visible {
     margin-top: 25px;
   }
   .closing-qr {
-    width: 85px;
-    height: 85px;
+    width: 75px;
+    height: 75px;
   }
 }
 
